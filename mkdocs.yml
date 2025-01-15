@@ -15,16 +15,14 @@ theme:
       toggle:
         icon: material/toggle-switch
         name: Dark mode
-      primary: green
-      accent: deep purple
+      
 
     # Light Mode
     - scheme: default
       toggle:
         icon: material/toggle-switch-off-outline
         name: Light mode
-      primary: blue
-      accent: deep orange
+      
 
 markdown_extensions:
   - attr_list
