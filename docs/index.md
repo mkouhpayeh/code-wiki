@@ -7,6 +7,10 @@ Welcome to my **Coding Journey Documentation**, a comprehensive and evolving col
 ## 🌟 **About This Documentation**
 
 This project serves as a central hub for:  
+- **Explore the Docs**: Use the navigation on the left to browse topics.  
+- **Search**: Use the search bar to quickly find the information you need.  
+- **Tags**: Navigate by tags to discover related topics and resources.
+- 
 - **Coding Tips & Tricks**: Practical guidance for writing better, cleaner, and more efficient code.
 - **Challenges & Solutions**: Real-world problems I encountered and the creative solutions I implemented.
 - **Best Practices**: Industry-standard practices for coding, debugging, and collaborating.
