@@ -28,7 +28,7 @@ Quick and actionable tips to improve your workflow and coding skills.
 In-depth notes and best practices for popular tools and frameworks:  
 - **Languages**: C#, JavaScript, SQL, Markdown and more.
 - **Tools**: Git, Docker, VisualStudio, and others.
-- **Frameworks**: .NET, .NET Core etc.
+- **Frameworks**: .NET, .NET Core etc.  
 
 ---
 
