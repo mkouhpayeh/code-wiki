@@ -25,7 +25,7 @@ From foundational principles to advanced techniques, my goal is to create a stru
 \- **Organized Coding Tips:** Practical tips for languages, tools, and frameworks I work with, categorized for quick access.  
 \- **Comprehensive Examples:** Real-world code snippets and examples to demonstrate concepts clearly.  
 \- **Personal Experiences:** Highlights of challenges I faced and the solutions I discovered along the way.  
-\- **Documentation with MkDocs:** A professional and user-friendly interface for navigating content.  
+\- **Documentation with [MkDocs](https://github.com/mkdocs):** A professional and user-friendly interface for navigating content.  
 
 
 
