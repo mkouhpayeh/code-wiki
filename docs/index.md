@@ -1,68 +1,59 @@
-# Homepage
+# Welcome to My Coding Journey
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Welcome to my **Coding Journey Documentation**, a comprehensive and evolving collection of my experiences, challenges, and insights as a developer. This site is designed to document and share the lessons I've learned, solutions I've discovered, and the best practices I've adopted along the way.
 
-## Code Annotation Examples
+---
 
-### Codeblocks
+## 🌟 **About This Documentation**
 
-Some `code` goes here.
+This project serves as a central hub for:
+- **Coding Tips & Tricks**: Practical guidance for writing better, cleaner, and more efficient code.
+- **Challenges & Solutions**: Real-world problems I encountered and the creative solutions I implemented.
+- **Best Practices**: Industry-standard practices for coding, debugging, and collaborating.
+- **Technical Notes**: Useful notes and resources for tools, frameworks, and programming languages.
 
-### Plain codeblock
+---
 
-A plain codeblock:
+## 📚 **What You’ll Find Here**
 
-```
-Some code here
-def myfunction()
-// some comment
-```
+Here’s an overview of what this site offers:
 
-#### Code for a specific language
+### 📖 **Guides and Tutorials**
+Step-by-step guides to help you understand complex concepts and implement them effectively.
 
-Some more code with the `py` at the start:
+### 💡 **Tips and Insights**
+Quick and actionable tips to improve your workflow and coding skills.
 
-``` py
-import tensorflow as tf
-def whatever()
-```
+### 🛠️ **Tools and Technologies**
+In-depth notes and best practices for popular tools and frameworks:
+- **Languages**: C#, JavaScript, SQL, Markdown and more.
+- **Tools**: Git, Docker, VisualStudio, and others.
+- **Frameworks**: .NET, .NET Core etc.
 
-#### With a title
+### 🧩 **Design Patterns**
+A detailed catalog of design patterns with real-world examples and use cases.
 
-``` py title="bubble_sort.py"
-def bubble_sort(items):
-    for i in range(len(items)):
-        for j in range(len(items) - 1 - i):
-            if items[j] > items[j + 1]:
-                items[j], items[j + 1] = items[j + 1], items[j]
-```
+---
 
-#### With line numbers
+## 🚀 **Get Started**
 
-``` py linenums="1"
-def bubble_sort(items):
-    for i in range(len(items)):
-        for j in range(len(items) - 1 - i):
-            if items[j] > items[j + 1]:
-                items[j], items[j + 1] = items[j + 1], items[j]
-```
+- **Explore the Docs**: Use the navigation on the left to browse topics.
+- **Search**: Use the search bar to quickly find the information you need.
+- **Tags**: Navigate by tags to discover related topics and resources.
 
-#### Highlighting lines
+---
 
-``` py hl_lines="2 3"
-def bubble_sort(items):
-    for i in range(len(items)):
-        for j in range(len(items) - 1 - i):
-            if items[j] > items[j + 1]:
-                items[j], items[j + 1] = items[j + 1], items[j]
-```
+## ✨ **Why This Exists**
 
-## Icons and Emojs
+The purpose of this documentation is to:
+- **Learn Continuously**: Keep track of my growth as a developer.
+- **Share Knowledge**: Provide a resource for others in their learning journey.
+- **Solve Problems**: Document challenges and solutions for future reference.
 
-:smile: 
+---
 
-:fontawesome-regular-face-laugh-wink:
+## 📫 **Stay Connected**
 
-:fontawesome-brands-twitter:{ .twitter }
-
-:octicons-heart-fill-24:{ .heart }
+Feel free to reach out or contribute:
+- **Email**: mhb.kouhpayeh[at]gmail.com
+- **GitHub**: [GitHub Repository](https://github.com/mkouhpayeh/code-wiki)
