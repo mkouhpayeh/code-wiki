@@ -1,4 +1,4 @@
-# Coding Journey Documentation
+# Home
 
 Welcome to my **Coding Journey Documentation**, a comprehensive and evolving collection of my experiences, challenges, and insights as a developer. This site is designed to document and share the lessons I've learned, solutions I've discovered, and the best practices I've adopted along the way.
 
