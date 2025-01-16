@@ -1,3 +1,10 @@
+---
+tags:
+  - Markdown
+  - Tips
+  - Documentation
+---
+
 ## Code Annotation Examples
 
 ### Codeblocks
