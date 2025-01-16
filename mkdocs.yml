@@ -23,7 +23,10 @@ theme:
         icon: material/toggle-switch-off-outline
         name: Light mode
       
-
+plugins:
+  - search
+  - meta-tags
+  
 markdown_extensions:
   - attr_list
   - pymdownx.emoji:
