@@ -1,6 +1,7 @@
 # code-wiki
 Welcome to my Coding Journey Documentation repository!  
 This project is a living collection of my experiences, challenges, and insights gained during my coding journey. It serves as a personal wiki and reference guide for programming tips, best practices, and lessons learned.  
+
 **Purpose and Goals**
 - **Learning Resource:** Serve as a personal guide to revisit and reinforce concepts.
 - **Knowledge Sharing:** Provide valuable resources for others looking to solve similar problems or learn new tips.
