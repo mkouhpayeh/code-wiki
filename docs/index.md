@@ -6,11 +6,11 @@ Welcome to my **Coding Journey Documentation**, a comprehensive and evolving col
 
 ## 🌟 **About This Documentation**
 
-This project serves as a central hub for:
-- **Coding Tips & Tricks**: Practical guidance for writing better, cleaner, and more efficient code.
-- **Challenges & Solutions**: Real-world problems I encountered and the creative solutions I implemented.
-- **Best Practices**: Industry-standard practices for coding, debugging, and collaborating.
-- **Technical Notes**: Useful notes and resources for tools, frameworks, and programming languages.
+This project serves as a central hub for:  
+\- **Coding Tips & Tricks**: Practical guidance for writing better, cleaner, and more efficient code.  
+\- **Challenges & Solutions**: Real-world problems I encountered and the creative solutions I implemented.  
+\- **Best Practices**: Industry-standard practices for coding, debugging, and collaborating.  
+\- **Technical Notes**: Useful notes and resources for tools, frameworks, and programming languages.  
 
 ---
 
@@ -25,10 +25,11 @@ Step-by-step guides to help you understand complex concepts and implement them e
 Quick and actionable tips to improve your workflow and coding skills.
 
 ### 🛠️ **Tools and Technologies**
-In-depth notes and best practices for popular tools and frameworks:
-- **Languages**: C#, JavaScript, SQL, Markdown and more.
-- **Tools**: Git, Docker, VisualStudio, and others.
-- **Frameworks**: .NET, .NET Core etc.
+In-depth notes and best practices for popular tools and frameworks:  
+\- **Languages**: C#, JavaScript, SQL, Markdown and more.  
+\- **Tools**: Git, Docker, VisualStudio, and others.  
+\- **Frameworks**: .NET, .NET Core etc.  
+
 
 ### 🧩 **Design Patterns**
 A detailed catalog of design patterns with real-world examples and use cases.
@@ -37,9 +38,10 @@ A detailed catalog of design patterns with real-world examples and use cases.
 
 ## 🚀 **Get Started**
 
-- **Explore the Docs**: Use the navigation on the left to browse topics.
-- **Search**: Use the search bar to quickly find the information you need.
-- **Tags**: Navigate by tags to discover related topics and resources.
+\- **Explore the Docs**: Use the navigation on the left to browse topics.  
+\- **Search**: Use the search bar to quickly find the information you need.  
+\- **Tags**: Navigate by tags to discover related topics and resources.  
+
 
 ---
 
