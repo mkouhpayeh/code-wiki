@@ -11,6 +11,8 @@ This project serves as a central hub for:
 - **Challenges & Solutions**: Real-world problems I encountered and the creative solutions I implemented.  
 - **Best Practices**: Industry-standard practices for coding, debugging, and collaborating.
 - **Technical Notes**: Useful notes and resources for tools, frameworks, and programming languages.
+  
+
 
 ---
 
@@ -28,7 +30,8 @@ Quick and actionable tips to improve your workflow and coding skills.
 In-depth notes and best practices for popular tools and frameworks:  
 - **Languages**: C#, JavaScript, SQL, Markdown and more.
 - **Tools**: Git, Docker, VisualStudio, and others.
-- **Frameworks**: .NET, .NET Core etc.  
+- **Frameworks**: .NET, .NET Core etc.
+
 
 ---
 
