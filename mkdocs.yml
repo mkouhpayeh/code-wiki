@@ -1,5 +1,5 @@
-site_name: My MkDocs Material Documentation
-site_url: https://sitename.example
+site_name: Code WiKi
+site_url: https://mkouhpayeh.github.io/code-wiki
 theme:
   name: material
   font:
