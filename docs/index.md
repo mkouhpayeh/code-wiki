@@ -10,7 +10,7 @@ This project serves as a central hub for:
 - **Coding Tips & Tricks**: Practical guidance for writing better, cleaner, and more efficient code.  
 - **Challenges & Solutions**: Real-world problems I encountered and the creative solutions I implemented.  
 - **Best Practices**: Industry-standard practices for coding, debugging, and collaborating.  
-- - **Technical Notes**: Useful notes and resources for tools, frameworks, and programming languages. 
+- **Technical Notes**: Useful notes and resources for tools, frameworks, and programming languages. 
 
 ---
 
