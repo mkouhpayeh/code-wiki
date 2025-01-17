@@ -1,12 +1,12 @@
-#Validation Attributes
+## Validation Attributes
 
-## RequiredIf
+### RequiredIf
 ``` C#.Net title="RequiredIf"
 [RequiredIf("Art == 'Gutschrift'", ErrorMessageResourceName = "SelectChargeLabel", ErrorMessageResourceType = typeof(Resources.ObjectText))]  
 public string GutschriftWann { get; set; } = string.Empty;
 ```
 
-## AssertThat
+### AssertThat
 ``` C#.Net title="AssertThat"
 public class MyModel
 {
