@@ -2,7 +2,9 @@
 
 ### RequiredIf
 ``` C#.Net title="RequiredIf"
-[RequiredIf("Art == 'Gutschrift'", ErrorMessageResourceName = "SelectChargeLabel", ErrorMessageResourceType = typeof(Resources.ObjectText))]  
+[RequiredIf("Art == 'Gutschrift'",
+    ErrorMessageResourceName = "SelectChargeLabel",
+    ErrorMessageResourceType = typeof(Resources.ObjectText))]  
 public string GutschriftWann { get; set; } = string.Empty;
 ```
 
