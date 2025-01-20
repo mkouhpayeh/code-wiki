@@ -1,7 +1,7 @@
 ## Validation Attributes
 
 ### RequiredIf
-```csharp title="RequiredIf"
+```csharp
 [RequiredIf("Art == 'Gutschrift'",
     ErrorMessageResourceName = "SelectChargeLabel",
     ErrorMessageResourceType = typeof(Resources.ObjectText))]  
@@ -9,7 +9,7 @@ public string GutschriftWann { get; set; } = string.Empty;
 ```
 
 ### AssertThat
-```csharp title="AssertThat"
+```csharp
 public class MyModel
 {
     // This method must be accessible (public or internal) to be used in AssertThat
