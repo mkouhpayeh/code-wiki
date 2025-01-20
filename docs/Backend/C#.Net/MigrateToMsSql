@@ -1,10 +1,12 @@
 ## Migrate from MySQL to MsSQL
 
-```csharp title="Install package "
+## Install required package
+```csharp
 Install Package Microsoft.EntityFrameworkCore.SqlServer
 ```
 
-```csharp title="Add SQL Server DB Context"
+## Add SQL Server DB Context
+```csharp
 public class SqlServerDbContext : DbContext
 {
     private const string connectionString = @"Server=.;Database=DB1;User Id=sa;Password=***;TrustServerCertificate=True";
