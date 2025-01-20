@@ -1,6 +1,6 @@
 ## Migrate from MySQL to MsSQL
 
-```csharp title="Install package"
+```csharp title="Install package "
 Install Package Microsoft.EntityFrameworkCore.SqlServer
 ```
 
