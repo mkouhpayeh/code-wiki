@@ -1,8 +1,0 @@
-## Migrate from MySQL to MsSQL
-
-```
-Install Package Microsoft.EntityFrameworkCore.SqlServer
-```
-
-
-
