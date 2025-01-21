@@ -23,10 +23,12 @@ Just write ` * Text `
 Just write ` 1. Text `
 
 ### Admonition/callout with title
-write ` !!! note "title" ` with an ** indent ** for the paraghraph
-!!! note "title"
-  fjalf
-  
+write ` !!! note/info "title" ` with an ** indent ** for the paraghraph
+!!! note "title"  
+
+  asaf
+
+for Collapsible just write ` ??? ` instead of ` !!! ` 
 
 ### Codeblocks
 
