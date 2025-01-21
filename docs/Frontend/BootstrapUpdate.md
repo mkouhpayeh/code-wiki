@@ -3,8 +3,8 @@
 ### Bundle changes
 ```csharp title="BundleConfig.cs"
 bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-+   "~/Scripts/bootsrap.bundle.min.js",
-+   "~/Scripts/jquery.dataTables.min.js",
+   `"~/Scripts/bootsrap.bundle.min.js",`
+   `"~/Scripts/jquery.dataTables.min.js",`
     "~/Scripts/jquery.unobtrusive-ajax.min.js",
     "~/Scripts/moment.js",
     "~/Scripts/datetime.js",
