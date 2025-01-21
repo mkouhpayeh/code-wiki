@@ -6,8 +6,8 @@
 ```
 
 ### Bundle changes
-- "~/Scripts/umd/popper.min.js" is removed and included in "bootstrap.bundle.min.js".
-- "~/Scripts/bootstrap.min.js" is removed and as "bootstrap.bundle.min.js" already includes Bootstrap's JS.
+- **~/Scripts/umd/popper.min.js** is removed and included in **bootstrap.bundle.min.js**.
+- **~/Scripts/bootstrap.min.js** is removed and as **bootstrap.bundle.min.js** already includes Bootstrap's JS.
     
 ``` csharp title="BundleConfig.cs" hl_lines="2 3"
 bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
@@ -37,7 +37,7 @@ bundles.Add(new StyleBundle("~/Content/css").Include(
 ```
 
 ### Tab view changes
-- Replace data-toggle with data-bs-toggle: Bootstrap 5 uses "data-bs-toggle" instead of "data-toggle".
+- Replace data-toggle with data-bs-toggle: Bootstrap 5 uses **data-bs-toggle** instead of **data-toggle**.
   
 ```html
 <ul class="nav nav-tabs">
