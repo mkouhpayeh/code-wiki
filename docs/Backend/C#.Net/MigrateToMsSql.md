@@ -3,6 +3,9 @@
 ## Install required package
 ```csharp
 Install Package Microsoft.EntityFrameworkCore.SqlServer
+Install Package Microsoft.EntityFrameworkCore
+Install Package Microsoft.EntityFrameworkCore.Tools
+Install Package Microsoft.EntityFrameworkCore.Design
 ```
 
 ## Add SQL Server DB Context
@@ -125,15 +128,25 @@ public class MigrationToSqlServerService
     }
 ```
 
-### program.cs (to run add-migration command)
+### Add DBContext in program.cs (to run add-migration command)
 
 ```csharp
 builder.Services.AddDbContext<SqlServerDbContext>(options =>
 options.UseSqlServer("Server=.;Database=DB2;User Id=sa;Password=***;TrustServerCertificate=True"));
 ```
 
-### Create DB which name in ConnectionString
+- Create SQL Server DB with the same name in ConnectionString
 
-### Add-Migration initial-db  -Context SqlServerDbContext
+#### Add migration with a specific DBContext When you have more than one context
+```
+Add-Migration initialDB -Context SqlServerDbContext
+```
 
-### Update-Database -Context SqlServerDbContext
+#### Update database with a specific DBContext
+```
+Update-Database -Context SqlServerDbContext
+```
+
+```
+var m = new MigrationToSqlServerService().MigrateDataAsync();
+```
