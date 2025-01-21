@@ -8,68 +8,46 @@ tags:
 ## Code Annotation Examples
 
 ### Highlight inner text
-`
-Simply add **``** at the beginning and end of the text.
-`
+Simply write text between ` `` `
+
 
 ### Content Tabs
-`
-Just add **=== "TabName"**
-`
+Just add ` === "TabName" `
+
 
 ### Unordered List
-`
-Just add "* Text"
-`
+Just write ` * Text `
+
 
 ### Ordered List
-`
-Just add "1. Text"
-`
+Just write ` 1. Text `
 
 ### Codeblocks
 
 #### Plain codeblock
-`
-Simply add __```__ at the beginning and end of the code block.
-`
+Simply write code block between ` ``` `
 
 #### Codeblock for a specific language
-`
-Write the name of the code language after **```** like **py**, **cshapr**, **shell**, ...
-`
+Write the name of the code language after ` ``` ` like **py**, **cshapr**, **shell**, ...
+
 
 #### Codeblock with a title
-`
-Write **title="bubble_sort.py"**
-`
+Write after ` ``` `, ` title="bubble_sort.py ` 
+
 
 #### With line numbers
+Write after ` ``` `, ` linenums="1" ` 
 
-``` py linenums="1"
-def bubble_sort(items):
-    for i in range(len(items)):
-        for j in range(len(items) - 1 - i):
-            if items[j] > items[j + 1]:
-                items[j], items[j + 1] = items[j + 1], items[j]
-```
 
 #### Highlighting lines
-
-``` py hl_lines="2 3"
-def bubble_sort(items):
-    for i in range(len(items)):
-        for j in range(len(items) - 1 - i):
-            if items[j] > items[j + 1]:
-                items[j], items[j + 1] = items[j + 1], items[j]
-```
+Write after ` ``` `, ` hl_lines="2 3" ` or hl_lines="1-6"
 
 ## Icons and Emojs
+write ` :smile: ` for :smile:   
+write ` :fontawesome-regular-face-laugh-wink: ` for :fontawesome-regular-face-laugh-wink:  
+write ` :fontawesome-brands-twitter:{ .twitter } ` for :fontawesome-brands-twitter:{ .twitter }  
+write ` :octicons-heart-fill-24:{ .heart } ` for :octicons-heart-fill-24:{ .heart }  
 
-:smile: 
 
-:fontawesome-regular-face-laugh-wink:
 
-:fontawesome-brands-twitter:{ .twitter }
 
-:octicons-heart-fill-24:{ .heart }
