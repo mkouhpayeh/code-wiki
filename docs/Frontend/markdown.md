@@ -23,10 +23,9 @@ Just write ` * Text `
 Just write ` 1. Text `
 
 ### Admonition/callout with title
-write ` !!! note/info "title" ` with an ** indent ** for the paraghraph
+write ` !!! note/info "title" ` with an **indent** with **four spaces** 
 !!! note "title"  
-
-  asaf
+    asaf
 
 for Collapsible just write ` ??? ` instead of ` !!! ` 
 
