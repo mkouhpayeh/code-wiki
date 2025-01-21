@@ -5,7 +5,7 @@ tags:
   - Documentation
 ---
 
-## Code Annotation Examples
+## Text Annotations
 
 ### Highlight inner text
 Simply write text between ` `` `
@@ -21,6 +21,12 @@ Just write ` * Text `
 
 ### Ordered List
 Just write ` 1. Text `
+
+### Admonition/callout with title
+write ` !!! note "title" ` with an ** indent ** for the paraghraph
+!!! note "title"
+  fjalf
+  
 
 ### Codeblocks
 
