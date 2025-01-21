@@ -46,4 +46,7 @@ bundles.Add(new StyleBundle("~/Content/css").Include(
     <li class="nav-item"><a class="nav-link" style="font-size:12px;" data-bs-toggle="tab" href="#adTab">Admins</a></li>
 </ul>
 ```
-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+```csharp
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+```
