@@ -128,7 +128,7 @@ public class MigrationToSqlServerService
     }
 ```
 
-### Add DBContext in program.cs (to run add-migration command)
+- Add DBContext in program.cs (to run add-migration command)
 
 ```csharp
 builder.Services.AddDbContext<SqlServerDbContext>(options =>
@@ -137,16 +137,18 @@ options.UseSqlServer("Server=.;Database=DB2;User Id=sa;Password=***;TrustServerC
 
 - Create SQL Server DB with the same name in ConnectionString
 
-#### Add migration with a specific DBContext When you have more than one context
+- Add migration with a specific DBContext When you have more than one context
+- Run code in Package Manager Console
 ```
 Add-Migration initialDB -Context SqlServerDbContext
 ```
 
-#### Update database with a specific DBContext
+- Update database with a specific DBContext
 ```
 Update-Database -Context SqlServerDbContext
 ```
 
+- Run this code to apply changes
 ```
 var m = new MigrationToSqlServerService().MigrateDataAsync();
 ```
