@@ -9,7 +9,7 @@
 - "~/Scripts/umd/popper.min.js" is removed and included in "bootstrap.bundle.min.js".
 - "~/Scripts/bootstrap.min.js" is removed and as "bootstrap.bundle.min.js" already includes Bootstrap's JS.
     
-``` csharp title="BundleConfig.cs"
+``` csharp title="BundleConfig.cs" hl_lines="2 3"
 bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
     "~/Scripts/bootsrap.bundle.min.js",
     "~/Scripts/jquery.dataTables.min.js",
