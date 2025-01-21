@@ -7,38 +7,42 @@ tags:
 
 ## Code Annotation Examples
 
+### Highlight inner text
+`
+Simply add **``** at the beginning and end of the text.
+`
+
+### Content Tabs
+`
+Just add **=== "TabName"**
+`
+
+### Unordered List
+`
+Just add "* Text"
+`
+
+### Ordered List
+`
+Just add "1. Text"
+`
+
 ### Codeblocks
 
-Some `code` goes here.
+#### Plain codeblock
+`
+Simply add __```__ at the beginning and end of the code block.
+`
 
-### Plain codeblock
+#### Codeblock for a specific language
+`
+Write the name of the code language after **```** like **py**, **cshapr**, **shell**, ...
+`
 
-A plain codeblock:
-
-```
-Some code here
-def myfunction()
-// some comment
-```
-
-#### Code for a specific language
-
-Some more code with the `py` at the start:
-
-``` py
-import tensorflow as tf
-def whatever()
-```
-
-#### With a title
-
-``` py title="bubble_sort.py"
-def bubble_sort(items):
-    for i in range(len(items)):
-        for j in range(len(items) - 1 - i):
-            if items[j] > items[j + 1]:
-                items[j], items[j + 1] = items[j + 1], items[j]
-```
+#### Codeblock with a title
+`
+Write **title="bubble_sort.py"**
+`
 
 #### With line numbers
 
