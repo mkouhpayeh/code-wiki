@@ -5,6 +5,8 @@ tags:
   - Documentation
 ---
 
+You can find complete [MKDocs Material Documentation](https://squidfunk.github.io/mkdocs-material/reference/) here.
+
 ## Text Annotations
 
 ### Highlight inner text
