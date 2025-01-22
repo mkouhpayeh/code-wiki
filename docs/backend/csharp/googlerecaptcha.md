@@ -22,21 +22,21 @@ builder.Services.AddRecaptcha(options =>
 });
 ```
 
-### Add reference  title="html"
-```
+### Add reference 
+``` html
 <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
 <script src="/js/site.js"></script>
 ```
 
-!!! info "Two Captcha in one page"    
+!!! note "Two Captcha in one page"
 
-  set render=explicit  
-  No need to use two different siteKey and secret  
-  set &hl=de to change language.  
+    set render=explicit
+    No need to use two different siteKey and secret 
+    set &hl=de to change language. 
   
 
-### Create Page title="RecaptchaComponent.razor"
-``` cs
+### Create Page 
+``` cs title="RecaptchaComponent.razor"
 @using reCAPTCHA.AspNetCore
 @inject IRecaptchaService RecaptchaService
 @inject IJSRuntime JSRuntime
