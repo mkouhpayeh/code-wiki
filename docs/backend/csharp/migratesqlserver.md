@@ -2,7 +2,7 @@
 
 ## Migrate from MySQL to MsSQL
 
-## Install required package
+### Install required package
 ```csharp
 Install Package Microsoft.EntityFrameworkCore.SqlServer
 Install Package Microsoft.EntityFrameworkCore
@@ -10,7 +10,7 @@ Install Package Microsoft.EntityFrameworkCore.Tools
 Install Package Microsoft.EntityFrameworkCore.Design
 ```
 
-## Add SQL Server DB Context
+### Add SQL Server DB Context
 ```csharp
 public class SqlServerDbContext : DbContext
 {
@@ -38,7 +38,7 @@ public class SqlServerDbContext : DbContext
 }
 ```
 
-## Add MySQL DB Context
+### Add MySQL DB Context
 ```csharp
 public class MySqlDbContext : DbContext
 {
@@ -60,7 +60,7 @@ public class MySqlDbContext : DbContext
 }
 ```
 
-## Add migration service
+### Add migration service
 ```csharp
 public class MigrationToSqlServerService
 {
