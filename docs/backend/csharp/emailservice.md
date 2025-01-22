@@ -2,6 +2,11 @@
 
 ## .Net Core
 
+``` shell
+Install-Package MimeKit
+Install-Package MailKit
+```
+
 ``` csharp
  public interface IEmailSender
  {
