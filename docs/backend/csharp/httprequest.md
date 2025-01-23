@@ -22,12 +22,12 @@ public class Service
 
 ### Get Request
 
-#### Get QueryString
+#### Get with QueryString
 ``` cs
  var response = await _httpClient.GetAsync($"{this._apiBaseUrl}/Account/ReadUserProfile?email={email}");
 ```
 
-#### Get Model
+#### Get with Model
 Since GET requests don't have a body, the model's properties must be included in the URL as key-value pairs.
 
 ``` cs
@@ -73,12 +73,12 @@ public class AccountController : ControllerBase
 
 ### Post Request
 
-#### Post QueryString
+#### Post with QueryString
 ``` cs
  var response = await _httpClient.PostAsJsonAsync($"{this._apiBaseUrl}/Account/Verify?email={email}&code={code}", new StringContent(""));
 ```
 
-#### Post Model
+#### Post with Model
 ``` cs
  var response = await _httpClient.PostAsJsonAsync($"{this._apiBaseUrl}/Account/ForgotPassword", new ForgotPasswordModel { Email = email });
 ```
