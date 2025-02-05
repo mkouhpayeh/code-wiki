@@ -4,3 +4,6 @@
 ``` shell
 [Net.ServicePointManager]::SecurityProtocol
 ```
+
+## Check Enabled Protocol
+`https://www.ssllabs.com/ssltest/analyze.html`
