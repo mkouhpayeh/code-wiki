@@ -7,6 +7,7 @@
 
 ## Check Enabled Protocol
 `https://www.ssllabs.com/ssltest/analyze.html`
+`https://www.nartac.com/Products/IISCrypto/Download`
 
 ## Check Cipher Suites
 ``` shell
