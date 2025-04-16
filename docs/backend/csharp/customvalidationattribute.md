@@ -1,4 +1,4 @@
-# Localized Custom Validation Attribute
+# Localized Custom Validation
 
 ## Attribute Usage
 ```
