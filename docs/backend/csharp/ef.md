@@ -4,10 +4,13 @@
 
 ### Install Packages 
 ```  cs
-Microsoft.EntityFrameworkCore 
+Microsoft.EntityFrameworkCore
+```
 ```  cs
-Microsoft.EntityFrameworkCore.Tools  
+Microsoft.EntityFrameworkCore.Tools
+```
 ``` cs
-Microsoft.EntityFrameworkCore.SqlServer 
+Microsoft.EntityFrameworkCore.SqlServer
+```
 
 ## Database First 
