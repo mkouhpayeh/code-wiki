@@ -38,10 +38,10 @@ public class AppDBContext : DbContext
 
 ### Package Manager Console CMD
 ```  cs
-add-migration "Initial Migration"
+Add-Migration "Initial Migration"
 ```
 ```  cs
-update-database
+Update-Database
 ```
 
 ## Database First 
@@ -50,3 +50,7 @@ update-database
 Scaffold-DbContext "Connection String" Microsoft.EntityFrameworkCore.SqlServer -ContextDir DataFolder -OutputDir Models -DataAnnotation
 ```
 
+## Usage 
+```  cs
+private readonly AppDBContext _context;
+```
