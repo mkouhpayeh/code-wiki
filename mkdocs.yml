@@ -3,7 +3,7 @@ site_url: https://mkouhpayeh.github.io/code-wiki
 theme:
   name: material
   font:
-    text: ui-sans-serif
+    text: Segoe UI #ui-sans-serif
     code: SFMono-Regular # Red Hat Mono
   logo: assets/logo.png
   favicon: assets/favicon.ico
