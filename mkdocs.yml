@@ -4,7 +4,7 @@ theme:
   name: material
   font:
     text: ui-sans-serif
-    code: Red Hat Mono
+    code: SFMono-Regular # Red Hat Mono
   logo: assets/logo.png
   favicon: assets/favicon.ico
   features:
