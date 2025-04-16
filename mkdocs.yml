@@ -3,7 +3,7 @@ site_url: https://mkouhpayeh.github.io/code-wiki
 theme:
   name: material
   font:
-    text: Merriweather Sans
+    text: ui-sans-serif
     code: Red Hat Mono
   logo: assets/logo.png
   favicon: assets/favicon.ico
