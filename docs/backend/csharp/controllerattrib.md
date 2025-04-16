@@ -29,9 +29,7 @@ app.Run();
  [Route("Index")]
  [ActionName("Confirm")]
 ```
-
-## Preventing a Public Method from Being Invoked
-``` cs title="program.cs"
+``` cs title="Preventing a Public Method from Being Invoked"
 [NonAction]
 ```
 
