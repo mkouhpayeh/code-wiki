@@ -3,8 +3,12 @@
 
 ## Powershell env. Config
 ``` bash title="Set Environment Variable"
-[System.Environment]::SetEnvironmentVariable('DB_PASSWORD', '***')
+[System.Environment]::SetEnvironmentVariable("DB_PASSWORD", "MySecret123", "Machine")
 ```
+
+> [!CAUTION]
+> Run the PowerShell as Administrator
+> Restart the IDE after setting the **Environment** values
 
 ## Set appsettings.json
 ``` cs
