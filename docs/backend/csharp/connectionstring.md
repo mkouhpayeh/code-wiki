@@ -9,16 +9,16 @@
 ## PostgreSQL
 !!! note ""    
 
-    ``` csharp
-    "ConnectionStrings": {
-      "DBConnection": "User ID=postgres;Password=***;Host=localhost;Port=5432;Database=DB1;Pooling=true;"
-    }
-    ```
-    ``` csharp
-    //Configure DB Context
-    //----------------------------------------
-    builder.Services.AddDbContext<DBContext>(options =>
-    {
-        options.UseNpgsql(builder.Configuration.GetConnectionString("DBConnection"));
-    }, ServiceLifetime.Scoped);
-    ```
+``` cs title="AppSettings"
+"ConnectionStrings": {
+  "DBConnection": "User ID=postgres;Password=***;Host=localhost;Port=5432;Database=DB1;Pooling=true;"
+}
+```
+``` cs title="Program.cs"
+//Configure DB Context
+//----------------------------------------
+builder.Services.AddDbContext<DBContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DBConnection"));
+}, ServiceLifetime.Scoped);
+```
