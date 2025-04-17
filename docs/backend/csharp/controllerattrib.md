@@ -25,6 +25,7 @@ app.Run();
 ``` cs title="Actions"
  [Authorize]
  [AllowAnonymous]
+ [HttpGet]
  [HttpPost]
  [Route("Index")]
  [ActionName("Confirm")]
