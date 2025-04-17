@@ -1,6 +1,29 @@
 # Application Settings
 
-## Read appsettings.json 
+
+## Powershell env. Config
+``` bash title="Set Environment Variable"
+[System.Environment]::SetEnvironmentVariable('DB_PASSWORD', '***')
+```
+
+## Set appsettings.json
+``` cs
+"ConnectionStrings": {
+  "DefaultConnection": "Server=...;User Id=...;Password=%DB_PASSWORD%;"
+},
+"ExAuthentication": {
+    "Facebook": {
+      "AppId": "facebook",
+      "AppSecret": "facebook"
+    },
+    "Google": {
+      "ClientId": "",
+      "ClientSecret": ""
+    }
+  }
+```
+
+## Set Program.cs 
 ``` cs title="program.cs"
 // Register the IConfiguration instance which 'secrets.json', 'appsettings.json', 'EnvironmentVariables' binds against.
 //----------------------------------------
@@ -13,31 +36,18 @@ var configuration = new ConfigurationBuilder()
 
 builder.Services.AddSingleton<IConfiguration>(configuration);
 
-
 //Configure DB Context
 //----------------------------------------
 builder.Services.AddDbContext<DBContext>(options =>
 {
-    options.UseSqlServer(configuration.GetConnectionString("DBConnection"));
+    options.UseSqlServerconfig.GetConnectionString("DefaultConnection")
+            .Replace("%DB_PASSWORD%", Environment.GetEnvironmentVariable("DB_PASSWORD"));
 }, ServiceLifetime.Scoped);
 ```
 
+## Read appsettings.json 
 ``` cs title="usage"
 configuration.GetSection("ExAuthentication:Google:ClientId").Value
-```
-
-### appsettings.json
-``` cs
-"ExAuthentication": {
-    "Facebook": {
-      "AppId": "facebook",
-      "AppSecret": "facebook"
-    },
-    "Google": {
-      "ClientId": "",
-      "ClientSecret": ""
-    }
-  }
 ```
 
 ## CMD env. Config
