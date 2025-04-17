@@ -7,7 +7,8 @@
 ```
 
 > [!CAUTION]
-> Run the PowerShell as Administrator
+> Run the PowerShell as Administrator.
+> 
 > Restart the IDE after setting the **Environment** values
 
 ## Set appsettings.json
