@@ -14,6 +14,15 @@ It's not necessary to specify an instance name when specifying the port.
 *  Assign the Certificate to SQL Server:  SQL Server Configuration Manager > SQL Server Network Configuration > Protocols for MSSQLSERVER (or instance name) > Right-click "Properties" > Certificate tab
 *  Enable Force Encryption (Optional but Recommended):  SQL Server Configuration Manager > under Protocols for MSSQLSERVER > Right-click > Properties > Under the Flags tab, set Force Encryption to Yes
 
+``` cs title="Program.cs"
+//Configure DB Context
+//----------------------------------------
+builder.Services.AddDbContext<DBContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
+});
+```
+
 ## PostgreSQL
 
 ``` cs title="AppSettings"
