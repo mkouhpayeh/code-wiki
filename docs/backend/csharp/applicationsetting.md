@@ -40,8 +40,8 @@ builder.Services.AddSingleton<IConfiguration>(configuration);
 //----------------------------------------
 builder.Services.AddDbContext<DBContext>(options =>
 {
-    options.UseSqlServerconfig.GetConnectionString("DefaultConnection")
-            .Replace("%DB_PASSWORD%", Environment.GetEnvironmentVariable("DB_PASSWORD"));
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")
+            .Replace("%DB_PASSWORD%", Environment.GetEnvironmentVariable("DB_PASSWORD")));
 }, ServiceLifetime.Scoped);
 ```
 
