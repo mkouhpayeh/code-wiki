@@ -1,7 +1,7 @@
 # Schema Index List
 
 ## Index list for each **schema**
-```sql
+``` sql title="SQL Server"
 SELECT
     tablename,
     indexname,
