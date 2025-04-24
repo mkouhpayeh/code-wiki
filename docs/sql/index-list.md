@@ -1,4 +1,4 @@
-# System Queries
+# Schema Index List
 
 ## Index list for each **schema**
 ```sql
