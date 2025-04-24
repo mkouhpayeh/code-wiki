@@ -1,6 +1,6 @@
 # Column Max Length
 
-``` sql title="script"
+``` sql title="SQL Server"
 SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH 
 FROM INFORMATION_SCHEMA.COLUMNS 
 WHERE TABLE_NAME = 'xxxx';
