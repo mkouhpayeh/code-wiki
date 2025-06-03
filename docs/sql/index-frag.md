@@ -1,4 +1,4 @@
-# Check Index Fragmentation
+# Index Fragmentation
 
 ``` sql title="SQL Server"
 SELECT 
@@ -23,8 +23,7 @@ ORDER BY
     avg_fragmentation_in_percent DESC;
 ```
 
-> [!NOTE]
-> 
+*** 
 | Fragmentation % | Action                           |
 | --------------- | -------------------------------- |
 | 0–5%            | No action needed                 |
