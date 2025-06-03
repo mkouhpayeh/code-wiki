@@ -31,11 +31,11 @@ ORDER BY
 | 5–30%           | **Reorganize** index (light fix) |
 | >30%            | **Rebuild** index (full fix)     |
 
-```
 
 ``` sql title="Reorganize (lightweight)"
 ALTER INDEX [IndexName] ON [TableName] REORGANIZE;
 ```
+
 ``` sql title="Rebuild (heavier, can update stats)"
 ALTER INDEX [IndexName] ON [TableName] REBUILD WITH (ONLINE = ON);
 ```
