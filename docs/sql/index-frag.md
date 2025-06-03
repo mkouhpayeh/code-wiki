@@ -23,7 +23,8 @@ ORDER BY
     avg_fragmentation_in_percent DESC;
 ```
 
-```
+> [!NOTE]
+> 
 | Fragmentation % | Action                           |
 | --------------- | -------------------------------- |
 | 0–5%            | No action needed                 |
