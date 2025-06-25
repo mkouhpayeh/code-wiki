@@ -21,23 +21,32 @@ GO
 
 -- Define the full job step command
 DECLARE @JobCommand NVARCHAR(MAX);
-SET @JobCommand = N'
-SET NOCOUNT ON;
+SET @JobCommand =N'SET NOCOUNT ON;
 
-DECLARE @dbName NVARCHAR(128);
+DECLARE @dbName SYSNAME;
+DECLARE @sql NVARCHAR(MAX);
+
 DECLARE db_cursor CURSOR FOR
     SELECT name FROM sys.databases
-    WHERE database_id > 4 AND state_desc = ''ONLINE''; 
+    WHERE database_id > 4 AND state_desc = ''ONLINE''; -- Only user databases
 
 OPEN db_cursor;
 FETCH NEXT FROM db_cursor INTO @dbName;
 
 WHILE @@FETCH_STATUS = 0
 BEGIN
-    DECLARE @sql NVARCHAR(MAX);
-    SET @sql = N''USE ['' + @dbName + N''];
-    DECLARE @objectId INT, @indexId INT, @schemaName SYSNAME, @tableName SYSNAME, @indexName SYSNAME;
-    DECLARE @frag FLOAT, @sql2 NVARCHAR(MAX);
+    PRINT ''Processing database: '' + @dbName;
+
+    SET @sql = ''
+    USE ['' + @dbName + ''];
+
+    DECLARE @objectId INT, 
+            @indexId INT, 
+            @schemaName SYSNAME, 
+            @tableName SYSNAME, 
+            @indexName SYSNAME, 
+            @frag FLOAT, 
+            @sqlCmd NVARCHAR(MAX);
 
     DECLARE index_cursor CURSOR FOR
         SELECT 
@@ -58,32 +67,34 @@ BEGIN
 
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        SET @sql2 = '''';
+        SET @sqlCmd = NULL;
 
         IF @frag >= 30.0
-            SET @sql2 = N''''ALTER INDEX ['''' + @indexName + N''''] ON ['''' + @schemaName + N''''].['''' + @tableName + N''''] REBUILD WITH (ONLINE = ON);'''';
+            SET @sqlCmd = N''''ALTER INDEX ['''' + @indexName + N''''] ON ['''' + @schemaName + N''''].['''' + @tableName + N''''] REBUILD WITH (ONLINE = ON);'''';
         ELSE IF @frag >= 5.0
-            SET @sql2 = N''''ALTER INDEX ['''' + @indexName + N''''] ON ['''' + @schemaName + N''''].['''' + @tableName + N''''] REORGANIZE;'''';
+            SET @sqlCmd = N''''ALTER INDEX ['''' + @indexName + N''''] ON ['''' + @schemaName + N''''].['''' + @tableName + N''''] REORGANIZE;'''';
 
-        IF @sql2 <> '''' 
+        IF @sqlCmd IS NOT NULL
         BEGIN
-            PRINT N''''Executing on ['' + @dbName + N'']: '''' + @sql2;
-            EXEC sp_executesql @sql2;
+            PRINT @sqlCmd;
+            EXEC sp_executesql @sqlCmd;
         END
 
         FETCH NEXT FROM index_cursor INTO @objectId, @indexId, @frag, @indexName, @schemaName, @tableName;
     END
 
     CLOSE index_cursor;
-    DEALLOCATE index_cursor;'';
+    DEALLOCATE index_cursor;
+    '';
 
-    EXEC sp_executesql @sql;
+    EXEC (@sql); -- Switch to database and execute logic
+
     FETCH NEXT FROM db_cursor INTO @dbName;
 END
 
 CLOSE db_cursor;
 DEALLOCATE db_cursor;
-';
+'
 
 -- Add the job step
 EXEC msdb.dbo.sp_add_jobstep
