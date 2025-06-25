@@ -131,5 +131,5 @@ EXEC msdb.dbo.sp_update_job @job_name = 'IndexMaintenanceJob', @enabled = 1;
 | Friday      | 16    |
 | Saturday    | 32    |
 | Monday      | 64    |
-**These values can also be combined using addition (e.g. Monday + Thursday = 64 + 8 = 72).
+These values can also be combined using addition (e.g. Monday + Thursday = 64 + 8 = 72).
 *** 
