@@ -112,7 +112,7 @@ EXEC msdb.dbo.sp_add_schedule
     @schedule_name = N'Daily_2AM',
     @freq_type = 4,              -- daily {4: daily, 8: weekly, 16: Monthly}
     @freq_interval = 1,          -- every day {every day, Sunday, Day 1 of the month}
-    @freq_recurrence_factor = 2  -- every 2 months
+    @freq_recurrence_factor = 2, -- every 2 months
     @active_start_time = 020000; -- 2:00 AM
 GO
 
