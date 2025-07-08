@@ -1,6 +1,11 @@
 # Index Rebuild
 
 ## Index = NULL → It's a heap (no clustered index).
+``` sql title="Rebuild the heap"
+CREATE CLUSTERED INDEX TempIndex ON dbo.YourTable(YourColumn);
+DROP INDEX TempIndex ON dbo.YourTable;
+```
+
 ## REBUILD WITH (ONLINE = ON)=> Only applies in SQL Server Enterprise edition
 
 
