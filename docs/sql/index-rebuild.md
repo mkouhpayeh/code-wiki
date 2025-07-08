@@ -1,4 +1,4 @@
-# Index Fragmentation
+# Index Rebuild
 
 ``` sql title="Rebuild script"
 SET NOCOUNT ON;
