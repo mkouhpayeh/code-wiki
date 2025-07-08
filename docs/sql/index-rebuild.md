@@ -1,5 +1,9 @@
 # Index Rebuild
 
+## Index = NULL → It's a heap (no clustered index).
+## REBUILD WITH (ONLINE = ON)=> Only applies in SQL Server Enterprise edition
+
+
 ``` sql title="Rebuild Indexes of All Tables"
 SET NOCOUNT ON;
 
@@ -77,7 +81,7 @@ DEALLOCATE db_cursor;
 ``` 
 
 
-``` sql title="Rebuild Table's Indexes REBUILD WITH (ONLINE = ON)=> Only in Enterprise"
+``` sql title="Rebuild Table's Indexes"
 USE [Databasename];
 
 DECLARE @objectId INT, 
