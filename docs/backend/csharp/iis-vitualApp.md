@@ -2,6 +2,8 @@
 
 ## .Net Core - Virtual App
 
+Dont change any directions...
+
 ``` csharp title="program.cs"
  var app = builder.Build();
 
