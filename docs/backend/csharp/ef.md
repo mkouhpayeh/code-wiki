@@ -54,3 +54,15 @@ Scaffold-DbContext "Connection String" Microsoft.EntityFrameworkCore.SqlServer -
 ```  cs
 private readonly AppDBContext _context;
 ```
+
+## Linq to SQL 
+``` cs
+using (var dbContext = new DbContext())
+{
+  var query = dbContext.Users
+     .Where(u=>u.Age>5)
+     .Orderby (u=>u.Name);
+  string query = query.ToQueryString();
+  Console.WriteLine(query);
+}
+```
