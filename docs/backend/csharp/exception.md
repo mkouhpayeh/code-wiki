@@ -1,6 +1,6 @@
 # Custom Exception
 
-```  cs Title="TestException.cs"
+``` cs Title="TestException.cs"
 public class TestException : Exception
 {
   public string Val;
@@ -23,7 +23,7 @@ public class TestException : Exception
 }
 ```
 
-```  cs
+``` cs
 try
 {
   if (RegEx.IsMatch(value, @"\d")) throw new TestException("Value is a digit", value);
