@@ -1,6 +1,5 @@
-# Exception - Handler
+# Custom Exception
 
-## Custom Exception
 ```  cs Title="TestException.cs"
 public class TestException : Exception
 {
