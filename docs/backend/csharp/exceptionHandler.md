@@ -1,5 +1,6 @@
-# Custom Handler
+# Exception Handler
 
+``` cs
 public class ErrorResponseData
 {
   public int StatusCode {get;set}
@@ -11,3 +12,77 @@ public class ErrorResponseData
     return JsonConvert.SerializeObject(this);
   }
 }
+```
+
+## Exp Handler Extension
+```
+public static class ExceptionMiddlewareExtensions
+{
+  public static void ConfigureBuiltInExceptionHandler(this IApplicationBuilder app)
+  {
+    app.UseExceptionHandler(appError =>
+    {
+      appError.Run(async context =>
+      {
+        var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+        var contextRequest = context.Features.Get<IHttpRequestFeature>();
+
+        context.Response.ContentType = "application/json";
+
+        if (contextFeature != null)
+        {
+          var errorString = new ErrorResponseData()
+            {
+              StatusCode = (int)HttpStatusCode.InternalError,
+              Message = contextFeature.Error.Message,
+              Path = contextRequest.Path
+            }.ToString();
+          await context.Response.WriteAsync(errorString);
+        }
+      });
+    });
+  }
+```
+
+## Configure Handler
+``` cs Title="Program.cs"
+app.UseAuthorization();
+app.ConfigureBuiltInExceptionHandler();
+```
+
+## Custom Exp Handler
+``` cs
+public class CustomExceptionHandler
+{
+  private readonly RequestDelegate _next;
+
+  public CustomExceptionHandler(RequestDelegate next)
+  {
+    _next=next;
+  }
+
+  public async Task InvokeAsync(HttpContext httpContext)
+  {
+    try
+    {
+      await _next(httpContext);
+    }
+    catch (Exception ex)
+    {
+      await HandleExceptionAsync(httpContext, ex);
+    }
+  }
+
+  private Task HandleExceptionAsync(HttpContext httpContext, Exception ex)
+  {
+    httpContext.Response.ContentType = "application/json";
+    var errorMessageString = new ErrorResponseData()
+    {
+      StatusCode = (int)HttpStatusCode.InternalServerError,
+      Message = ex.Message,
+      Path = httpContext.Request.Path
+    }.ToString();
+    return httpContext.Response.WriteAsync(errorMessageString);
+  }
+}
+```
