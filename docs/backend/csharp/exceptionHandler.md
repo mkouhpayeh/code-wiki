@@ -15,7 +15,7 @@ public class ErrorResponseData
 ```
 
 ## Exp Handler Extension
-```
+``` cs
 public static class ExceptionMiddlewareExtensions
 {
   public static void ConfigureBuiltInExceptionHandler(this IApplicationBuilder app)
