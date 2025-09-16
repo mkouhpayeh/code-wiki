@@ -1,5 +1,6 @@
-# Custom Exception
+# Exception - Handler
 
+## Custom Exception
 ```  cs Title="TestException.cs"
 public class TestException : Exception
 {
@@ -33,3 +34,4 @@ catch(TestException ex)
   return BadRequest(ex.Message, ex.Value);
 }
 ```
+
