@@ -1,6 +1,6 @@
-# Custom Exception
+# Exception Customization
 
-``` cs Title="TestException.cs"
+``` csharp Title="TestException.cs"
 public class TestException : Exception
 {
   public string Val;
@@ -23,10 +23,10 @@ public class TestException : Exception
 }
 ```
 
-``` cs
+``` csharp
 try
 {
-  if (RegEx.IsMatch(value, @"\d")) throw new TestException("Value is a digit", value);
+  if (RegEx.IsMatch(value, @"^\d")) throw new TestException("Value is a digit", value);
 }
 catch(TestException ex)
 {
