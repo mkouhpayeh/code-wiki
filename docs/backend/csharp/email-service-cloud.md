@@ -48,7 +48,17 @@ public class EmailService: IEmailService
   public Task<Response> SendSingleEmail(ComposeEmailVM payload)
   {
     var apiKey = _configuration.GetSection("SendGrid")["ApiKey"];
-    return null;
+    var client = new SendGridClient(apiKey);
+    var from = new EmailAddress(senderEmailAddress, senderName);
+    var subject = payload.Subject;
+    var to = new EmailAddress(receiverEmailAddress, $"{payload.Firstname} {payload.Lastname}");
+    var textContent = payload.Body;
+    var htmlContent = $"<strong>{payload.Body}</strong>";
+    var msg = MailHelper.CreateSingleEmail(from, to, textContent, htmlContent);
+    var response = client.SendEmailAsync(msg);
+    response.wait();
+    var result = response.Result;
+    return response;
   }
 }
 ```
