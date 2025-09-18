@@ -35,6 +35,7 @@
 public class IEmailService
 {
   Task<Response> SendSingleEmail(ComposeEmailVM payload);
+  Task<Response> SendMultipleEmails();
 }
 ```
 ```cs title="\Services\EmailService.cs"
@@ -55,6 +56,25 @@ public class EmailService: IEmailService
     var textContent = payload.Body;
     var htmlContent = $"<strong>{payload.Body}</strong>";
     var msg = MailHelper.CreateSingleEmail(from, to, textContent, htmlContent);
+    var response = client.SendEmailAsync(msg);
+    response.wait();
+    var result = response.Result;
+    return response;
+  }
+
+  public Task<Response> SendMultipleEmails()
+  {
+    var apiKey = _configuration.GetSection("SendGrid")["ApiKey"];
+    var client = new SendGridClient(apiKey);
+    var from = new EmailAddress(senderEmailAddress, senderName);
+    var subject = "Test Sub";
+    var tos = new List<EmailAddress>(){
+      new EmailAddress("Email1", "Name1"),
+      new EmailAddress("Email2", "Name2")
+    };
+    var textContent = "Body";
+    var htmlContent = $"<strong>Body</strong>";
+    var msg = MailHelper.CreateSingleEmailToMultipleRecipients(from, tos, textContent, htmlContent);
     var response = client.SendEmailAsync(msg);
     response.wait();
     var result = response.Result;
