@@ -13,7 +13,7 @@
 ```
 
 !!! note "Valid SSL certificate"<br />
-      Make sure the SQL Server uses a valid SSL certificate:
+      - Make sure the SQL Server uses a valid SSL certificate:
       - Get a Valid SSL Certificate<br />
       - Assign the Certificate to SQL Server:  SQL Server Configuration Manager > SQL Server Network Configuration > Protocols for MSSQLSERVER (or instance name) > Right-click "Properties" > Certificate tab<br />
       - Enable Force Encryption (Optional but Recommended):  SQL Server Configuration Manager > under Protocols for MSSQLSERVER > Right-click > Properties > Under the Flags tab, set Force Encryption to Yes<br />
