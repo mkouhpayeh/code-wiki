@@ -1,6 +1,6 @@
 # Exception Handler
 
-``` cs
+``` csharp
 public class ErrorResponseData
 {
   public int StatusCode {get;set}
@@ -15,7 +15,7 @@ public class ErrorResponseData
 ```
 
 ## Exp Handler Extension
-``` cs
+``` csharp
 public static class ExceptionMiddlewareExtensions
 {
   public static void ConfigureBuiltInExceptionHandler(this IApplicationBuilder app)
@@ -45,13 +45,13 @@ public static class ExceptionMiddlewareExtensions
 ```
 
 ## Configure Handler
-``` cs Title="Program.cs"
+``` csharp Title="Program.cs"
 app.UseAuthorization();
 app.ConfigureBuiltInExceptionHandler();
 ```
 
 ## Custom Exp Handler
-``` cs
+``` csharp
 public class CustomExceptionHandler
 {
   private readonly RequestDelegate _next;
