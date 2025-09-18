@@ -19,7 +19,7 @@ public class CustomExceptionFilter : ExceptionFilterAttribute
   {
     context.HttpContext.Response.ContentType = "application/json";
     var statusCode = HttpStatusCode.InternalServerError;
-    if(context.Exception is StudentNameException)
+    if(context.Exception is TestException)
     {
       statusCode = HttpStatusCode.NotFound;
     }
