@@ -1,4 +1,4 @@
-# Filters
+# Exception Filter
 
 ## Filter Types
 - Authorization filters 
@@ -11,7 +11,7 @@
 ## Create Exp filter
 - In the "Exceptions" Folder create another Folder named "Filters":
   
-``` cs Title="CustomExceptionFilter.cs"
+``` cs title="CustomExceptionFilter.cs"
 [AttributeUsage(AttributeTargets.Class | AttributeRargets.Method)] 
 public class CustomExceptionFilter : ExceptionFilterAttribute
 {
