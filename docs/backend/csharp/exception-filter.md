@@ -35,4 +35,4 @@ public class CustomExceptionFilter : ExceptionFilterAttribute
 ```
 
 ## Use Exp filter
-- Just use as an Attribute on top of each method in the controller for example.
+- Just use as an "Attribute" on top of each method in the controller for example.
