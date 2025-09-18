@@ -15,4 +15,12 @@
 - Mandrill
 - Mailgun
 
-##
+## Setup SendGrid
+1- Create an account : https://sendgrid.com
+2- Create Sender Identity
+3- Reteieve an API Key
+
+### Development Env
+1- Install Sendgrid NuGet package
+2- Add API Key to appsettings.json
+3- Add IEmailService.cs and EmailService.cs
