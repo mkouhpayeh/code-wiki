@@ -1,4 +1,5 @@
 # Exception Handler
+## Create Exp Handler
 
 ``` csharp
 public class ErrorResponseData
@@ -14,7 +15,8 @@ public class ErrorResponseData
 }
 ```
 
-## Exp Handler Extension
+### Exp Handler Extension
+
 ``` csharp
 public static class ExceptionMiddlewareExtensions
 {
@@ -44,13 +46,15 @@ public static class ExceptionMiddlewareExtensions
   }
 ```
 
-## Configure Handler
+### Configure Exp Handler
+
 ``` csharp Title="Program.cs"
 app.UseAuthorization();
 app.ConfigureBuiltInExceptionHandler();
 ```
 
-## Custom Exp Handler
+## Create Custom Exp Handler
+
 ``` csharp
 public class CustomExceptionHandler
 {
@@ -85,4 +89,20 @@ public class CustomExceptionHandler
     return httpContext.Response.WriteAsync(errorMessageString);
   }
 }
+```
+
+### Custom Exp Handler Extension
+- In the ExceptionMiddlewareExtensions.cs class already we have an extension now we will add another one.
+
+``` cs
+ public static void ConfigureCustomExceptionHandler(this IApplicationBuilder app)
+  {
+    app.UseMiddleware<CustomExceptionHandler>();
+  }
+```
+### Configure Custom Exp Handler
+``` cs Title="Program.cs"
+app.UseAuthorization();
+//app.ConfigureBuiltInExceptionHandler();
+app.ConfigureCustomExceptionHandler();
 ```
