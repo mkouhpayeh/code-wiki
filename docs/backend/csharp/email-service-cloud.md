@@ -31,10 +31,23 @@
 },
 ```
 
+```cs title="\Data\ViewModels"
+public class ComposeEmailModel
+{
+  public string Firstname {get;set;}
+  public string Lastname {get;set;}
+  public string Subject {get;set;}
+  public string Email {get;set;}
+  public string Body   {get;set;}
+
+  public IFormFile Attachmetn {get;set;}
+}
+```
+
 ```cs title="\Services\IEmailService.cs"
 public class IEmailService
 {
-  Task<Response> SendSingleEmail(ComposeEmailVM payload);
+  Task<Response> SendSingleEmail(ComposeEmailModel payload);
   Task<Response> SendMultipleEmails();
 }
 ```
@@ -46,7 +59,7 @@ public class EmailService: IEmailService
   {
     _configuration = configuration;
   }
-  public Task<Response> SendSingleEmail(ComposeEmailVM payload)
+  public Task<Response> SendSingleEmail(ComposeEmailModel payload)
   {
     var apiKey = _configuration.GetSection("SendGrid")["ApiKey"];
     var client = new SendGridClient(apiKey);
@@ -56,6 +69,23 @@ public class EmailService: IEmailService
     var textContent = payload.Body;
     var htmlContent = $"<strong>{payload.Body}</strong>";
     var msg = MailHelper.CreateSingleEmail(from, to, textContent, htmlContent);
+    if (payload.Attachment!=null && payload.Attachment.Length>0)
+    {
+      var fileContent ="";
+      using(var reader = new StreamReader(payload.Attachment.OpenReadStream()))
+      {
+        fileContent = reader.ReadToEnd().ToString();
+        byteData = Encoding.ASCII.GetBytes(fileContent);
+      }
+      Attachment attachment = new Attachment()
+      {
+        Content = Convert.ToBase64String(byteData);
+        Filename = payload.Attachment.FileName,
+        Type = payload.Attachment.ContentType,
+        Disposition = "attachment"
+      };
+      msg.AddAttachment(attachment);
+    }
     var response = client.SendEmailAsync(msg);
     response.wait();
     var result = response.Result;
