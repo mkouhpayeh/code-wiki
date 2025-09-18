@@ -6,7 +6,7 @@ dotnet add package Microsoft.ApplicationInsights.AspNetCore
 ```
 
 ## Configure
-``` cs Title="Program.cs"
+``` cs title="Program.cs"
 using Microsoft.ApplicationInsights;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -61,7 +61,7 @@ public class WeatherService
 ```
 
 ## Add ConnectionString
-``` cs Title="appsettings.json"
+``` cs title="appsettings.json"
 {
   "ApplicationInsights": {
     "ConnectionString": "InstrumentationKey=xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx;IngestionEndpoint=https://<region>.in.applicationinsights.azure.com/"
