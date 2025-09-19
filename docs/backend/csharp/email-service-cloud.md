@@ -1,6 +1,6 @@
 # Mailing Services
-1- In-house email services
-2- Cloud-based email services
+1- In-house email services <br />
+2- Cloud-based email services <br />
 
 ## Cloud services benefits
 - Lower cost
@@ -16,14 +16,14 @@
 - Mailgun
 
 ## Setup SendGrid
-1- Create an account : https://sendgrid.com<br />
-2- Create Sender Identity<br />
-3- Reteieve an API Key<br />
+1- Create an account : https://sendgrid.com <br />
+2- Create Sender Identity <br />
+3- Reteieve an API Key <br />
 
 ### Development Env
-1- Install Sendgrid NuGet package<br />
-2- Add API Key to appsettings.json<br />
-3- Add IEmailService.cs and EmailService.cs<br />
+1- Install Sendgrid NuGet package <br />
+2- Add API Key to appsettings.json <br />
+3- Add IEmailService.cs and EmailService.cs <br />
 
 ```cs title="appsettings.json"
 "SendGrid":{
