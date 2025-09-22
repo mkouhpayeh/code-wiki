@@ -49,7 +49,8 @@
 
 ### Docker Alternatives 
 - Kuberbetes
-- Podman : developed by Red Hat to provide a more secure, daemon-less approach to container management. It was created to address some concerns around Docker:
+- Podman : developed by Red Hat to provide a more secure, daemon-less approach to container management. Supports rootless containers and can run multiple apps at once with an "init" system.
+  - It was created to address some concerns around Docker:
     - Security: Eliminates the need for a privileged daemon (reduces attack surface).
     - Integration with systemd: Containers can run as regular system services.
     - Kubernetes alignment: Uses the same OCI runtime/spec as Kubernetes (CRI-O).
