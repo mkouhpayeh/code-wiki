@@ -10,3 +10,6 @@
 - Namespaces are a Linux kernel feature that provides the ability to expose different "views" of your system to applications running within it.
 - Today's Linux kernels provide eight namespaces
 - Control groups, another Linux kernel feature, build on this by providing the ability to restrict how much hardware each process can use. Docker uses control groups for a few things.
+- Control groups and Namespaces are Linux only features, this means that Docker technically only runs natively on Linux and some newer versions of Windows as well.
+- Containers can run on anything but their images are tied to the kernel they were created from.
+- Containers created from container images configured for Linux kernels can only run on Linux. Conversely, containers created from container images configured for Windows can only run on Windows. 
