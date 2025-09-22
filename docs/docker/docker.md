@@ -7,16 +7,25 @@
     - Need hardware emulation
     - Require OS Config
     - Can run many apps at once
+    - Take up more spaces
  - Containers run on container run times. Container run times work with the operating system to allocate hardware and copy files and directories, including the parts with your application in it into something that looks more like any other app running on that system.
     - Run in container runtimes
     - Work alongside OS
     - Do not require OS Config
     - Run one app at a time (usually)
- 
+    - Take up less spaces
 ## Docker Anatomy 
-- A container is composed of two things: a Linux namespace and a Linux control group.
+- A container is composed of two things: a Linux namespace (Host) and a Linux control group (Kernel).
 - Namespaces are a Linux kernel feature that provides the ability to expose different "views" of your system to applications running within it.
 - Today's Linux kernels provide eight namespaces.
+    1- USERNS <br />
+    2- MOUNT <br />
+    3- NET <br />
+    4- IPC <br />
+    5- TIME (Not support by Docker) <br />
+    6- PID <br />
+    7- CGROUP <br />
+    5- UTS <br />
 - Control groups, another Linux kernel feature, build on this by providing the ability to restrict how much hardware each process can use. Docker uses control groups for a few things.
 - Control groups and Namespaces are Linux only features, this means that Docker technically only runs natively on Linux and some newer versions of Windows as well.
 - Containers can run on anything but their images are tied to the kernel they were created from.
