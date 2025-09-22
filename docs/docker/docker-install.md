@@ -6,16 +6,16 @@ Once created, users needed to run a small shell script to connect their Docker C
 
 1- https://docs.docker.io <br />
 2- Install on Windows or Mac: <br />
-    - https://www.docker.com 
-    - in PowerShell 
-      - > docker os 
+    - https://www.docker.com  <br />
+    - in PowerShell  <br />
+      - > docker os  <br />
       - > docker run hello-world <br />
 3- Install on Linux  <br />
-    - > sudo apt install curl
-    - > curl -o /tmp/get-docker.sh https://get.docker.com
-    - > sh /tmp/get-docker.sh
-    - > sudo docker run hello-world
-    - > sudo usermod -aG docker $USER => add to the group list
-    - > sudo -s $USER
-    - > sudo -u usename sh
-    - > grups => see the group list
+    - > sudo apt install curl <br />
+    - > curl -o /tmp/get-docker.sh https://get.docker.com <br />
+    - > sh /tmp/get-docker.sh <br />
+    - > sudo docker run hello-world <br />
+    - > sudo usermod -aG docker $USER => add to the group list <br />
+    - > sudo -s $USER <br />
+    - > sudo -u usename sh <br />
+    - > grups => see the group list <br />
