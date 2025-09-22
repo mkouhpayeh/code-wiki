@@ -5,17 +5,33 @@
 ## Docker CLI
 
 ### Create Docker Container
-- docker --help
-- docker network --help
-- docker container create --help
-- docker container create hello-world:linux (Create new container)
-- docker ps (Shows the actively running containers)
-- docker ps --all
-- docker ps -aq (Shows only IDs)
-- docker container start dockerID (Starts the container)
-- docker logs three_char_con_id
-- docker container start --attach
-<br />
+``` shell
+docker --help
+```
+``` shell
+docker network --help
+```
+``` shell
+docker container create --help
+```
+``` shell title="Create new container"
+docker container create hello-world:linux 
+```
+``` shell title="Shows the actively running containers"
+docker ps
+```
+``` shell title="Shows the actively running containers"
+docker ps --all
+docker ps -aq
+```
+``` shell title="Starts the container"
+docker container start dockerID
+docker container start --attach
+```
+``` shell 
+docker logs three_char_con_id
+```
+
 - docker run hello-world:linux (docker run = create, start and docker)
 - docker build -t app-1 (The tag insead of ID) . (the path of all images to include)
 - docker buildx (Uses BuildKit) build -t app-1 --load .
