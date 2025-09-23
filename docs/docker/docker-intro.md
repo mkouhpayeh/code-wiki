@@ -28,14 +28,14 @@
     - Second to monitor and restrict network and disk bandwidth. And more commonly, Docker uses control groups to monitor and restrict memory consumption. This makes it easy to prevent busier, or larger containers from eating up all the system's resources
 - Control group limits "How much you can see".
 - Today's Linux kernels provide eight namespaces. <br />
-    1- USERNS - User management <br />
-    2- MOUNT - Access File system <br />
-    3- NET - Network <br />
-    4- IPC - Inter Process Communication - resources <br />
-    5- TIME (Not support by Docker due to Technical limitation) <br />
-    6- PID - Process ID <br />
-    7- CGROUP - Create control group <br />
-    8- UTS - Unix Time Stamp <br />
+    1. USERNS - User management <br />
+    2. MOUNT - Access File system <br />
+    3. NET - Network <br />
+    4. IPC - Inter Process Communication - resources <br />
+    5. TIME (Not support by Docker due to Technical limitation) <br />
+    6. PID - Process ID <br />
+    7. CGROUP - Create control group <br />
+    8. UTS - Unix Time Stamp <br />
 - Control groups, another Linux kernel feature, build on this by providing the ability to restrict how much hardware each process can use.
 - Control groups and Namespaces are Linux only features, this means that Docker technically only runs natively on Linux and some newer versions of Windows as well.
 - Containers can run on anything but their images are tied to the kernel they were created from.
