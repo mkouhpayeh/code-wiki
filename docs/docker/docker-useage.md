@@ -5,7 +5,24 @@
       - Trivy
       - Dagda
 - When some changes applied to the Docker file, you should remove the container and build it again.
+- I always recommend putting a version tag when creating images, even if they are local. It's easy, quick, and solves a lot of problems in the future.
+- I recommend running containers as a user other than root. You can do this for your own images as well as for containers created from existing images. For containers created from other images, specify the --user option when running Docker Run or Docker Container Create.
+- For your own images, you can specify the user command within your Docker file to tell Docker which user to run your application as by default. You can make certain sections of your Docker file run as root and others run as non-root. It is quite flexible.
+- You can run multiple containers and connect them all through virtual networks and separate data volumes managed entirely by the Docker engine. This is a great way to implement a three-tier architecture, like the one our web app is using.
+- Docker Compose is a tool provided by Docker that makes it really easy to run and connect multiple containers on a single machine. With Compose, you use a single file called the Compose Manifest to define all of your containers and how they relate to each other. Starting those containers together is as easy as running Docker-compose up.
+- While you can link containers together with Docker networks, these networks do not span multiple hosts by default. You can also use the Docker CLI to talk to Docker engines running on remote hosts but it is quite cumbersome, especially when authentication comes into play. Docker also does not have built-in solutions for moving containers between hosts or auto-scaling containers to respond to load. Finally, higher-level concerns like securing traffic between containers or configuring load balancing and routing amongst them are outside of Docker's realm of responsibility. At best, this can make using Docker alone for production-type workloads really, really complex. At worst, it can increase security risk, decrease performance, and make your infrastructure more susceptible to downtime. **Container orchestrators** solve these problems. Orchestrators use scheduling techniques, networking magic, and service discovery tools to make scaling, moving, and routing traffic to containers really, really easy. If you've ever used VMware's vCenter or tools like Rundeck, you're already familiar with the basic idea. Many container orchestrators have popped up over the years. Docker's own Swarm product, Mesosphere, HashiCorp's Nomad, and cloud offerings like AWS Elastic Container Service or Azure Container Service are examples of some popular container orchestrators in the world.
+        - Docker Swarm
+        - Marathob
+        - HashiCorp Nomad
+        - Cloud offerings (Amazon Elastic Container Service, Azure Container Service)
+        - Kubernetes describes itself as a planet-scale container orchestrator for automating the deployment, scaling, and management of containerized applications.
+              - Kubernetes is a distributed system. It is designed from the ground up to run its components and store their data across many machines. This makes it capable of running and connecting hundreds of thousands of containers seamlessly as if they were all running on one machine. This also makes Kubernetes possible to run on almost anything from Raspberry Pis to some of the largest cloud platforms in the world.
+              - Kubernetes makes it really easy to group containers together, kind of like Docker Compose. You can also use Kubernetes to scale those container groups up or down to respond to your application's demands without creating more VMs or other hardware. This is typically expensive and sometimes cumbersome but much cheaper to do with Kubernetes.
+              - Kubernetes also makes it really easy to secure traffic within your container networks and to or from the outside world. You can use Kubernetes to provide specific rules about how your traffic to or from your containers is routed.
+              - Kubernetes can be used as a platform of platforms. 
   
+  
+## Docker CLI
 ``` shell title="Exit the shell"
 ctrl+d
 ```
@@ -25,8 +42,6 @@ ctrl+l
 ``` shell title="List directory"
 ls
 ```
-  
-## Docker CLI
 
 ### Create Docker Container
 ``` shell title="Help"
