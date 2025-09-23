@@ -5,6 +5,18 @@
 ctrl+d
 ```
 
+``` shell title="find previous command"
+ctrl+r
+```
+
+``` shell title="stop the process"
+ctrl+c
+```
+
+``` shell title="clear the screen"
+ctrl+l
+```
+
 ``` shell title="list directory"
 ls
 ```
@@ -32,7 +44,7 @@ docker container create hello-world:linux
 docker ps
 ```
 
-``` shell title="Show the actively running containers"
+``` shell title="Show the all containers"
 docker ps --all
 docker ps -aq
 ```
@@ -46,7 +58,7 @@ docker container start --attach
 docker logs three_char_con_id
 ```
 
-``` shell title="docker run = create, start container"
+``` shell title="docker run => create, start, attach"
 docker run hello-world:linux
 ```
 
@@ -72,8 +84,29 @@ docker kill four_char_con_id
 docker exec four_char_con_id date
 ```
 
-``` shell title="tty: allocates a pseudo-tty, interactive: keep stdin open even if not attached"
+``` shell title="tty: allocates a pseudo-tty, interactive: keep stdin open even if not attached, tell Docker to enable keystrokes"
+-starts an interactive Bash shell within a container starting with ID 2bf with a pseudo-TTY allocated 
 docker exec --interactive --tty  four_char_con_id date bash
+```
+
+``` shell title="show all images"
+docker images
+```
+
+``` shell title="smartly removes useless data"
+docker system prune ID/tag
+```
+
+``` shell title="snapshot of the container's performance"
+docker stats 
+```
+
+``` shell title="show what's running inside of the container without having to exec"
+docker top
+```
+
+``` shell title="show advanced information about a container in JSON format. Its searchable. to quit press 'q'"
+docker inspect ID/tag | less
 ```
 
 ### Interact Docker Container
@@ -88,7 +121,7 @@ docker stop -t 0 four_char_con_id
 ```
 
 ``` shell title="Work as a loop, provide IDs from left and applies to the right command"
-docker ps -aq | xargs docker rm
+docker ps -aq | xargs docker rm -f
 ```
 
 ``` shell title="remove container"
@@ -135,10 +168,25 @@ docker push dockerHubUsername/nameInDockerHub:versionNo
 remove from the Docker hub website
 ```
 
+#### Container Registery
+- Self-hosting image registries:
+    - JFrog's Artifactory
+    - Sonatype's Nexus
+    - Red Hat's Quay.io
+    - Project Harbor
+
+
 ### Commmon Steps 
 ``` shell 
 docker build -t app-1 -f server.Dockerfile .
 docker run -d --name app-1 app-1
 docker ps
 docker rm -f app-1
+docker images
+docker rmi tag-1 tag-2 tag-3
+```
+
+#### nginx 
+``` shell 
+docker run --name website -v "$PWD/website:usr/share/nginx/html" -p 8080:80 --rm nginx
 ```
