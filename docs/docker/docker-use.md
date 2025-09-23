@@ -1,4 +1,6 @@
 # Docker Usage
+- Everything you create within a container stays within the container. Once the container stops, the data gets deleted with it.
+  
 ``` shell title="exit the shell"
 ctrl+d
 ```
@@ -57,14 +59,14 @@ docker buildx build -t app-1 --load .
 ```
 
 ``` shell title="use specific file"
-docker build --file server.Dockerfile (Specific file) --tag server-1 .
+docker build --file server.Dockerfile --tag server-1 .
 ```
 
 ``` shell title="Specific file"
 docker build -t app-1 -f server.Dockerfile .
 ```
 
-``` shell title="run"
+``` shell title="-d: move to background"
 docker run -d 
 docker kill four_char_con_id
 docker exec four_char_con_id date
@@ -92,9 +94,51 @@ docker ps -aq | xargs docker rm
 ``` shell title="remove container"
 docker rm four_char_con_id
 
-``` shell title="remove images"
+``` shell title="remove images, -f: Force to remove images fast"
 docker rmi 
-docker rmi -f #Force to temove images fast
+docker rmi -f 
 ```
   
 #### Bind Port
+``` shell title="outside port:inside port => browse 5001"
+docker run -p 5001:5000
+```
+
+#### Save Data
+- Everything you create within a container stays within the container. Once the container stops, the data gets deleted with it.
+- We can use the **volume mounting** feature to work around this. Like the port binding feature, this allows Docker to map a folder on our computer to a folder in the container.
+
+``` shell title="--volum: map temp folder in the container to the /tmp/container path => the file should exists otherwise assumes as a directory"
+docker run -v /tmp/container:/temp
+cat /tmp/container/file
+```
+
+### Docker Hub
+- A container image registry is a place for storing and tracking container images. Container images are tracked by their tags, a string combining the name of the image, and optionally it's version with a semicolon.
+- Container images that do not have a version automatically get tagged with the version called latest. Like downloading software on Homebrew or GitHub, this naming scheme makes it really easy to download specific versions of images.
+- We'll see what I mean here in a moment. Docker Hub is a default registry used by the Docker client. This is a publicly accessible registry that anyone can push images to.
+- Whenever you pull images or whenever Docker needs to pull an image from the from line of a Docker file, it will fetch an image from Docker Hub.
+
+``` shell
+docker login
+```
+
+``` shell title="rename docker images"
+docker tag currentTagName dockerHubUsername/nameInDockerHub:versionNo
+```
+
+``` shell title="push the image to Hub"
+docker push dockerHubUsername/nameInDockerHub:versionNo
+```
+
+``` shell title="remove the image from Hub"
+remove from the Docker hub website
+```
+
+### Commmon Steps 
+``` shell 
+docker build -t app-1 -f server.Dockerfile .
+docker run -d --name app-1 app-1
+docker ps
+docker rm -f app-1
+```
