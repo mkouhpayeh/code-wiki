@@ -1,5 +1,10 @@
 # Docker Usage
 - Everything you create within a container stays within the container. Once the container stops, the data gets deleted with it.
+- Use only verified images for security. Verified image have a **Docker Official Image** designation on them to let you know that they are scanned by Docker themselves. There are some image scanners:
+      - Clair
+      - Trivy
+      - Dagda
+- When some changes applied to the Docker file, you should remove the container and build it again.
   
 ``` shell title="Exit the shell"
 ctrl+d
@@ -90,11 +95,11 @@ docker system prune ID/tag
 ```
 
 ``` shell title="Snapshot of the container's performance"
-docker stats 
+docker stats [containerName]
 ```
 
 ``` shell title="Show what's running inside of the container without having to exec"
-docker top
+docker top [containerName]
 ```
 
 ``` shell title="Show advanced information about a container in JSON format. Its searchable. to quit press 'q'"
