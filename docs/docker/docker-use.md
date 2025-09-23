@@ -1,38 +1,32 @@
 # Docker Usage
 - Everything you create within a container stays within the container. Once the container stops, the data gets deleted with it.
   
-``` shell title="exit the shell"
+``` shell title="Exit the shell"
 ctrl+d
 ```
 
-``` shell title="find previous command"
+``` shell title="Find previous command"
 ctrl+r
 ```
 
-``` shell title="stop the process"
+``` shell title="Stop the process"
 ctrl+c
 ```
 
-``` shell title="clear the screen"
+``` shell title="Clear the screen"
 ctrl+l
 ```
 
-``` shell title="list directory"
+``` shell title="List directory"
 ls
 ```
   
 ## Docker CLI
 
 ### Create Docker Container
-``` shell
+``` shell title="Help"
 docker --help
-```
-
-``` shell
 docker network --help
-```
-
-``` shell
 docker container create --help
 ```
 
@@ -70,15 +64,12 @@ docker build -t app-1 .
 docker buildx build -t app-1 --load .
 ```
 
-``` shell title="use specific file"
+``` shell title="Use specific docker file"
 docker build --file server.Dockerfile --tag server-1 .
-```
-
-``` shell title="Specific file"
 docker build -t app-1 -f server.Dockerfile .
 ```
 
-``` shell title="-d: move to background"
+``` shell title="-d: Move to background"
 docker run -d 
 docker kill four_char_con_id
 docker exec four_char_con_id date
@@ -89,24 +80,47 @@ docker exec four_char_con_id date
 docker exec --interactive --tty  four_char_con_id date bash
 ```
 
-``` shell title="show all images"
+### Performance Container
+``` shell title="Show all images"
 docker images
 ```
 
-``` shell title="smartly removes useless data"
+``` shell title="Smartly removes useless data"
 docker system prune ID/tag
 ```
 
-``` shell title="snapshot of the container's performance"
+``` shell title="Snapshot of the container's performance"
 docker stats 
 ```
 
-``` shell title="show what's running inside of the container without having to exec"
+``` shell title="Show what's running inside of the container without having to exec"
 docker top
 ```
 
-``` shell title="show advanced information about a container in JSON format. Its searchable. to quit press 'q'"
+``` shell title="Show advanced information about a container in JSON format. Its searchable. to quit press 'q'"
 docker inspect ID/tag | less
+```
+
+``` shell title="Show contexts"
+docker context ls
+```
+
+``` shell title="Switch to the context created by Docker Desktop"
+docker context use default
+```
+
+- The context can be overridden with the DOCKER_CONTEXT environment variable and the endpoint can be overridden with DOCKER_HOST.
+``` shell
+$DOCKER_CONTEXT ; echo $DOCKER_HOST
+```
+
+``` shell title="in Windows PowerShell"
+$env:DOCKER_CONTEXT ; echo $env:DOCKER_HOST
+```
+
+``` shell
+export DOCKER_CONTEXT=xxx
+unset DOCKER_CONTEXT
 ```
 
 ### Interact Docker Container
@@ -124,10 +138,10 @@ docker stop -t 0 four_char_con_id
 docker ps -aq | xargs docker rm -f
 ```
 
-``` shell title="remove container"
+``` shell title="Remove container"
 docker rm four_char_con_id
 
-``` shell title="remove images, -f: Force to remove images fast"
+``` shell title="Remove images, -f: Force to remove images fast"
 docker rmi 
 docker rmi -f 
 ```
@@ -156,15 +170,15 @@ cat /tmp/container/file
 docker login
 ```
 
-``` shell title="rename docker images"
+``` shell title="Rename docker images"
 docker tag currentTagName dockerHubUsername/nameInDockerHub:versionNo
 ```
 
-``` shell title="push the image to Hub"
+``` shell title="Push the image to Hub"
 docker push dockerHubUsername/nameInDockerHub:versionNo
 ```
 
-``` shell title="remove the image from Hub"
+``` shell title="Remove the image from Hub"
 remove from the Docker hub website
 ```
 
@@ -186,7 +200,7 @@ docker images
 docker rmi tag-1 tag-2 tag-3
 ```
 
-#### nginx 
+#### nginx Sample
 ``` shell 
 docker run --name website -v "$PWD/website:usr/share/nginx/html" -p 8080:80 --rm nginx
 ```
