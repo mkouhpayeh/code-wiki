@@ -1,6 +1,11 @@
 # Docker Usage
-- ctrl+d (exit the shell)
-- ls (list)
+``` shell title="exit the shell"
+ctrl+d
+```
+
+``` shell title="list directory"
+ls
+```
   
 ## Docker CLI
 
@@ -8,40 +13,63 @@
 ``` shell
 docker --help
 ```
+
 ``` shell
 docker network --help
 ```
+
 ``` shell
 docker container create --help
 ```
+
 ``` shell title="Create new container"
 docker container create hello-world:linux 
 ```
+
 ``` shell title="Shows the actively running containers"
 docker ps
 ```
+
 ``` shell title="Shows the actively running containers"
 docker ps --all
 docker ps -aq
 ```
+
 ``` shell title="Starts the container"
 docker container start dockerID
 docker container start --attach
 ```
+
 ``` shell 
 docker logs three_char_con_id
 ```
 
-- docker run hello-world:linux (docker run = create, start and docker)
-- docker build -t app-1 (The tag insead of ID) . (the path of all images to include)
-- docker buildx (Uses BuildKit) build -t app-1 --load .
-- docker build --file server.Dockerfile (Specific file) --tag server-1 .
-- docker build -t app-1 -f server.Dockerfile .
-- docker run -d 
-- docker kill four_char_con_id
-- docker exec four_char_con_id date
-- docker exec --interactive --tty  four_char_con_id date bash
+``` shell title="docker run = create, start and docker"
+docker run hello-world:linux
+```
 
+``` shell title="t: the tag insead of ID and .:  the path of all images to include"
+docker build -t app-1 . 
+```
+
+``` shell title="buildx: Uses BuildKit"
+docker buildx build -t app-1 --load .
+```
+
+``` shell title="use specific file"
+docker build --file server.Dockerfile (Specific file) --tag server-1 .
+```
+
+``` shell title="Specific file"
+docker build -t app-1 -f server.Dockerfile .
+```
+
+``` shell title="run"
+docker run -d 
+docker kill four_char_con_id
+docker exec four_char_con_id date
+docker exec --interactive --tty  four_char_con_id date bash
+```
 
 ### Interact Docker Container
 #### Stop/Remove
