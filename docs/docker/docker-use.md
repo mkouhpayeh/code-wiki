@@ -26,16 +26,16 @@ docker container create --help
 docker container create hello-world:linux 
 ```
 
-``` shell title="Shows the actively running containers"
+``` shell title="Show the actively running containers"
 docker ps
 ```
 
-``` shell title="Shows the actively running containers"
+``` shell title="Show the actively running containers"
 docker ps --all
 docker ps -aq
 ```
 
-``` shell title="Starts the container"
+``` shell title="Start the container"
 docker container start dockerID
 docker container start --attach
 ```
@@ -44,7 +44,7 @@ docker container start --attach
 docker logs three_char_con_id
 ```
 
-``` shell title="docker run = create, start and docker"
+``` shell title="docker run = create, start container"
 docker run hello-world:linux
 ```
 
@@ -52,7 +52,7 @@ docker run hello-world:linux
 docker build -t app-1 . 
 ```
 
-``` shell title="buildx: Uses BuildKit"
+``` shell title="buildx: use BuildKit"
 docker buildx build -t app-1 --load .
 ```
 
@@ -68,16 +68,33 @@ docker build -t app-1 -f server.Dockerfile .
 docker run -d 
 docker kill four_char_con_id
 docker exec four_char_con_id date
+```
+
+``` shell title="tty: allocates a pseudo-tty, interactive: keep stdin open even if not attached"
 docker exec --interactive --tty  four_char_con_id date bash
 ```
 
 ### Interact Docker Container
 #### Stop/Remove
-- docker stop four_char_con_id
-- docker stop -t 0 four_char_con_id (Force to terminate)
-- docker ps -aq | xargs docker rm (Works as a loop, provide IDs from left and applies to the right command)
-- docker rm four_char_con_id (Removes container)
-- docker rmi (Removes images)
-- docker rmi -f (Forces to temove images fast)
+
+``` shell
+docker stop four_char_con_id
+```
+
+``` shell title="Force to terminate"
+docker stop -t 0 four_char_con_id
+```
+
+``` shell title="Work as a loop, provide IDs from left and applies to the right command"
+docker ps -aq | xargs docker rm
+```
+
+``` shell title="remove container"
+docker rm four_char_con_id
+
+``` shell title="remove images"
+docker rmi 
+docker rmi -f #Force to temove images fast
+```
   
 #### Bind Port
