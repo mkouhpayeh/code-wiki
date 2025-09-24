@@ -5,32 +5,32 @@
 - [**Open Web Application Security Project**](https://owasp.org/Top10)
 
 ## Common Attacks
-1. Cross-Site Scripting (XSS) 
-        - If we are outputting something on a razor page in a razor view as part of ASP.NET Core MVC in a blazer control with the **@** character, the data will be automatically HTML escaped.
-        - Replacing Html.Raw with @ when outputting data ensures that HTML is encoded, preventing the execution of unintended JavaScript code.
-        - So HTML special characters, opening angular bracket, closing angular bracket, double quotes, single quote, and the ampersand character, they are properly escaped. 
-        - The same functionality is also available using the **@HtmlEncode** method. That's part of system.web.httpUtility.
-        - Do not use @Html.Raw("<script>alert(hello)</script>")
-        - <script> jQuery("h1.page-title").html('Search Result: @ViewBag.SearchTerm'); </script>. But the "\" character does not escape. So the js script will run, if we use '\x3c' instead of '<' and '\x3e' instead of '>' => "\x3cscript\x3ealert(hello)\x3c/script\x3e".
-        - So we should use **@System.Web.HttpUtility.JavaScriptStringEncode()** in js scripts. => scapes all "\" characters. Using JavaScriptStringEncode ensures that all JavaScript special characters are properly escaped, preventing code injection vulnerabilities.
-        - **If you can just avoid using .NET code and binary data with add within JavaScript. Just stick with an HTML.**
+### Cross-Site Scripting (XSS) 
+- If we are outputting something on a razor page in a razor view as part of ASP.NET Core MVC in a blazer control with the **@** character, the data will be automatically HTML escaped.
+- Replacing Html.Raw with @ when outputting data ensures that HTML is encoded, preventing the execution of unintended JavaScript code.
+- So HTML special characters, opening angular bracket, closing angular bracket, double quotes, single quote, and the ampersand character, they are properly escaped. 
+- The same functionality is also available using the **@HtmlEncode** method. That's part of system.web.httpUtility.
+- Do not use @Html.Raw("<script>alert(hello)</script>")
+- <script> jQuery("h1.page-title").html('Search Result: @ViewBag.SearchTerm'); </script>. But the "\" character does not escape. So the js script will run, if we use '\x3c' instead of '<' and '\x3e' instead of '>' => "\x3cscript\x3ealert(hello)\x3c/script\x3e".
+- So we should use **@System.Web.HttpUtility.JavaScriptStringEncode()** in js scripts. => scapes all "\" characters. Using JavaScriptStringEncode ensures that all JavaScript special characters are properly escaped, preventing code injection vulnerabilities.
+- **If you can just avoid using .NET code and binary data with add within JavaScript. Just stick with an HTML.**
 
-2. XSS SPA
-        - Angular has a pretty good security posture. It is also escaping things like the href attribute for links. Use **{{}}** is HTML-escaped, but **[]** is not.
-        - React **{}** is HTML-escaped and **{{}}** is not.
-        - Vue.js **{{}}** is HTML-escaped but **v-html=""** and **innetHTML={}** is not.
+### XSS SPA
+- Angular has a pretty good security posture. It is also escaping things like the href attribute for links. Use **{{}}** is HTML-escaped, but **[]** is not.
+- React **{}** is HTML-escaped and **{{}}** is not.
+- Vue.js **{{}}** is HTML-escaped but **v-html=""** and **innetHTML={}** is not.
 
-3. Origin Policy
-        - It is about the Protocol, Host and Domain.
-            -  Protocol: http or https
-            -  Domain name: https://test.com or https://www.test.com
-            -  Port
-        -  JavaScript has only access to things on the same origin, and the origin is defined by the HTML page that contains the JavaScript code. So if you run an application on one origin and the JavaScript code then tries to access something, for instance, an API on a different origin, then that does not work.
-            -  When we use JavaScript to, say, call an API on a different origin, then the browser first contacts that server and asks whether that cross-origin request is in order. The browser does that by sending the Origin HTTP header to the remote server. And the remote server then can, so to speak, green-light a future request from that origin by returning a different HTTP header called Access-Control-Allow-Origin, and the value of that header has to be the same as the value of that Origin header you just saw. And only if that header is returned to the client, the client then knows, okay, JavaScript is allowed to send that HTTP request and then, well, sends the request to the server.
-        - Enabling CORS
-                - [EnableCors(Policy)] attribute
-                - [DisableCors] attribute
-                - Configure in Program.cs
+### Origin Policy
+- It is about the Protocol, Host and Domain.
+    -  Protocol: http or https
+    -  Domain name: https://test.com or https://www.test.com
+    -  Port
+-  JavaScript has only access to things on the same origin, and the origin is defined by the HTML page that contains the JavaScript code. So if you run an application on one origin and the JavaScript code then tries to access something, for instance, an API on a different origin, then that does not work.
+    -  When we use JavaScript to, say, call an API on a different origin, then the browser first contacts that server and asks whether that cross-origin request is in order. The browser does that by sending the Origin HTTP header to the remote server. And the remote server then can, so to speak, green-light a future request from that origin by returning a different HTTP header called Access-Control-Allow-Origin, and the value of that header has to be the same as the value of that Origin header you just saw. And only if that header is returned to the client, the client then knows, okay, JavaScript is allowed to send that HTTP request and then, well, sends the request to the server.
+- Enabling CORS
+        - [EnableCors(Policy)] attribute
+        - [DisableCors] attribute
+        - Configure in Program.cs
                 ``` cs title="Program.cs"
                 builder.Services.AddCors(options =>
                 {
@@ -41,9 +41,9 @@
                       builder.WithOrigins("https://localhost:5001");
                     });
                 });
-                
-                app.UseCors("Policy1");
-                ```
+        
+        app.UseCors("Policy1");
+        ```
 
 ### SQL Injection
 - Do not send the value of ID as a string
