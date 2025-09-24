@@ -53,8 +53,8 @@ app.UseCors("Policy1");
     - Avoid execute raw SQL: **DbContext.Database.SqlQueryRaw()** or **DbContext.Database.ExecuteRawQuery()** or **DbContext.SomeEntity.FromSqlRaw()**
     - Return **IEnumerable** instead of **IQueryable**
 
-### Cross-Site Request Forgery (CSRF === C-Serf)
-- CSRF is an attack where malicious actions are executed on behalf of the victim without their consent, leveraging their authenticated session. Using the data saved in sessions.
+### Cross-Site Request Forgery
+- CSRF (C-Serf) is an attack where malicious actions are executed on behalf of the victim without their consent, leveraging their authenticated session. Using the data saved in sessions.
 - But Asp.net Core has built-in Cross-Site request forgery protection. each request has specific Token. (asp-antiforgery="true")  If you have a form where the method is set to post, then also the request forgery token is automatically added.
 - **[ValidateAntiForgeryToken]** enables and **[IgnoreAntiforgeryToken]** will disable the feature.
 
