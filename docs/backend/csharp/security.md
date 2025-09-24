@@ -154,11 +154,23 @@ app.UseHttpsRedirection();
 ```
 
 ### Rewrite
-- Depends on the Web Server:
+- Depends on the Web Server. In IIS: Make sure the "IIS URL Rewrite module" is installed on your server.
 ``` cs title="IIS"
-<system.webServer>
-    <rewrite>
+<Configuration>
+    <system.webServer>
+      <rewrite>
         <rules>
+          <rule name="Redirect to HTTPS" enabled="true" stopProcessing="true">
+            <match url="(.*)" ignoreCase="true" />
+            <conditions>
+              <add input="{HTTPS}" pattern="off" ignoreCase="true" />
+            </conditions>
+            <action type="Redirect" url="https://{HTTP_HOST}/{R:1}" redirectType="Permanent" />
+          </rule>
+        </rules>
+      </rewrite>
+    </system.webServer>
+</Configuration>
 ```
 
 ### HSTS
