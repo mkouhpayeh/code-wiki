@@ -118,10 +118,137 @@ dotnet user-secret init
 ## Secure Configuration
 ### Cookies
 - A client sends an HTTP request to a server, and the server then can start the Cookie process by returning the Set-Cookie HTTP header alongside the HTTP response. Set-Cookie HTTP header sets a Cookie with a name of value and there can also be Metadata like an expiration date. The client then may choose to store the Cookie or not, and on subsequent requests to that server, that Cookie is sent back. But, this time with a different HTTP header name just Cookie. The client is also sending only the name and the value of the Cookie, not the Metadata. That's something that is for client use only.
+
 ``` cs
 var options = new CookieOptions {
     Secure = true, //HTTPS
     HttpOnly = true, //invisible for JS
     SameSite = SameSiteMode.Lax //Cookie is being sent with a Cross-Site request, but only if you're using an HTTP method 
 };
+```
+``` cs title="Program.cs"
+    builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie(options =>
+        {
+            options.LoginPath = new PathString("Account/Login");
+            options.Cookie.HttpOnly = true; //ensures that cookies are invisible to JavaScript, adding a layer of security against Cross-Site Scripting (XSS) attacks.
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // ensures cookies are transported via HTTPS but does not control JavaScript visibility.
+            options.Cookie.SameSite = SameSiteMode.Strict; //if cookies are sent with cross-site requests but does not affect JavaScript visibility. Protect cookies from being accessed by JavaScript.
+        });
+```
+
+### Sessions
+- A client sends a request to the server. The server once again responds with a Set-Cookie HTTP header, sets a cookie and the value of that cookie is a so-called session ID or contains a session ID that's an identifier for that session. We don't want to store cleartext information on the client because the client isn't trustworthy but an ID for something on the server works well. With subsequent requests, the client returns that session cookie.
+``` cs title="Program.cs"
+builder.Services.AddSession(options => {
+    options.Cookie.HttpOnly = true; //Set Secure
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // want the secure flag
+    options.Cookie.SameSite = SameSiteMode.Strict
+});
+```
+
+## Enforcing HTTPS
+### Redirect 
+``` cs title="Program.cs"
+app.UseHttpsRedirection();
+```
+
+### Rewrite
+- Depends on the Web Server:
+``` cs title="IIS"
+<system.webServer>
+    <rewrite>
+        <rules>
+```
+
+### HSTS (HTTP Strict Transport Security)
+- Depends on the Browser
+- Refers to an HTTP header called Strict-Transport-Security. If that header is set and it's an HTTP response header, so the server sends it to the client. If that header is set, it instructs the browser to only talk to the server via HTTPS from now on.
+- In the strict transport security HTTP header, you can provide the length. How long shall the browser remember this? By default is 30 days.
+``` cs title="Program.cs"
+builder.Services.AddHsts(options=> {
+    options.MaxAge = TimeSpan.FromDays(365);
+    options.IncludeSubDomains = true;
+});
+
+app.UseHsts();
+```
+
+## Error Handling
+### Error Pages
+``` cs title="Program.cs"
+app.UseDeveloperExceptionPage();
+app.AddDatabaseDeveloperPageExceptionFilter();
+```
+
+### Status Code Pages
+``` cs title="Program.cs"
+UseStatusCodePages();
+```
+
+### Custom Exception Handler
+``` cs title="Program.cs"
+app.UseExceptionHandler("Home/Error");
+```
+
+## Hiding Server Info
+### Remove HTTP Headers
+- Server and X-Powered-By show the Web Server and even more specific and provide minor version numbers, even patch version numbers. It depends of the Web Servers.
+- Kestrel
+``` cs title="Program.cs"
+builder.WebHost.UseKestrel(options=> {
+    options.AddServerHeader = false;
+});
+```
+- IIS
+``` cs title="web.config"
+<Configuration>
+    <system.webServer>
+        <security>
+            <requestFiltering removeServerHeader="true" />
+        </security>
+        <httpProtocol>
+            <customHeaders>
+                <remove name= "X-Powered-By" />
+            </customHeaders>
+        </httpProtocol>
+    </system.webServer>
+</Configuration>
+```
+
+## Security HTTP Headers
+### X-Frame-Options
+- You can basically set, this site, or this page must not be put into an iframe, or shall only be put into an iframe of the same origin.
+
+### Content-Security-Policy
+- Content security policy is a W3C standard that manifests an HTTP header that tells the browser where it may load resources from, including JavaScript. So you can tell the browser, essentially, which JavaScript code to load, or at least where to load it from.
+
+### Refrerrer-Policy
+- Referrer policy takes care of the behavior of the referrer HTTP header, contains essentially the last URL. The URL that was loaded in the browser when the current HTTP request was made. For instance, by following a link, or by including an image. Referrer-Policy controls the referrer information sent with requests.
+
+### Permissions-Policy
+- Restricts which JavaScript APIs may be called. Today's JavaScript is capable of doing lots of things, including determining the current position of the client, or connecting to Bluetooth low energy devices, and much, much more. And with a permissions policy, you can restrict which of those APIs JavaScript code on the current page may do. Permissions-Policy restricts which JavaScript APIs can be utilized.
+
+### X-Content-Type-Options
+- Can prevent that the browser is guessing the content type of the HTTP response, instead of just looking at the content type HTTP header. And there is an exotic attack kind of related to this. I'm not too sure whether this HTTP header is still necessary for modern browsers, but low hanging fruit. Just set one header, probably zero side effects. X-Content-Type-Options prevents the browser from guessing the MIME type of the content.
+
+- IIS
+``` cs title="web.config"
+<Configuration>
+    <system.webServer>
+        <httpProtocol>
+            <customHeaders>
+                <add name="X-Content-Type-Options" value="nosniff" />
+            </customHeaders>
+        </httpProtocol>
+    </system.webServer>
+</Configuration>
+```
+- Kestrel
+``` cs title="Program.cs"
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("X-Content-Type-Options","nosniff");
+    await next.Invoke();
+});
 ```
