@@ -161,8 +161,8 @@ app.UseHttpsRedirection();
         <rules>
 ```
 
-### HSTS (HTTP Strict Transport Security)
-- Depends on the Browser
+### HSTS
+-  (HTTP Strict Transport Security) depends on the Browser.
 - Refers to an HTTP header called Strict-Transport-Security. If that header is set and it's an HTTP response header, so the server sends it to the client. If that header is set, it instructs the browser to only talk to the server via HTTPS from now on.
 - In the strict transport security HTTP header, you can provide the length. How long shall the browser remember this? By default is 30 days.
 ``` cs title="Program.cs"
