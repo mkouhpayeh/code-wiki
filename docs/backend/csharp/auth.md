@@ -1,4 +1,4 @@
-# Authentication and Authorization
+# Authentication
 - Authentication is the process of validating the identity of a registered user who is accessing a service or an application.
 - Authorization is the process of validating the authenticated user if the user has permissions to access a certain service or an application.
 
@@ -98,6 +98,21 @@ public class UserProfile
 
     public virtual User User { get; set; } = null!;
 }
+
+public class AppDbInitializer
+{
+    public static async Task SeedRoles( IApplicationBuilder appBuilder)
+    {
+        using (var serviceScope = appBuilder.ApplicationServices.CreateScope())
+        {
+            var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+            if(!await roleManager.RoleExistsAsync("Admin")
+                await roleManager.createasync(new Role("Admin"));
+            if(!await roleManager.RoleExistsAsync("User")
+                await roleManager.createasync(new Role("User"));
+        }
+    }
+} 
 ```
 
 ``` cs title="AppDbContext.cs"
@@ -134,6 +149,10 @@ builder.Services.AddIdentity<User, Role>(options =>
 })
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
+
+
+// Seed DB at the end of the file
+AppDbInitializer.SeedRoles(app).Waite();
 ```
 
 ## Setup JWT
@@ -195,7 +214,7 @@ public class RegisterWithPasswordModel
     public required string Email { get; set; }
     public required string Password { get; set; }
     public required string Firstname { get; set; }
-    public required string Lastname { get; set; }
+    public required string Lastname { get; set; } 
 }
 
 public class LoginWithPasswordModel
@@ -287,6 +306,8 @@ public class AccountController : ControllerBase
         // Sign in the user and commit the transaction
         await _signInManager.SignInAsync(user, isPersistent: false);
 
+        await _userManager.AddToRoleAsync(user, "User");
+
         //Create Profile 
         var userProfile = new UserProfile
         {
@@ -307,9 +328,12 @@ public class AccountController : ControllerBase
         await transaction.CommitAsync();
         return Ok("User created");
        }
+        await transaction.RollbackAsync();
+        return Unauthorized("User creation failed");
     }  
   }
 
+//[Authorize(Roles="Admin,User")]
   [HttpPost]
   [Route("LoginWithPassword")]
   public async Task<IActionResult> LoginWithPassword([FromBody] LoginWithPasswordModel model)
@@ -398,6 +422,12 @@ public class AccountController : ControllerBase
       new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
     };
 
+    var userRoles = await _userManager.GetRolesAsync(user);
+    foreach (var userRole in userRoles)
+    {
+        authClaims.Add(new Claim(ClaimTypes.Role));
+    }
+    
     var token = new JwtSecurityToken(
       issuer: jwtSettings.Issuer,
       audience: jwtSettings.Audience,
