@@ -7,6 +7,7 @@
 ```
 
 !!! note "CAUTION!"
+    
     Run the PowerShell as Administrator.
     Restart the IDE after setting the **Environment** values.
 
