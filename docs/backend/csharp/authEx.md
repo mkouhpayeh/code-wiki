@@ -97,7 +97,7 @@ app.Use(async (ctx, next) =>
           Order of middleware → UseAuthentication() must come before UseAuthorization().
           Cross-domain prompts → if the browser isn’t configured for integrated auth to your API host, it may prompt for credentials.
 9. Setup IIS 
-   0. Prerequisites (once) <br/>
+   1. Prerequisites (once) <br/>
       * Server is domain-joined.
       * DNS host name clients will use exists (e.g. api.contoso.com) and resolves to the server.
       * TLS cert for that host name is installed in Local Computer → Personal → Certificates.
@@ -105,8 +105,8 @@ app.Use(async (ctx, next) =>
       * In Server Manager → Add Roles & Features → Web Server (IIS):
       * Under Web Server → Security: check Windows Authentication.
       * (Optional) URL Authorization, Logging, etc.
-   1. Publish & create the site 
-   2. In IIS Manager:
+   2. Publish & create the site 
+   3. In IIS Manager:
       * Application Pools → Add
           *  Name: MyApiPool
           *  .NET CLR: No Managed Code
@@ -120,7 +120,7 @@ app.Use(async (ctx, next) =>
              * Host name: api.contoso.com
              * SSL certificate: pick your cert
          * Assign Application Pool → MyApiPool.
-   3. Enable Windows auth in IIS
+   4. Enable Windows auth in IIS
       * Select the MyApi site → Authentication:
          * Windows Authentication: Enabled
          * Anonymous Authentication: Disabled
@@ -132,7 +132,7 @@ app.Use(async (ctx, next) =>
          * UseAppPoolCredentials:
             * True if you’ll run the app pool as a domain service account (option B below).
             * False if using the machine account (option A).
-   4. Choose app-pool identity & set SPN (Kerberos)
+   5. Choose app-pool identity & set SPN (Kerberos)
       > Kerberos needs an HTTP SPN for the exact DNS name clients use.
       * Option A — Use the server’s computer account (simple)
          * Leave app pool identity as ApplicationPoolIdentity.
@@ -154,7 +154,7 @@ app.Use(async (ctx, next) =>
          setspn -Q HTTP/api.contoso.com
          ```
          If duplicates exist, Kerberos fails → browser prompts.
-   5. Configure the ASP.NET Core app
+   6. Configure the ASP.NET Core app
       ``` cs title="Program.cs"
          using Microsoft.AspNetCore.Server.IISIntegration;
    
@@ -190,7 +190,7 @@ app.Use(async (ctx, next) =>
            </system.webServer>
          </configuration>
          ```
-   6. Client/browser settings (for silent SSO)
+   7. Client/browser settings (for silent SSO)
          * Access the site via https://api.contoso.com (not IP, not mismatched alias).
          * On domain PCs, add https://api.contoso.com to Local Intranet zone:
             *  Internet Options → Security → Local intranet → Sites → Advanced → Add.
@@ -198,7 +198,7 @@ app.Use(async (ctx, next) =>
          *  For Firefox: about:config → set
             *  network.automatic-ntlm-auth.trusted-uris = contoso.com
          > Non-domain or off-network clients will see a credential prompt—that’s expected.
-   7. Test Kerberos is actually used
+   8. Test Kerberos is actually used
        * From a domain PC:
             ``` shell title="powershell"
             Invoke-WebRequest https://api.contoso.com/api/secure -UseDefaultCredentials
@@ -209,7 +209,7 @@ app.Use(async (ctx, next) =>
              User.Identity?.Name;             // CONTOSO\jdoe
              User.Identity?.AuthenticationType; // "Negotiate" (Kerberos) or "NTLM"
              ```
-    8. If you have a separate frontend origin, enable CORS with credentials in the API:
+    9. If you have a separate frontend origin, enable CORS with credentials in the API:
         ``` cs title="Program.cs"
             builder.Services.AddCors(o => o.AddPolicy("FrontEnd", p =>
                 p.WithOrigins("https://app.contoso.com")
