@@ -205,10 +205,10 @@ app.Use(async (ctx, next) =>
             klist | Select-String HTTP/api.contoso.com
             ```
         * In your API (temporary endpoint), log:
-             ```
-             User.Identity?.Name;             // CONTOSO\jdoe
-             User.Identity?.AuthenticationType; // "Negotiate" (Kerberos) or "NTLM"
-             ```
+          ``` cs
+          User.Identity?.Name;             // CONTOSO\jdoe
+          User.Identity?.AuthenticationType; // "Negotiate" (Kerberos) or "NTLM"
+          ```
     9. If you have a separate frontend origin, enable CORS with credentials in the API:
         ``` cs title="Program.cs"
             builder.Services.AddCors(o => o.AddPolicy("FrontEnd", p =>
