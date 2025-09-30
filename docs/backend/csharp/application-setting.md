@@ -6,7 +6,7 @@
 [System.Environment]::SetEnvironmentVariable("DB_PASSWORD", "MySecret123", "Machine")
 ```
 
-!!! note "CAUTION!"
+!!! caution
     
     Run the PowerShell as Administrator.
     Restart the IDE after setting the **Environment** values.
