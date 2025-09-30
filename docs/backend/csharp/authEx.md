@@ -23,8 +23,8 @@ app.MapControllers();
 ``` cs 
 var user = HttpContext.User;                // ClaimsPrincipal
 var name = user.Identity?.Name;             // "DOMAIN\\username"
-var isAuth = user.Identity?.IsAuthenticated == true; // "Negotiate" or "NTLM"
-User.Identity?.AuthenticationType; 
+var isAuth = user.Identity?.IsAuthenticated == true; 
+User.Identity?.AuthenticationType; // "Negotiate" or "NTLM"
 ```
 4. In Razor components:
 ``` cs
@@ -96,7 +96,6 @@ app.Use(async (ctx, next) =>
           Anonymous auth left enabled → everyone gets through. Turn it off (IIS/IIS Express) or enforce [Authorize].
           Order of middleware → UseAuthentication() must come before UseAuthorization().
           Cross-domain prompts → if the browser isn’t configured for integrated auth to your API host, it may prompt for credentials.
-
 9. Setup IIS 
    0) Prerequisites (once) <br/>
       * Server is domain-joined.
