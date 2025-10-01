@@ -92,10 +92,11 @@
        await next();
    });
    ```
-!!!   note "Common pitfalls"
-      Anonymous auth left enabled → everyone gets through. Turn it off (IIS/IIS Express) or enforce [Authorize].
-      Order of middleware → UseAuthentication() must come before UseAuthorization().
-      Cross-domain prompts → if the browser isn’t configured for integrated auth to your API host, it may prompt for credentials.
+!!! note "Common pitfalls"
+
+    Anonymous auth left enabled → everyone gets through. Turn it off (IIS/IIS Express) or enforce [Authorize].
+    Order of middleware → UseAuthentication() must come before UseAuthorization().
+    Cross-domain prompts → if the browser isn’t configured for integrated auth to your API host, it may prompt for credentials.
    
 9. Setup IIS
    1. Prerequisites (once)
