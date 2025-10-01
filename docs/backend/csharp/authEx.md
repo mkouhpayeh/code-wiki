@@ -220,63 +220,64 @@
             app.UseCors("FrontEnd");
          ```           
    
-* Info
+* Info 
 With Windows/Negotiate, the OS validates the user’s ticket/token. If someone creates a local account called DOMAIN\jdoe, they still can’t impersonate your AD user unless they can get a valid Kerberos/NTLM token from your domain controller. Still, you should enforce that only users from your AD (or a trusted one) can call the API.
 
 Here’s the secure, practical setup.
 1. Don’t authorize by username strings. User.Identity.Name (e.g. TEST1\jdoe) tells you the domain, but treat it as display info only. For authorization, rely on SIDs / AD group membership, not raw names.
-* Check membership by group SID (safe & rename-proof). Create (or reuse) an AD group like APP_MyApi_Users in your domain and put allowed users/groups there. Then enforce membership by SID:
-``` cs title="Program.cs"
-using System.Security.Principal;
-using Microsoft.AspNetCore.Authorization;
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AppUsersOnly", policy =>
-        policy.RequireAssertion(ctx =>
-        {
-            if (ctx.User.Identity is WindowsIdentity wi && wi.Groups is not null)
-            {
-                // SID of your AD group, not its name
-                var requiredSid = new SecurityIdentifier("S-1-5-21-xxxxxxxxx-xxxxxxxxx-xxxxxxxxx-12345");
-                return wi.Groups.Any(g => g.Equals(requiredSid));
-            }
-            return false;
-        }));
-});
-```
-``` cs title="Controller"
-[Authorize(Policy = "AppUsersOnly")]
-[ApiController]
-[Route("[controller]")]
-public class SecureController : ControllerBase
-{
-    [HttpGet("whoami")]
-    public IActionResult WhoAmI() => Ok(User.Identity?.Name); // e.g. "TEST1\\jdoe"
-}
-```
-> Get your group’s SID once (PowerShell):
-``` shell
-Get-ADGroup APP_MyApi_Users | Select -ExpandProperty SID
-```
+   * Check membership by group SID (safe & rename-proof). Create (or reuse) an AD group like APP_MyApi_Users in your domain and put allowed users/groups there. Then enforce membership by SID:
+   ``` cs title="Program.cs"
+   using System.Security.Principal;
+   using Microsoft.AspNetCore.Authorization;
+   
+   builder.Services.AddAuthorization(options =>
+   {
+       options.AddPolicy("AppUsersOnly", policy =>
+           policy.RequireAssertion(ctx =>
+           {
+               if (ctx.User.Identity is WindowsIdentity wi && wi.Groups is not null)
+               {
+                   // SID of your AD group, not its name
+                   var requiredSid = new SecurityIdentifier("S-1-5-21-xxxxxxxxx-xxxxxxxxx-xxxxxxxxx-12345");
+                   return wi.Groups.Any(g => g.Equals(requiredSid));
+               }
+               return false;
+           }));
+   });
+   ```
+   ``` cs title="Controller"
+   [Authorize(Policy = "AppUsersOnly")]
+   [ApiController]
+   [Route("[controller]")]
+   public class SecureController : ControllerBase
+   {
+       [HttpGet("whoami")]
+       public IActionResult WhoAmI() => Ok(User.Identity?.Name); // e.g. "TEST1\\jdoe"
+   }
+   ```
+   > Get your group’s SID once (PowerShell):
+   ``` shell
+   Get-ADGroup APP_MyApi_Users | Select -ExpandProperty SID
+   ```
 
 2. Prefer Kerberos, avoid NTLM where possible
-Kerberos gives you mutual auth and SPN checks (harder to spoof/relay). To steer things to Kerberos and block NTLM:
-* Register the SPN for your service (e.g. HTTP/api.contoso.com) on the app pool identity / service account.
-* Make clients access the API via the SPN name (https://api.contoso.com, not a raw IP).
-* Disable NTLM via Group Policy (server and/or domain policy) or in IIS (remove “NTLM” provider; keep “Negotiate”).
-* Put the site in browsers’ Local Intranet zone so they send tickets automatically.
+   Kerberos gives you mutual auth and SPN checks (harder to spoof/relay). To steer things to Kerberos and block NTLM:
+   * Register the SPN for your service (e.g. HTTP/api.contoso.com) on the app pool identity / service account.
+   * Make clients access the API via the SPN name (https://api.contoso.com, not a raw IP).
+   * Disable NTLM via Group Policy (server and/or domain policy) or in IIS (remove “NTLM” provider; keep “Negotiate”).
+   * Put the site in browsers’ Local Intranet zone so they send tickets automatically.
   
 3. Enable TLS and Extended Protection (IIS)
-* Use HTTPS only.
-* In IIS, turn on Extended Protection for Authentication to bind credentials to the TLS channel (mitigates relay).
-* Consider requiring Channel Binding Tokens if your environment supports it.
+   * Use HTTPS only.
+   * In IIS, turn on Extended Protection for Authentication to bind credentials to the TLS channel (mitigates relay).
+   * Consider requiring Channel Binding Tokens if your environment supports it.
 
-!!! note "TL;DR"
-      Authentication: let Negotiate/OS validate the token (Kerberos preferred).
-      Authorization: never by raw names; use membership in your AD group’s SID.
-      Constrain domain: check the DOMAIN\user part if needed, but the group SID is the real gate.
-      Harden: Kerberos + SPN, disable NTLM, HTTPS, Extended Protection.
+   !!! note "TL;DR"
+         
+       Authentication: let Negotiate/OS validate the token (Kerberos preferred).
+       Authorization: never by raw names; use membership in your AD group’s SID.
+       Constrain domain: check the DOMAIN\user part if needed, but the group SID is the real gate.
+       Harden: Kerberos + SPN, disable NTLM, HTTPS, Extended Protection.
 
    
 ## Google Ex Auth
