@@ -287,12 +287,254 @@ iii. Enable TLS and Extended Protection (IIS)
 4. Create OAuth client ID > (Application Type, Name, Authorised redirect URIs "https://localhost:5002/signin-google")
 5. Install package Microsoft.AspNetCore.Authentication.Google
    ``` cs title="Program.cs"
-     builder.Services.AddAuthentication()
-       .AddGoogle(options =>
-        {
-            options.ClientId = configuration.GetSection("ExAuthentication:Google:ClientId").Value ?? string.Empty;
-            options.ClientSecret = configuration.GetSection("ExAuthentication:Google:ClientSecret").Value ?? string.Empty;
-            options.SignInScheme = IdentityConstants.ExternalScheme;
-            options.CallbackPath = "/signin-google";
-        });
+      using System.IdentityModel.Tokens.Jwt;
+      using System.Security.Claims;
+      using System.Text;
+      using Microsoft.AspNetCore.Authentication;
+      using Microsoft.AspNetCore.Authentication.JwtBearer;
+      using Microsoft.AspNetCore.Authentication.Negotiate;
+      using Microsoft.AspNetCore.Identity;
+      using Microsoft.EntityFrameworkCore;
+      using Microsoft.IdentityModel.Tokens;
+
+      // --- services ---
+      var builder = WebApplication.CreateBuilder(args);
+      var cfg = builder.Configuration;
+
+      // 1) Identity Core (needed because you use SignInManager/UserManager)
+      builder.Services
+          .AddDbContext<AppDbContext>(o => o.UseSqlServer(cfg.GetConnectionString("Default")))
+          .AddIdentityCore<ApplicationUser>(o =>
+          {
+              o.SignIn.RequireConfirmedAccount = false;
+              o.User.RequireUniqueEmail = true;
+          })
+          .AddRoles<IdentityRole>()
+          .AddEntityFrameworkStores<AppDbContext>()
+          .AddSignInManager();
+
+      // 2) JWT for protecting API endpoints
+      var issuer = cfg["Jwt:Issuer"]!;
+      var audience = cfg["Jwt:Audience"]!;
+      var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(cfg["Jwt:Key"]!));
+
+      builder.Services.AddAuthentication(options =>
+      {
+          // All [Authorize] endpoints require JWT by default
+          options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+          options.DefaultChallengeScheme    = JwtBearerDefaults.AuthenticationScheme;
+      })
+      .AddJwtBearer(o =>
+      {
+          o.TokenValidationParameters = new TokenValidationParameters
+          {
+              ValidateIssuer = true, ValidateAudience = true,
+              ValidateLifetime = true, ValidateIssuerSigningKey = true,
+              ValidIssuer = issuer, ValidAudience = audience, IssuerSigningKey = key,
+              ClockSkew = TimeSpan.FromMinutes(2)
+          };
+      })
+      // 3) Windows/AD (used only by your /LdapLogin endpoint to mint a JWT)
+      .AddNegotiate()
+      // 4) Identity cookies used only for the external roundtrip (no API auth!)
+      .AddCookie(IdentityConstants.ApplicationScheme, o =>
+      {
+          // prevent HTML redirects for API calls
+          o.Events.OnRedirectToLogin = ctx => { ctx.Response.StatusCode = 401; return Task.CompletedTask; };
+          o.Cookie.SameSite = SameSiteMode.Lax;
+          o.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+      })
+      .AddCookie(IdentityConstants.ExternalScheme, o =>
+      {
+          // External handshake cookie must be cross-site
+          o.Cookie.SameSite = SameSiteMode.None;
+          o.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+      })
+      // 5) External providers
+      .AddGoogle("Google", o =>
+      {
+          o.ClientId     = cfg["ExAuthentication:Google:ClientId"]!;
+          o.ClientSecret = cfg["ExAuthentication:Google:ClientSecret"]!;
+          o.CallbackPath = "/signin-google";                 // must match in Google console
+          o.SignInScheme = IdentityConstants.ExternalScheme; // VERY important
+          o.SaveTokens   = true;
+          o.Scope.Add("email");
+          o.Scope.Add("profile");
+      });
+      
+      // (optional) if you add Facebook:
+      // .AddFacebook("Facebook", o => { ... o.SignInScheme = IdentityConstants.ExternalScheme; });
+      
+      builder.Services.AddAuthorization(o => o.FallbackPolicy = o.DefaultPolicy);
+      builder.Services.AddControllers();
+      
+      var app = builder.Build();
+      
+      app.UseHttpsRedirection();
+      app.UseRouting();
+      app.UseAuthentication();
+      app.UseAuthorization();
+      app.MapControllers();
+      app.Run();
+
+   ```
+   > Enable both Windows Authentication and Anonymous so your login routes (and Google callback) are reachable. Your API stays protected by JWT because [Authorize] defaults to Bearer.
+6. Helper: create JWT
+   ``` cs
+      private string CreateJwt(IEnumerable<Claim> claims, string issuer, string audience, SecurityKey key, TimeSpan lifetime)
+      {
+          var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+          var token = new JwtSecurityToken(
+              issuer, audience, claims,
+              notBefore: DateTime.UtcNow,
+              expires: DateTime.UtcNow.Add(lifetime),
+              signingCredentials: creds);
+          return new JwtSecurityTokenHandler().WriteToken(token);
+      }
+   ```
+7. Windows/AD → JWT (LdapLogin)
+   ``` cs
+      using Microsoft.AspNetCore.Authentication;
+      using Microsoft.AspNetCore.Authentication.Negotiate;
+      using Microsoft.AspNetCore.Authorization;
+      
+      [ApiController]
+      [Route("account")]
+      public class AccountController : ControllerBase
+      {
+          private readonly IConfiguration _cfg;
+          private readonly SecurityKey _signingKey;
+          public AccountController(IConfiguration cfg)
+          {
+              _cfg = cfg;
+              _signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_cfg["Jwt:Key"]!));
+          }
+      
+          [HttpPost("LdapLogin")]
+          [AllowAnonymous] // we'll trigger Negotiate ourselves
+          public async Task<IActionResult> LdapLogin([FromBody] LdapUserModel model)
+          {
+              // Force a Negotiate challenge if not already authenticated
+              var result = await HttpContext.AuthenticateAsync(NegotiateDefaults.AuthenticationScheme);
+              if (!result.Succeeded)
+                  return Challenge(new AuthenticationProperties { RedirectUri = Url.Action(nameof(LdapLogin)) },
+                                   NegotiateDefaults.AuthenticationScheme);
+      
+              // Windows user is authenticated now
+              var principal = result.Principal!;
+              var name = principal.Identity?.Name; // e.g., "DOMAIN\\user"
+      
+              // (Optional) enforce domain or AD group membership here before issuing JWT
+      
+              // Build JWT claims (add what you need)
+              var claims = new List<Claim>
+              {
+                  new Claim(ClaimTypes.Name, name ?? string.Empty),
+                  new Claim("amr", "windows") // auth method reference
+              };
+              var token = CreateJwt(claims,
+                  _cfg["Jwt:Issuer"]!, _cfg["Jwt:Audience"]!, _signingKey, TimeSpan.FromHours(8));
+      
+              return Ok(new { token, token_type = "Bearer" });
+          }
+      }
+   ```
+8. List external schemes (Google/Facebook)
+   ``` cs
+      private readonly IAuthenticationSchemeProvider _schemes;
+      public AccountController(IAuthenticationSchemeProvider schemes, IConfiguration cfg) { _schemes = schemes; _cfg = cfg; ... }
+      
+      [HttpGet("GetExternalAuthenticationSchemes")]
+      [AllowAnonymous]
+      public async Task<IActionResult> GetExternalAuthenticationSchemes()
+      {
+          var all = await _schemes.GetAllSchemesAsync();
+          var externals = all.Where(s => !string.IsNullOrEmpty(s.DisplayName)); // typically "Google","Facebook"
+          var data = externals.Select(s => new { s.DisplayName, AuthenticationScheme = s.Name });
+          return Ok(new ResponseModel { Status = ResponseStatusEnum.Success, Message = "OK", Data = data });
+      }
+   ```
+9. External login start (Google/Facebook) → redirect back to the domain
+   ``` cs
+      [HttpGet("ExternalLogin")]
+      [AllowAnonymous]
+      public IActionResult ExternalLogin(string provider, string? returnUrl = "/")
+      {
+          // MUST be same-origin as this API (no domain change!)
+          var callbackUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl }, Request.Scheme)!;
+      
+          var props = _signInManager.ConfigureExternalAuthenticationProperties(provider, callbackUrl);
+          return Challenge(props, provider); // provider name must match AddGoogle("Google") etc.
+      }
+   ```
+10. External callback → create (or find) user → issue JWT (and only then redirect to front-end)
+   ``` cs
+      [HttpGet("ExternalLoginCallback")]
+      [AllowAnonymous]
+      public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = "/", string? remoteError = null)
+      {
+          if (!string.IsNullOrEmpty(remoteError))
+              return BadRequest(new { Message = $"External error: {remoteError}" });
+      
+          var info = await _signInManager.GetExternalLoginInfoAsync();
+          if (info is null)
+              return BadRequest(new { Message = "No external login info (check callback path, cookies SameSite=None, same domain)" });
+      
+          // Try sign-in by external login
+          var signIn = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent:false);
+          ApplicationUser? user;
+      
+          if (signIn.Succeeded)
+          {
+              user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+          }
+          else
+          {
+              // Create the user if not exists
+              var email = info.Principal.FindFirstValue(ClaimTypes.Email) ?? $"{info.ProviderKey}@external.local";
+              user = await _userManager.FindByEmailAsync(email);
+              if (user is null)
+              {
+                  user = new ApplicationUser { UserName = email, Email = email, EmailConfirmed = true };
+                  var create = await _userManager.CreateAsync(user);
+                  if (!create.Succeeded) return BadRequest(create.Errors);
+              }
+              var addLogin = await _userManager.AddLoginAsync(user, info);
+              if (!addLogin.Succeeded) return BadRequest(addLogin.Errors);
+              // Optional: await _signInManager.SignInAsync(user, isPersistent:false); // not needed for APIs
+          }
+      
+          // Build JWT claims
+          var claims = new List<Claim>
+          {
+              new Claim(JwtRegisteredClaimNames.Sub, user!.Id),
+              new Claim(ClaimTypes.Name, user.UserName ?? user.Email ?? ""),
+              new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
+              new Claim("amr", info.LoginProvider.ToLowerInvariant()) // e.g. "google"
+          };
+          // add roles / your app claims here if needed
+      
+          var token = CreateJwt(claims, issuer, audience, key, TimeSpan.FromHours(8));
+      
+          // If a front-end needs a redirect, you can append the token (or your encrypted blob)
+          // Make sure returnUrl is validated/whitelisted to avoid open redirect
+          var safeReturn = string.IsNullOrEmpty(returnUrl) ? "/" : returnUrl;
+          return Ok(new { token, token_type = "Bearer", returnUrl = safeReturn });
+      
+          // Or:
+          // return Redirect($"{safeReturn}#token={Uri.EscapeDataString(token)}");
+      }
+   ```
+   > If you must keep your current “encrypt data & redirect” approach, still do the handshake on the same origin first; then from the callback, redirect to the front-end with your encrypted payload. The key is: don’t cross domains before _GetExternalLoginInfoAsync().
+11. listing external providers without SignInManager
+   ``` cs
+      [HttpGet("external-schemes")]
+      [AllowAnonymous]
+      public async Task<IActionResult> ExternalSchemes([FromServices] IAuthenticationSchemeProvider schemeProvider)
+      {
+          var schemes = await schemeProvider.GetAllSchemesAsync();
+          var list = schemes.Where(s => !string.IsNullOrEmpty(s.DisplayName))
+                            .Select(s => new { s.DisplayName, AuthenticationScheme = s.Name });
+          return Ok(list);
+      }
    ```
