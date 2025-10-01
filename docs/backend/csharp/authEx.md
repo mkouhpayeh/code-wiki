@@ -1,7 +1,11 @@
 # External Auth
-
+Install packages:
+   * Microsoft.AspNetCore.Authentication.JwtBearer
+   * Microsoft.AspNetCore.Authentication.Negotiate
+   * Microsoft.AspNetCore.Identity.EntityFrameworkCore
+     
 ## Active Directory
-1. Install package Microsoft.AspNetCore.Authentication.Negotiate
+1. Install packages 
 2. Configure authentication/authorization
    ``` cs title="Program.cs"
    builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
