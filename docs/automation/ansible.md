@@ -41,7 +41,28 @@ It's the concept that says, I can rerun a piece of automation as many times as I
     4.  pip install -r URL
 - Python Virtual Environment (PVE) : is a way you can have different Python packages installed at different versions. </br> 
   It can get a little hairy maintaining them after a while, and in this case, I would look at upgrading to using Ansible Navigator in execution environments.
-  
+
+## Install
+``` title="Install Python"
+sudo dnf install -y python3
+```
+``` title="Install Python Package Manager"
+sudo dnf install -y python3-pip
+```
+``` title="Install Ansible"
+pip install ansible
+```
+``` title="Update Ansible"
+pip install ansible -u
+```
+``` title="Verify Ansible"
+ansible --version
+```
+>  if you are having issues to host via SSH with Macs, you may need to install ParaMiko with :
+``` 
+pip install paramiko
+```
+
 ## Commands
 - pwd : Presend Working Directory
 - ls : list
