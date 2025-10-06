@@ -59,3 +59,39 @@ ansible_become_pass=*** //Not best practice
         # - test2
         # - test3
 ```
+
+``` yaml title="conditions.yml"
+---
+- name: A simple playbook to add users to the host
+  hosts: LL-Test
+  gather-facts: false
+  vars_files:
+    - files/users.yml
+  vars:
+    ignore_users:
+      - root
+      - test1
+    new_user:
+      - test1
+      - test2
+      - test3
+  tasks:
+    - name: Add user to the host
+      # when: item not in ignore_users and ignore_users is defined
+      when: item not in ignore_users | default("alwaysworks") | default(omit)
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+      become: true
+```
+
+``` yaml title="blocks.yml"
+---
+- name: Add nginx webserver to a Rocky host
+  hosts: LL-Test
+  become: true
+  vars:
+  tasks:
+    - name: Block for Rocky host
+      when: "'Rocky' in ansible_facts['distributions']"
+```
