@@ -16,11 +16,11 @@ It's the concept that says, I can rerun a piece of automation as many times as I
   - While a playbook can consist of multiple plays, where you define a new set of hosts to operate against.
   - Name is technically optional, though it should always be used. This acts as documentation and also shows up in automation output so that it's easier to understand what's happening.
 - Tasks : are an ordered list of discrete automations that will be performed in sequence. Ansible will start at the top and, by default, complete the first task for all hosts before moving on to the next.
-- Mosule : is a reference to a piece of code, generally written in Python or PowerShell, that will perform some piece of automation.
-- Collection : is really just an archive file in TAR format, much like a zip file, and when installed, it just places Python or PowerShell scripts on the Ansible server. Keeping this in mind, when I want to reference a         module, I should use the fully qualified collection name, or FQCN.
+- Module : is a reference to a piece of code, generally written in Python or PowerShell, that will perform some piece of automation.
+- Collection : is really just an archive file in TAR format, much like a zip file, and when installed, it just places Python or PowerShell scripts on the Ansible server. Keeping this in mind, when I want to reference a         module, I should use the Fully Qualified Collection Name, or FQCN.
 - Inventory : is a big list of all the hosts I could potentially operate against. So, the host portion of a playbook is truly just referencing hosts that live inside of an inventory.
   The inventory is as the menu at your favorite restaurant. The host portion of the playbook is just the very specific order you're going to be making.
-  When executing a playbook, an admin will specify which inventory file to utilize for each run. Inventories, when working on the command line, generally are stored in a file in either INI format or in YAML format. 
+  When executing a playbook, an admin will specify which inventory file to utilize for each run. Inventories, when working on the command line, generally are stored in a file in either INI format or in YAML format.
 - YAML : It really dictates how things are laid out, and indentation is very important.
   - You use spaces, and not tabs.
   - Ansible will break if there are any tabs in your playbook.
@@ -32,7 +32,16 @@ It's the concept that says, I can rerun a piece of automation as many times as I
   AWXs have an application programming interface, which allows for communication from external systems.
   It provides the role-based access control, or RBAC.
   View details logs.
-
+- Collection : is an archive file that contains modules, roles, plugins, playbooks, documentation, and other objects.
+  Installing a collection isn't too bad. It's generally done by issuing the Ansible-Galaxy Collection install command.
+  But I will also need to ensure that I have all the Python dependencies.
+  - run in terminal : ansible-galaxy collection install xxxx
+  - Go to Repo to find all requirements and find the "requirements.txt" file
+  - Click "Raw" and copy the URL
+  - pip install -r URL
+- Python Virtual Environment (PVE) : is a way you can have different Python packages installed at different versions.
+  It can get a little hairy maintaining them after a while, and in this case, I would look at upgrading to using Ansible Navigator in execution environments.
+  
 ## Commands
 - pwd : Presend Working Directory
 - ls : list
@@ -101,6 +110,8 @@ It's the concept that says, I can rerun a piece of automation as many times as I
         ansible.builtin.debug:
           msg: "{{ item }}"
         loop: "{{ nums }}"
+  ```
+  ```
   ```
 ## Idempotence Output
 - OK : means everything completed successfully, but the automation didn't need to make a change.
