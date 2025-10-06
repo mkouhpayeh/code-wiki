@@ -50,7 +50,7 @@ It's the concept that says, I can rerun a piece of automation as many times as I
 - --ask-become-pass : privilege escalation in Ansible is referred to as "becoming.
 
 - Sample
-  ``` yml title="gather-facts.yml"
+  ``` yaml title="gather-facts.yml"
   ---
   - name: Gather facts and display it
     hosts: LL-Test
@@ -65,51 +65,51 @@ It's the concept that says, I can rerun a piece of automation as many times as I
   ```
   > ansible-playbook -i inventory gather-facts.yml
 
-  ``` yml title="webserver.yml"
-    ---
-    - name: Quick webserver install and config
-      hosts: LL-Test
-      gather-facts: false
-      become: true
-      tasks:
-        - name: Install apache webserver
-          ansible.builtin.package:
-            name: httpd
-            state: present
-  
-       - name: Start and Enable apache
-         ansible.builtin.service:
-           name: httpd
-           state: started
-           enabled: true
-  
-       - name: Write a simple index.html file
-         ansible.builtin.ineinfile:
-           path: /var/www/html/index.html
-           line: "<h1>Hello world!</h1>"
-           create: true
+  ``` yaml title="webserver.yml"
+  ---
+  - name: Quick webserver install and config
+    hosts: LL-Test
+    gather-facts: false
+    become: true
+    tasks:
+      - name: Install apache webserver
+        ansible.builtin.package:
+          name: httpd
+          state: present
+
+     - name: Start and Enable apache
+       ansible.builtin.service:
+         name: httpd
+         state: started
+         enabled: true
+
+     - name: Write a simple index.html file
+       ansible.builtin.ineinfile:
+         path: /var/www/html/index.html
+         line: "<h1>Hello world!</h1>"
+         create: true
   ```
   > ansible-playbook -i inventory webserver.yml </br> 
   > curl http://127.0.0.1 </br>
 
-``` yml title="vcl.yml"
-  ---
-  - name: Vars, conditionals and loops
-    hosts: LL-Test
-    gather-facts: false
-    vars:
-      nums:
-        - 1
-        - 10
-        - 20
-        - 25
-        - 30
-    tasks:
-      - name: Display any numbers larger than 10
-        when: item > 10
-        ansible.builtin.debug:
-          msg: "{{ item }}"
-        loop: "{{ nums }}"
+``` yaml title="vcl.yml"
+---
+- name: Vars, conditionals and loops
+  hosts: LL-Test
+  gather-facts: false
+  vars:
+    nums:
+      - 1
+      - 10
+      - 20
+      - 25
+      - 30
+  tasks:
+    - name: Display any numbers larger than 10
+      when: item > 10
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop: "{{ nums }}"
   ```
 
 ## Idempotence Output
