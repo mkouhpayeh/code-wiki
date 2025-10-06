@@ -12,9 +12,9 @@ It's the concept that says, I can rerun a piece of automation as many times as I
   That's a complicated definition.
 - API : Application Programming Interface
 - Playbooks : are the scripts that the Ansible binary will consume to perform automations. </br> 
-  1. A playbook tells each player where to go and what to do when they get there. The concept is the same in Ansible.
-  2. While a playbook can consist of multiple plays, where you define a new set of hosts to operate against.
-  3. Name is technically optional, though it should always be used. This acts as documentation and also shows up in automation output so that it's easier to understand what's happening.
+    1.  A playbook tells each player where to go and what to do when they get there. The concept is the same in Ansible.
+    2.  While a playbook can consist of multiple plays, where you define a new set of hosts to operate against.
+    3.  Name is technically optional, though it should always be used. This acts as documentation and also shows up in automation output so that it's easier to understand what's happening.
 - Tasks : are an ordered list of discrete automations that will be performed in sequence. Ansible will start at the top and, by default, complete the first task for all hosts before moving on to the next.
 - Module : is a reference to a piece of code, generally written in Python or PowerShell, that will perform some piece of automation.
 - Collection : is really just an archive file in TAR format, much like a zip file, and when installed, it just places Python or PowerShell scripts on the Ansible server. Keeping this in mind, when I want to reference a         module, I should use the Fully Qualified Collection Name, or FQCN.
@@ -22,10 +22,10 @@ It's the concept that says, I can rerun a piece of automation as many times as I
   The inventory is as the menu at your favorite restaurant. The host portion of the playbook is just the very specific order you're going to be making. </br> 
   When executing a playbook, an admin will specify which inventory file to utilize for each run. Inventories, when working on the command line, generally are stored in a file in either INI format or in YAML format.
 - YAML : It really dictates how things are laid out, and indentation is very important.
-  1. You use spaces, and not tabs.
-  2. Ansible will break if there are any tabs in your playbook.
-  3. When indenting, which is YAML way of showing precedence, the rule of thumb is generally two spaces.
-  4. Most of the mistakes an admin makes, junior or not, are due to spacing.
+    1.  You use spaces, and not tabs.
+    2.  Ansible will break if there are any tabs in your playbook.
+    3.  When indenting, which is YAML way of showing precedence, the rule of thumb is generally two spaces.
+    4.  Most of the mistakes an admin makes, junior or not, are due to spacing.
 - Variables : are important for information gathering, as well as adding flexibility to playbooks. There are 22 levels of variable precedence in Ansible.
   use as {{ variable_name }}
 - AWX : is an air traffic controller for Ansible. Essentially it says who can do what, when, and where with Ansible playbooks. It, first, has a nice graphical user interface, or GUI.
@@ -35,10 +35,10 @@ It's the concept that says, I can rerun a piece of automation as many times as I
 - Collection : is an archive file that contains modules, roles, plugins, playbooks, documentation, and other objects.
   Installing a collection isn't too bad. It's generally done by issuing the Ansible-Galaxy Collection install command.
   But I will also need to ensure that I have all the Python dependencies.
-  1. run in terminal : ansible-galaxy collection install xxxx
-  2. Go to Repo to find all requirements and find the "requirements.txt" file
-  3. Click "Raw" and copy the URL
-  4. pip install -r URL
+    1.  run in terminal : ansible-galaxy collection install xxxx
+    2.  Go to Repo to find all requirements and find the "requirements.txt" file
+    3.  Click "Raw" and copy the URL
+    4.  pip install -r URL
 - Python Virtual Environment (PVE) : is a way you can have different Python packages installed at different versions. </br> 
   It can get a little hairy maintaining them after a while, and in this case, I would look at upgrading to using Ansible Navigator in execution environments.
   
@@ -62,7 +62,7 @@ It's the concept that says, I can rerun a piece of automation as many times as I
     - name: Display the currently running kernel version and distro
     ansible.builtin.debug
       msg: "The kernel version is {{ ansible_facts.kernel }} and the distribution is {{ ansible_facts.distribution }}"
-  ```
+   ```
   > ansible-playbook -i inventory gather-facts.yml
 
   ``` yaml title="webserver.yml"
@@ -92,24 +92,24 @@ It's the concept that says, I can rerun a piece of automation as many times as I
   > ansible-playbook -i inventory webserver.yml </br> 
   > curl http://127.0.0.1 </br>
 
-``` yaml title="vcl.yml"
----
-- name: Vars, conditionals and loops
-  hosts: LL-Test
-  gather-facts: false
-  vars:
-    nums:
-      - 1
-      - 10
-      - 20
-      - 25
-      - 30
-  tasks:
-    - name: Display any numbers larger than 10
-      when: item > 10
-      ansible.builtin.debug:
-        msg: "{{ item }}"
-      loop: "{{ nums }}"
+  ``` yaml title="vcl.yml"
+  ---
+  - name: Vars, conditionals and loops
+    hosts: LL-Test
+    gather-facts: false
+    vars:
+      nums:
+        - 1
+        - 10
+        - 20
+        - 25
+        - 30
+    tasks:
+      - name: Display any numbers larger than 10
+        when: item > 10
+        ansible.builtin.debug:
+          msg: "{{ item }}"
+        loop: "{{ nums }}"
   ```
 
 ## Idempotence Output
