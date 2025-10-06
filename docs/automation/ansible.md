@@ -58,7 +58,7 @@ It's the concept that says, I can rerun a piece of automation as many times as I
     - name: Display all gathered facts
       ansible.builtin.debug:
         var: ansible_facts
-
+  
     - name: Display the currently running kernel version and distro
     ansible.builtin.debug
       msg: "The kernel version is {{ ansible_facts.kernel }} and the distribution is {{ ansible_facts.distribution }}"
