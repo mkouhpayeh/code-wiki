@@ -3,6 +3,8 @@ Install packages:
    * Microsoft.AspNetCore.Authentication.JwtBearer
    * Microsoft.AspNetCore.Authentication.Negotiate
    * Microsoft.AspNetCore.Identity.EntityFrameworkCore
+   * Microsoft.EntityFrameworkCore.SqlServer
+   * Microsoft.EntityFrameworkCore.Tools
      
 ## Active Directory
 1. Install packages 
