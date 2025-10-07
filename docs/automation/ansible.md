@@ -72,17 +72,17 @@ pip install paramiko
 
 - Sample
   ``` yaml title="gather-facts.yml"
-    ---
-    - name: Gather facts and display it
-      hosts: LL-Test
-      Tasks:
-      - name: Display all gathered facts
-        ansible.builtin.debug:
-          var: ansible_facts
-    
-      - name: Display the currently running kernel version and distro
-      ansible.builtin.debug
-        msg: "The kernel version is {{ ansible_facts.kernel }} and the distribution is {{ ansible_facts.distribution }}"
+  ---
+  - name: Gather facts and display it
+    hosts: LL-Test
+    Tasks:
+    - name: Display all gathered facts
+      ansible.builtin.debug:
+        var: ansible_facts
+  
+    - name: Display the currently running kernel version and distro
+    ansible.builtin.debug
+      msg: "The kernel version is {{ ansible_facts.kernel }} and the distribution is {{ ansible_facts.distribution }}"
   ```
   > ansible-playbook -i inventory gather-facts.yml
 
