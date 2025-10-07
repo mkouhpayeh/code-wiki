@@ -1,6 +1,7 @@
 # Ansible
 Written in Python. Ansible controller requires Python. </br>
 It's the concept that says, I can rerun a piece of automation as many times as I want, and it will only make a change when necessary. </br> 
+Ansible uses the **Jinja2 templating engine**. Going through all the options available would be a course of its own, but in short, you can do variable replacement, loops, conditionals, and data manipulation of all kinds. </br>
 
 ## Keywords
 - Community : is what most admins should install if they want to directly run Ansible. </br> 
