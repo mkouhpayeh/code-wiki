@@ -72,18 +72,18 @@ pip install paramiko
 
 - Sample
   ``` yaml title="gather-facts.yml"
-  ---
-  - name: Gather facts and display it
-    hosts: LL-Test
-    Tasks:
-    - name: Display all gathered facts
-      ansible.builtin.debug:
-        var: ansible_facts
-  
-    - name: Display the currently running kernel version and distro
-    ansible.builtin.debug
-      msg: "The kernel version is {{ ansible_facts.kernel }} and the distribution is {{ ansible_facts.distribution }}"
-   ```
+    ---
+    - name: Gather facts and display it
+      hosts: LL-Test
+      Tasks:
+      - name: Display all gathered facts
+        ansible.builtin.debug:
+          var: ansible_facts
+    
+      - name: Display the currently running kernel version and distro
+      ansible.builtin.debug
+        msg: "The kernel version is {{ ansible_facts.kernel }} and the distribution is {{ ansible_facts.distribution }}"
+  ```
   > ansible-playbook -i inventory gather-facts.yml
 
   ``` yaml title="webserver.yml"
@@ -134,7 +134,7 @@ pip install paramiko
   ```
 
 ## Idempotence Output
-- OK : means everything completed successfully, but the automation didn't need to make a change.
-- Changed : means everything completed successfully, and the automation made a change to the host.
-- Failed : indicates that the task failed to complete for this host, and it will usually give some indication as to why.
-- Skipping : will only come into play when a conditional is used. If the condition is not met, it will show the notice.
+  - OK : means everything completed successfully, but the automation didn't need to make a change.
+  - Changed : means everything completed successfully, and the automation made a change to the host.
+  - Failed : indicates that the task failed to complete for this host, and it will usually give some indication as to why.
+  - Skipping : will only come into play when a conditional is used. If the condition is not met, it will show the notice.
