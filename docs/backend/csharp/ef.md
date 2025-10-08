@@ -66,3 +66,17 @@ using (var dbContext = new DbContext())
   Console.WriteLine(query);
 }
 ```
+
+## Global Query Filter
+```  cs title="BlogContext.cs"
+public class BlogContext : DbContext
+{
+  protected override void OnConfiguring(ModelBuilder modelBuilder)
+  {
+    modelBuilder.Entity<Blog>().HasQueryFilters().ToListAsync();
+  }
+}
+```
+``` cs title="To disable it"
+val allBlogs = await _context.Blogs.IgnoreQueryFilters().ToListAsync();
+```
