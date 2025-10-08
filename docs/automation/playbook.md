@@ -371,3 +371,13 @@ ansible_become_pass=*** //Not best practice
         msg: RAM is less than 10GB
       
 ```
+- This is a task level parameter, so need to be in line with the module name.
+> Changed_when: false
+> failed_when: false
+
+- Nested loop : 
+  - The best way to accomplish a nested loop is via a task file.
+
+- Dynamic Inventory :
+  -   It's a Python script that runs and generates an inventory from an external source.
+  -   This source could be something as simple as a CSV file that is consumed, but more commonly, it's something like ServiceNow, VMware vCenter, AWS, or GCP. 
