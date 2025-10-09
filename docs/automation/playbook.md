@@ -372,7 +372,7 @@ ansible_become_pass=*** //Not best practice
       
 ```
 - This is a task level parameter, so need to be in line with the module name.
-> Changed_when: false
+> Changed_when: false </br>
 > failed_when: false
 
 - Nested loop : 
@@ -381,3 +381,18 @@ ansible_become_pass=*** //Not best practice
 - Dynamic Inventory :
   -   It's a Python script that runs and generates an inventory from an external source.
   -   This source could be something as simple as a CSV file that is consumed, but more commonly, it's something like ServiceNow, VMware vCenter, AWS, or GCP. 
+``` yaml title="dynamic-inventory.yml"
+---
+- name: Dynamic Inventory
+  hosts: all
+  gather_facts: all
+  vars:
+  tasks:
+    - name: Display ansible_memtotal_mb
+      ansible.builtin.debug:
+        var: ansible_memtotal_mb
+    - name: Assert if RAM is at least 10GB
+      ansible.builtin.assert:
+        that: ansible_memtotal_mb > 10000
+        msg: RAM is less than 10GB      
+```
