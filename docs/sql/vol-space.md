@@ -31,3 +31,7 @@ FROM vols
 ORDER BY [Drive];
 
 ```
+
+``` sql
+GRANT VIEW SERVER STATE TO [YourLogin];
+```
