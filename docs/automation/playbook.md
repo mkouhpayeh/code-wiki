@@ -846,7 +846,7 @@ tasks:
 ```
 > ansible-playbook -i inventory windows.yml
 
-- Network Hosts
+## Network Hosts
 ``` yaml title="network.yml"
 ---
 - name: SNMP updates on a Cisco device
