@@ -388,11 +388,8 @@ ansible_become_pass=*** //Not best practice
   gather_facts: all
   vars:
   tasks:
-    - name: Display ansible_memtotal_mb
+    - name: Print out the list of inventory hosts
       ansible.builtin.debug:
-        var: ansible_memtotal_mb
-    - name: Assert if RAM is at least 10GB
-      ansible.builtin.assert:
-        that: ansible_memtotal_mb > 10000
-        msg: RAM is less than 10GB      
+        var: groups['all']
+      run_once: true
 ```
