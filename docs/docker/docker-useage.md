@@ -159,6 +159,7 @@ docker ps -aq | xargs docker rm -f
 
 ``` shell title="Remove container"
 docker rm four_char_con_id
+```
 
 ``` shell title="Remove images, -f: Force to remove images fast"
 docker rmi 
