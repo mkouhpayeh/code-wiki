@@ -14,3 +14,7 @@ robocopy "C:\SourceFolder" "Z:\DestinationFolder" /E /Z /MT:32 /R:1 /W:1
 /LOG:file.txt => Logs the results to a text file  
 /MIR => Mirror source to destination (careful: deletes!)  
 
+## Get PID
+``` shell
+tasklist /fi "IMAGENAME eq AsyncTest.exe"
+```
