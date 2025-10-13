@@ -7,7 +7,7 @@
     bombardier [<flags>] <url>
     bombardier -c 50 -n 500 -d 10s -l http://localhost:5005
     ```
-##  Get Process ID:
+##  Get Process ID
     ``` shell
     tasklist /fi "IMAGENAME eq AsyncTest.exe"
     ```
