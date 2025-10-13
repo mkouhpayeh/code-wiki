@@ -1,5 +1,5 @@
 # Load Test
-1.  Bombardier: is a HTTP(S) benchmarking tool. It is written in Go programming language and uses excellent **FastHTTP** instead of Go's default http library, because of its lightning fast performance.
+##  Bombardier: is a HTTP(S) benchmarking tool. It is written in Go programming language and uses excellent **FastHTTP** instead of Go's default http library, because of its lightning fast performance.
     ``` shell title="Install"
     go install github.com/codesenberg/bombardier@latest
     ```
@@ -7,19 +7,19 @@
     bombardier [<flags>] <url>
     bombardier -c 50 -n 500 -d 10s -l http://localhost:5005
     ```
-2.  Get Process ID:
+##  Get Process ID:
     ``` shell
     tasklist /fi "IMAGENAME eq AsyncTest.exe"
     ```
-3.  dotnet-counters
+##  dotnet-counters
     ``` shell
     dotnet-counters monitor --process-id [36541] --counters System.Runtime[threadpool-thhread-count, threadpool-queue-length, monitor-lock-connection-count] --output counters.txt
     ```
-4.  SQL Server Connections
+##  SQL Server Connections
     ``` sql
     SELECT  dbid, DB_NAME(dbid) AS DatabaseName, COUNT(dbid) AS NumberOfConnections
             FROM sys.sysprocess
             WHERE DB_NAME(dbid) = 'TestDB'
             GROUP BY dbid     
     ```
-5.  
+##  
