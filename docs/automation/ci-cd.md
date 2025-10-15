@@ -26,5 +26,4 @@ Continuous Integration, Continuous Delivery, and Continuous deployment. </br>
 -  Authenticate with the registry
 -  Build the package
 -  Publish the package to the registry
-</br>
 -  Each language has a specific configuration that identifies the target registry and how to authenticate with it. (Java=> settings.xml and pom.xml, JS=> package.json, Ruby=> .gemspec, .Net=> .csproj)
