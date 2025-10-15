@@ -36,8 +36,10 @@ Continuous Integration, Continuous Delivery, and Continuous deployment. </br>
 on:
   workflow_call:
 ```
+
   -  Then Copy the workflow file path by clicking the three dot option> Copy path
   -  When we want to use this workflow in another repo:
+
 ```
 jobs:
   integration:
