@@ -103,7 +103,7 @@ jobs:
 
 ---
 
-## 5. Deploying: Environments & protections (GitHub example)
+## 5. Deploying: Environments & protections
 
 - Use **environments** to represent targets: `staging`, `production`, etc.
 - Reference an environment in a job:
@@ -164,7 +164,7 @@ jobs:
 
 ---
 
-## 7. Quick reference / checklist
+## 7. Quick reference
 
 - [ ] Lint on every push
 - [ ] Unit tests on feature branches
