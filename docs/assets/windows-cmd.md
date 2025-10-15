@@ -1,20 +1,35 @@
-# Windows Command 
+# Windows Command
 
-## Copy Files
-```CMD
+## Copy files
+```cmd
 robocopy "C:\SourceFolder" "Z:\DestinationFolder" /E /Z /MT:32 /R:1 /W:1
 ```
 
-**Option**:  
-/E => Copies subfolders, including empty ones  
-/Z => Restartable mode (resumes if interrupted)  
-/MT:32 => Multi-threaded copy (up to 128 threads)  
-/R:1 => Retry 1 time if a file fails to copy  
-/W:1 => Wait 1 second between retries  
-/LOG:file.txt => Logs the results to a text file  
-/MIR => Mirror source to destination (careful: deletes!)  
+**Options**  
+`/E` → Copy subfolders, including empty ones.  
+`/Z` → Restartable mode (resumes if interrupted).  
+`/MT:32` → Multi-threaded copy (32 threads; up to 128).  
+`/R:1` → Retry 1 time on copy failure.  
+`/W:1` → Wait 1 second between retries.  
+`/LOG:file.txt` → Write operation log to `file.txt`.  
+`/MIR` → Mirror source to destination (WARNING: can delete files at destination).
 
-## Get PID
-``` shell
+**Notes**
+- Use an elevated command prompt (Run as Administrator) if you encounter permission errors.
+- For large transfers consider increasing `/MT` but monitor CPU and disk I/O.
+- When using network drives, map them first or use UNC paths (`\\server\share`).
+
+## Get PID / Find running process
+```cmd
 tasklist /fi "IMAGENAME eq AsyncTest.exe"
+```
+
+**Tip**  
+To get more details including the PID, use:
+```cmd
+tasklist /v /fi "IMAGENAME eq AsyncTest.exe"
+```
+Or filter by window title or username:
+```cmd
+tasklist /fi "WINDOWTITLE eq MyApp*" /fi "USERNAME eq DOMAIN\User"
 ```
