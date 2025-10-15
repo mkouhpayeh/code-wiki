@@ -23,7 +23,81 @@ Continuous Integration, Continuous Delivery, and Continuous deployment. </br>
 
 ## CI/CD Software Packages
 -  Configure the package registry
+  -  Authentication is handled by build steps
+  -  Permissions are scoped using GIHUB_TOKEN
 -  Authenticate with the registry
 -  Build the package
 -  Publish the package to the registry
+  -  Package sonfigurations contain references to specific code versions
+  -  Each package must use a new version number. So as a best practice, update the code to reference a new version number with each new release. Updating the version number in the package's configuration file ensures that the package being published has a distinct version that has not been used before.
 -  Each language has a specific configuration that identifies the target registry and how to authenticate with it. (Java=> settings.xml and pom.xml, JS=> package.json, Ruby=> .gemspec, .Net=> .csproj)
+-  If we want to become the workflow reusable and can be triggered from another workflow, such as the delivery workflow:
+  ```
+  on:
+    workflow_call:
+  ```
+  -  Then Copy the workflow file path by clicking the three dot option> Copy path
+  -  When we want to use this workflow in another repo:
+    ```
+    jobs:
+      integration:
+         uses: username/repoName/paste the workflow path@branchName or [./path (in the same repo)]
+         permissions:
+           contents: read
+     
+      build:
+         needs: [integration]
+         permissions:
+           contents: read
+           packages: write
+    ```
+  
+## Deploying Software
+-  To implement continuous integration, we set up workflows to process our code on each push to the repo.
+-  For continuous delivery, we set up workflows that were also triggered by pushes or releases. Our delivery workflows automatically created software packages or container images.
+-  With continuous deployment, we'll extend this pipeline to place our code, software package, or artifact into a system where it can be used and operated, that is, each push to the repo triggers a workflow that integrates the code, creates an artifact, and then places that artifact into a system where we can use it.
+-  GitHub allows us to define a deployment target as an **environment**. We can give environments names and also assign rules that govern deployments.
+  -  We reference environments in a workflow by using the **environment** keyword followed by the name assigned to the environment. 
+  -  We can manually create environments from the GitHub web interface or have them created automatically for us when we reference hem in a workflow.
+    ```
+    jobs:
+      deployment:
+        runs-on: ubuntu-latest
+        environment: production
+    ```  
+  -  However, creating an environment in the web interface before using it in a workflow provides the best experience for setting up other features we can use in our deployments.
+  -  This includes setting up protection rules and creating variables and secrets.
+  -  Environments: Protection Rules
+    -  Using protection rules, we can govern access to environments based on conditions we specify.
+    -  Deployment branches limit which branches in a repo can deploy to an environment. We can also use patterns to indicate which branches are considered protected.
+    -  And then, we can create rules that stop a deployment until it's allowed to proceed by a reviewer or repo administrator.
+  -  Environments: Variables and Secrets
+    -  GitHub lets us store variables and secrets in our repositories. However, we can override these values at the environment level. Environments can have the same variables and secrets but assign different values.
+     ```
+     steps:
+       -  name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v2
+          with:
+            aws-region: ${{ vars.AWS_REGION }}
+     ```
+    -  This gives us the flexibility to create workflows and jobs that can be reused with different environments without modification. 
+    -  When we reference variables in a workflow, GitHub Actions will know which value to use based on the environment. Typically, variables are used to pass configuration information or any parameters needed to run deployment commands, and we can use secrets to protect sensitive information like access keys and passwords. 
+    ```
+     steps:
+       -  name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v2
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+     ```
+    -  These types of credentials will be important for deploying to services located outside the GitHub ecosystem. 
+  -  Environments: Concurrency
+    -  For deployments, we also have to consider if an environment is being used in multiple workflows. When a workflow is triggered, the default behavior is to start running as soon as possible. However, running multiple deployments may be problematic. We can control this behavior with the concurrency setting.
+    ```
+    jobs:
+      deploy_staging:
+         environment:Staging
+         concurrency:
+           group: deploy-staging
+    ```
+    -  Defining a concurrency group allows workflows to start but then automatically pause if another workflow is already deploying to the same environment. Concurrency groups can be defined at the workflow or the job context. This means we can pause entire workflows or only the jobs that might interfere with an active deployment.
