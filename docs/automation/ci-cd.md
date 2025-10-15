@@ -36,10 +36,8 @@ Continuous Integration, Continuous Delivery, and Continuous deployment. </br>
 on:
   workflow_call:
 ```
-
   -  Then Copy the workflow file path by clicking the three dot option> Copy path
   -  When we want to use this workflow in another repo:
-
 ```
 jobs:
   integration:
@@ -61,12 +59,12 @@ build:
 -  GitHub allows us to define a deployment target as an **environment**. We can give environments names and also assign rules that govern deployments.
   -  We reference environments in a workflow by using the **environment** keyword followed by the name assigned to the environment. 
   -  We can manually create environments from the GitHub web interface or have them created automatically for us when we reference hem in a workflow.
-    ```
-    jobs:
-      deployment:
-        runs-on: ubuntu-latest
-        environment: production
-    ```  
+```
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    environment: production
+```  
   -  However, creating an environment in the web interface before using it in a workflow provides the best experience for setting up other features we can use in our deployments.
   -  This includes setting up protection rules and creating variables and secrets.
   -  Environments: Protection Rules
@@ -75,13 +73,13 @@ build:
     -  And then, we can create rules that stop a deployment until it's allowed to proceed by a reviewer or repo administrator.
   -  Environments: Variables and Secrets
     -  GitHub lets us store variables and secrets in our repositories. However, we can override these values at the environment level. Environments can have the same variables and secrets but assign different values.
-     ```
-     steps:
-       -  name: Configure AWS Credentials
-          uses: aws-actions/configure-aws-credentials@v2
-          with:
-            aws-region: ${{ vars.AWS_REGION }}
-     ```
+    ```
+    steps:
+      -  name: Configure AWS Credentials
+         uses: aws-actions/configure-aws-credentials@v2
+         with:
+           aws-region: ${{ vars.AWS_REGION }}
+    ```
     -  This gives us the flexibility to create workflows and jobs that can be reused with different environments without modification. 
     -  When we reference variables in a workflow, GitHub Actions will know which value to use based on the environment. Typically, variables are used to pass configuration information or any parameters needed to run deployment commands, and we can use secrets to protect sensitive information like access keys and passwords. 
     ```
