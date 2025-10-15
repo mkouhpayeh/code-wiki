@@ -41,7 +41,7 @@ on:
   -  Then Copy the workflow file path by clicking the three dot option> Copy path
   -  When we want to use this workflow in another repo:
 
-  ```
+  ``` yaml
   jobs:
     integration:
        uses: username/repoName/paste the workflow path@branchName or [./path (in the same repo)]
@@ -63,7 +63,7 @@ on:
   -  We reference environments in a workflow by using the **environment** keyword followed by the name assigned to the environment. 
   -  We can manually create environments from the GitHub web interface or have them created automatically for us when we reference hem in a workflow.
 
-  ```
+  ``` yaml
   jobs:
     deployment:
       runs-on: ubuntu-latest
@@ -79,7 +79,7 @@ on:
   -  Environments: Variables and Secrets
     -  GitHub lets us store variables and secrets in our repositories. However, we can override these values at the environment level. Environments can have the same variables and secrets but assign different values.
     
-    ```
+    ``` yaml
     steps:
       -  name: Configure AWS Credentials
          uses: aws-actions/configure-aws-credentials@v2
@@ -90,7 +90,7 @@ on:
     -  This gives us the flexibility to create workflows and jobs that can be reused with different environments without modification. 
     -  When we reference variables in a workflow, GitHub Actions will know which value to use based on the environment. Typically, variables are used to pass configuration information or any parameters needed to run deployment commands, and we can use secrets to protect sensitive information like access keys and passwords. 
     
-    ```
+    ``` yaml
      steps:
        -  name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v2
@@ -103,7 +103,7 @@ on:
   -  Environments: Concurrency
     -  For deployments, we also have to consider if an environment is being used in multiple workflows. When a workflow is triggered, the default behavior is to start running as soon as possible. However, running multiple deployments may be problematic. We can control this behavior with the concurrency setting.
      
-    ```
+    ``` yaml
     jobs:
       deploy_staging:
          environment:Staging
