@@ -24,7 +24,7 @@ Continuous Integration, Continuous Delivery, and Continuous deployment. </br>
 ## CI/CD Software Packages
 -  Configure the package registry
   -  Authentication is handled by build steps
-  -  Permissions are scoped using GIHUB_TOKEN
+  -  Permissions are scoped using GITHUB_TOKEN
 -  Authenticate with the registry
 -  Build the package
 -  Publish the package to the registry
@@ -32,25 +32,25 @@ Continuous Integration, Continuous Delivery, and Continuous deployment. </br>
   -  Each package must use a new version number. So as a best practice, update the code to reference a new version number with each new release. Updating the version number in the package's configuration file ensures that the package being published has a distinct version that has not been used before.
 -  Each language has a specific configuration that identifies the target registry and how to authenticate with it. (Java=> settings.xml and pom.xml, JS=> package.json, Ruby=> .gemspec, .Net=> .csproj)
 -  If we want to become the workflow reusable and can be triggered from another workflow, such as the delivery workflow:
-  ```
-  on:
-    workflow_call:
-  ```
+```
+on:
+  workflow_call:
+```
   -  Then Copy the workflow file path by clicking the three dot option> Copy path
   -  When we want to use this workflow in another repo:
-    ```
-    jobs:
-      integration:
-         uses: username/repoName/paste the workflow path@branchName or [./path (in the same repo)]
-         permissions:
-           contents: read
-     
-      build:
-         needs: [integration]
-         permissions:
-           contents: read
-           packages: write
-    ```
+```
+jobs:
+  integration:
+     uses: username/repoName/paste the workflow path@branchName or [./path (in the same repo)]
+     permissions:
+       contents: read
+
+build:
+   needs: [integration]
+   permissions:
+     contents: read
+     packages: write
+```
   
 ## Deploying Software
 -  To implement continuous integration, we set up workflows to process our code on each push to the repo.
