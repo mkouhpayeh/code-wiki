@@ -167,5 +167,31 @@ jobs:
 
 ---
 
+## 7. GitHub Pages
 
+- Build
 
+   - **Jeykyll** is the default static site generator for GitHub Pages. The starter workflow is provided.
+   - There are other popular static site generators but for these tools, we would create a custom workflow, with actions that run the selected site generator instead of Jekyll. 
+      - Hugo
+      - Gatsby 
+
+- Deploy
+
+   - The deployment job transfers the artifact to the GitHub Pages service, where it can be accessed using a dedicated URL on the github.io domain (http(s)://<username>.github.io/<repository>). Sites deployed to GitHub Pages can also be configured to use a custom domain. 
+   
+   - Configure a workflow for GitHub Pages. Settings > Unser Code and Automating > Pages > Change source to GitHub Actions > With .md file, choose the Github Pages Jekyll
+
+## 8. Service accounts
+
+   - Service accounts provide a secure way for our deployment workflows to interact with services outside of GitHub. 
+   - Used to manage credentials and permissions
+   - Not associated with specific users
+   - Permissions are limited to specific tasks
+   - Credentials:
+      - Username and password
+      - API keu
+      - Certificate
+        
+   - Store credentials in environment secrets
+   - Configure workflows to access and use secrets
