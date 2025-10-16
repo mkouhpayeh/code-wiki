@@ -26,9 +26,10 @@ Ansible uses the **Jinja2 templating engine** for variable replacement, loops, c
 
 - **Playbooks**  
   Scripts consumed by the Ansible binary to perform automation.
-  1. A playbook tells each *play* where to run and what to do.
-  2. A playbook can contain multiple plays (different sets of hosts).
-  3. The `name` field is optional but highly recommended — it documents intent and appears in output.
+  
+    - A playbook tells each *play* where to run and what to do.
+    - A playbook can contain multiple plays (different sets of hosts).
+    - The `name` field is optional but highly recommended — it documents intent and appears in output.
 
 - **Tasks**  
   Ordered list of discrete automation steps executed in sequence. By default Ansible completes the first task for all hosts before moving to the next.
