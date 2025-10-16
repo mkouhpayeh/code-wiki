@@ -63,7 +63,7 @@ Ansible uses the **Jinja2 templating engine** for variable replacement, loops, c
 
 ---
 
-## Install
+## Installation
 
 ```bash
 # Install Python (Fedora/RHEL example)
@@ -179,7 +179,7 @@ curl http://127.0.0.1
 
 ---
 
-## Idempotence output (playbook run statuses)
+## Idempotence output
 
 - **OK** — Task completed successfully and no change was needed.  
 - **Changed** — Task completed and made a change on the host.  
@@ -188,7 +188,7 @@ curl http://127.0.0.1
 
 ---
 
-## Installing Collections (quick steps)
+## Installing Collections
 
 1. Install a collection:
 ```bash
