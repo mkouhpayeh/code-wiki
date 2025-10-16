@@ -2,6 +2,9 @@
 
 An Ansible playbook is a YAML file that defines a set of tasks to automate configuration and management of one or more hosts.
 
+---
+
+
 ## Linux Hosts
 
 ```shell title="ansible.cfg"
