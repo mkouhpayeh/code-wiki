@@ -1,5 +1,9 @@
 # SSH Key
 
+Use this guide to create an SSH key on Windows and add it to your Git hosting service for secure, password-less pushes.
+
+---
+
 ## Create SSH Key
 
 - Here is the command to create an SSH key. If you want to start pushing your projects to GIT, it's the first step.  
