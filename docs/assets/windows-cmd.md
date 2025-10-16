@@ -33,3 +33,25 @@ Or filter by window title or username:
 ```cmd
 tasklist /fi "WINDOWTITLE eq MyApp*" /fi "USERNAME eq DOMAIN\User"
 ```
+
+## TLS protocol
+
+### Show/Set TLS
+
+``` shell
+# Show current value
+[Net.ServicePointManager]::SecurityProtocol
+
+# Force .NET to use TLS 1.2 only
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+```
+
+### Check Enabled Protocol
+[SSL Test](https://www.ssllabs.com/ssltest/analyze.html)  
+
+[nartac](https://www.nartac.com/Products/IISCrypto/Download)
+
+### Check Cipher Suites
+``` shell
+Get-TlsCipherSuite
+```
