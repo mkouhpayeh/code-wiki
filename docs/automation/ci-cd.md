@@ -167,16 +167,5 @@ jobs:
 
 ---
 
-## 7. Quick reference
-
-- [ ] Lint on every push
-- [ ] Unit tests on feature branches
-- [ ] Publish artifact with unique version
-- [ ] Integration tests in delivery pipeline
-- [ ] Environment-level secrets configured
-- [ ] Protection rules for production deploys
-- [ ] Concurrency controls to avoid race conditions
-
----
 
 
