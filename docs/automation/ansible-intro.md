@@ -44,19 +44,20 @@ Ansible uses the **Jinja2 templating engine** for variable replacement, loops, c
 
 - **YAML**  
   Defines layout and structure — indentation matters:
-  - Use spaces, not tabs.
-  - Tabs will break playbooks.
-  - Two spaces is a common indentation rule.
-  - Many mistakes are due to incorrect spacing.
+  
+    - Use spaces, not tabs.
+    - Tabs will break playbooks.
+    - Two spaces is a common indentation rule.
+    - Many mistakes are due to incorrect spacing.
 
 - **Variables**  
   Important for flexibility and fact gathering. Ansible has many precedence levels (22 levels). Use variables as `{{ variable_name }}`.
 
 - **AWX**  
   A web UI and job controller for Ansible. AWX provides:
-  - Role-based access control (RBAC)
-  - A GUI and REST API
-  - Job logging and execution control
+    - Role-based access control (RBAC)
+    - A GUI and REST API
+    - Job logging and execution control
 
 - **Python Virtual Environment (PVE)**  
   Lets you manage different Python package versions per environment. When managing many dependencies, consider Execution Environments and Ansible Navigator instead.
