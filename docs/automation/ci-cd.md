@@ -61,12 +61,11 @@ CI/CD is a set of practices and automation that let teams integrate code frequen
 
 - **Best practice:** Bump the package version on each release so each published artifact has a unique version.
 
-**Common steps when publishing packages**
-
-1. Authenticate with the registry (handled by build steps).
-2. Build the package/artifact.
-3. Publish the package to the target registry.
-4. Ensure configuration files refer to the correct registry and version (e.g., `pom.xml`, `package.json`, `.csproj`, `Dockerfile`).
+- **Common steps when publishing packages**
+    1. Authenticate with the registry (handled by build steps).
+    2. Build the package/artifact.
+    3. Publish the package to the target registry.
+    4. Ensure configuration files refer to the correct registry and version (e.g., `pom.xml`, `package.json`, `.csproj`, `Dockerfile`).
 
 ---
 
