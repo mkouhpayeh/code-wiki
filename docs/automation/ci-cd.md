@@ -28,14 +28,17 @@ CI/CD is a set of practices and automation that let teams integrate code frequen
 
 1. Developer pushes code to repository → workflow triggered.
 2. CI workflow:
+   
    - Lint / static analysis
    - Unit tests
    - Build verification
 3. Delivery workflow:
+   
    - Build artifact (package/container image)
    - Run integration/acceptance tests
    - Publish to a registry (artifact repository)
 4. Deployment workflow:
+   
    - Retrieve artifact from registry
    - Deploy to target environment (staging → production)
    - Optional rollout strategies (canary, blue/green)
