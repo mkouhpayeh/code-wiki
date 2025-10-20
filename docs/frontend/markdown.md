@@ -10,17 +10,22 @@ You can find complete [MKDocs Material Documentation](https://squidfunk.github.i
 ## Text Annotations
 
 ### Tables
-| Name    | Role       | Years |
-|---------|------------|------:|
-| Mahi     | Developer |     10|
-| Ali      | Designer  |     11|
+| Left      | Center     | Right |
+|:----------|:----------:|------:|
+| text      | centered   |   123 |
 
 ```
-| Name    | Role       | Years |
-|---------|------------|------:|
-| Mahi     | Developer |     10|
-| Ali      | Designer  |     11|
+| Left      | Center     | Right |
+|:----------|:----------:|------:|
+| text      | centered   |   123 |
+| One       | Line1<br>Line2 |
 
+```
+
+- Enable the tables markdown extension in `mkdocs.yml`:
+```
+markdown_extensions:
+  - tables
 ```
 
 ### Nesting/Indentation
