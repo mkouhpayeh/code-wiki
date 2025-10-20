@@ -10,19 +10,17 @@ You can find complete [MKDocs Material Documentation](https://squidfunk.github.i
 ## Text Annotations
 
 ### Tables
----
-tags:
-  - Markdown
-  - Tips
-  - Documentation
----
+| Name    | Role       | Years |
+|---------|------------|------:|
+| Mahi     | Developer |     10|
+| Ali      | Designer  |     11|
+
 ```
----
-tags:
-  - Markdown
-  - Tips
-  - Documentation
----
+| Name    | Role       | Years |
+|---------|------------|------:|
+| Mahi     | Developer |     10|
+| Ali      | Designer  |     11|
+
 ```
 
 ### Nesting/Indentation
