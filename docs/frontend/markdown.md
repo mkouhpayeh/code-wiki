@@ -9,6 +9,11 @@ You can find complete [MKDocs Material Documentation](https://squidfunk.github.i
 
 ## Text Annotations
 
+### Nesting/Indentation
+- Put a blank line before the list block.
+
+- Use consistent spaces (avoid tabs) and indent nested list items by 4 spaces (safe and compatible).
+
 ### Highlight inner text
 Simply write text between ` `` `
 
