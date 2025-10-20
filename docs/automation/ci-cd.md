@@ -26,18 +26,18 @@ CI/CD is a set of practices and automation that let teams integrate code frequen
 
 ## 2. Typical process
 
-1. Developer pushes code to repository → workflow triggered.
-2. CI workflow:
+- Developer pushes code to repository → workflow triggered.
+- CI workflow:
    
    - Lint / static analysis
    - Unit tests
    - Build verification
-3. Delivery workflow:
+- Delivery workflow:
    
    - Build artifact (package/container image)
    - Run integration/acceptance tests
    - Publish to a registry (artifact repository)
-4. Deployment workflow:
+- Deployment workflow:
    
    - Retrieve artifact from registry
    - Deploy to target environment (staging → production)
@@ -173,14 +173,12 @@ jobs:
 ## 7. GitHub Pages
 
 - Build
-
    - **Jeykyll** is the default static site generator for GitHub Pages. The starter workflow is provided.
    - There are other popular static site generators but for these tools, we would create a custom workflow, with actions that run the selected site generator instead of Jekyll. 
       - Hugo
       - Gatsby 
 
 - Deploy
-
    - The deployment job transfers the artifact to the GitHub Pages service, where it can be accessed using a dedicated URL on the github.io domain (http(s)://<username>.github.io/<repository>). Sites deployed to GitHub Pages can also be configured to use a custom domain. 
    
    - Configure a workflow for GitHub Pages. Settings > Unser Code and Automating > Pages > Change source to GitHub Actions > With .md file, choose the Github Pages Jekyll
