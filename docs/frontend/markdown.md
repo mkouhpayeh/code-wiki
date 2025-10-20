@@ -1,3 +1,4 @@
+# Markdown
 ---
 tags:
   - Markdown
@@ -8,6 +9,22 @@ tags:
 You can find complete [MKDocs Material Documentation](https://squidfunk.github.io/mkdocs-material/reference/) here.
 
 ## Text Annotations
+
+### Tables
+---
+tags:
+  - Markdown
+  - Tips
+  - Documentation
+---
+```
+---
+tags:
+  - Markdown
+  - Tips
+  - Documentation
+---
+```
 
 ### Nesting/Indentation
 - Put a blank line before the list block.
