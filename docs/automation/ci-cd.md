@@ -10,7 +10,6 @@ CI/CD is a set of practices and automation that let teams integrate code frequen
 - **Continuous Delivery (CD - delivery):** After successful CI, code is packaged into a build artifact (a package or container image). Additional higher-level tests (integration, acceptance) run and the artifact is stored in a registry so it’s always ready to be released.
 - **Continuous Deployment (CD - deployment):** Builds that pass all automated checks are deployed automatically to production without human intervention. This requires strong test coverage and a robust pipeline of validations.
 
----
 
 **CI/CD Concepts**
 
