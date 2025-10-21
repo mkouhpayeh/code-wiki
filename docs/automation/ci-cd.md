@@ -307,3 +307,7 @@ jobs:
 - Store credentials in environment secrets
 
 - Configure workflows to access and use secrets
+
+## 9. Terraform
+Terraform is a widely adopted open-source tool for working with infrastructure as code. When we run Terraform, a report is generated called the **Terraform plan**. The plan describes any changes that need to be made to produce the desired state according to the configuration in the repo. We can use command-line tools, like **awk** and **sed**, to modify the Terraform plan into a report using Markdown styling. Then we can write the report to **GITHUB_STEP_SUMMARY** so the plan can be quickly and easily viewed before it gets applied. 
+- We need to update the permissions on the service account. We should add the **AmazonS3FullAccess permission**. Terraform will use the service account credentials to read and write state files to an S3 bucket. We need also to create a bucket to hold the Terraform state files. 
