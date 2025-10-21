@@ -12,7 +12,7 @@ CI/CD is a set of practices and automation that let teams integrate code frequen
 
 ---
 
-### CI/CD Concepts
+**CI/CD Concepts**
 
 - **Workflow** — YAML file that defines automation (triggers, jobs).
 - **Event / Trigger** — What starts a workflow (push, pull_request, schedule, workflow_call).
