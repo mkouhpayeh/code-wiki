@@ -10,6 +10,7 @@ Run test if available on main branche and deploy project manually on IIS when an
 ``` yaml title =".gitlab-ci.yml"
 stages: [build, test, package]
 
+# ---------- CI (build/test/publish) ----------
 image: mcr.microsoft.com/dotnet/sdk:9.0
 
 variables:
@@ -43,14 +44,32 @@ test:
 package:
   stage: package
   script:
+    # publish to a fixed folder that we artifact
     - dotnet publish Hello-World.csproj -c $CONFIGURATION -o publish
   needs: [build]
   artifacts:
     paths:
-      - publish/**
+      - publish/**           # <- literal path (no env var)
+      - scripts/**
     expire_in: 7 days
   rules:
     - if: '$CI_COMMIT_BRANCH == "production"'
   when: on_success
 ```
-- 
+
+-  (Download Runner)[https://docs.gitlab.com/runner/install/windows.html]
+-  Register Runner to the Gitlab project
+    - Settings > CI/CD > Runner > Tag: windows
+
+``` bash
+.\gitlab-runner.exe register  --url https://gitlab-URL  --token xxxxxxxxxxxxxx
+# enter the URL
+# enter the name
+# enter executer: shell
+# edit the config.toml => shell = "powershell"
+```
+```
+.\gitlab-runner.exe run
+```
+
+-  
