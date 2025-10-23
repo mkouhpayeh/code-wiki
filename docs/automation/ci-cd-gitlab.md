@@ -2,7 +2,7 @@
 
 ---
 
-## 1. Deploy in IIS
+## 1. Deploy .Net Web in IIS
 Run test if available on main branche and deploy project manually on IIS when any changes applied to the production branch
 - Create GitLab Repository
 - Create VS Project and add the project to the source control
