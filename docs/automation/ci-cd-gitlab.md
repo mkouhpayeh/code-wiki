@@ -57,7 +57,7 @@ package:
   when: on_success
 ```
 
--  (Download Runner)[https://docs.gitlab.com/runner/install/windows.html]
+-  [Download Runner](https://docs.gitlab.com/runner/install/windows.html)
 -  Register Runner to the Gitlab project
     - Settings > CI/CD > Runner > Tag: windows
 
