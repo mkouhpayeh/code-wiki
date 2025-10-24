@@ -1,5 +1,16 @@
-# Gitlab CI/CD
+# CI/CD GitLab
 
+- CI/CD pipelines are the fundamental component of GitLab CI/CD. Pipelines are configured in a ".gitlab-ci.yml" file by using YAML keywords.
+- You can add CI/CD variables to a project’s settings. Projects can have a maximum of 8000 CI/CD variables.
+    - Key: Must be one line, with no spaces, using only letters, numbers, or _.
+    - Value: The value is limited to 10,000 characters, but also bounded by any limits in the runner’s operating system. The value has extra limitations if Visibility is set to Masked or Masked and hidden.
+    - Type: Variable (default) or File.
+    - Environment scope: Optional. All (default) (*), a specific environment, or a wildcard environment scope.
+    - Protect variable Optional. If selected, the variable is only available in pipelines that run on protected branches or tags.
+    - Visibility: Select Visible (default), Masked, or Masked and hidden.
+    - Expand variable reference: Optional. If selected, the variable can reference another variable. It is not possible to reference another variable if Visibility is set to Masked or Masked and hidden.
+
+Pipelines can run automatically for specific events, like when pushing to a branch, creating a merge request, or on a schedule. When needed, you can also run pipelines manually.
 ---
 
 ## 1. Deploy .Net Web in IIS
@@ -7,6 +18,7 @@ Run test if available on main branche and deploy project manually on IIS when an
 - Create GitLab Repository
 - Create VS Project and add the project to the source control
 - Create CI file in the project root
+
 ``` yaml title =".gitlab-ci.yml"
 stages: [build, test, package]
 
@@ -49,7 +61,7 @@ package:
   needs: [build]
   artifacts:
     paths:
-      - publish/**           # <- literal path (no env var)
+      - publish/**          
       - scripts/**
     expire_in: 7 days
   rules:
