@@ -13,6 +13,8 @@
     - **Visibility**: Select Visible (default), Masked, or Masked and hidden.
     - **Expand variable reference**: Optional. If selected, the variable can reference another variable. It is not possible to reference another variable if Visibility is set to Masked or Masked and hidden.
 
+- Runners are the agents that run the GitLab Runner application, to execute GitLab CI/CD jobs in a pipeline. They are responsible for running your builds, tests, deployments, and other CI/CD tasks defined in .gitlab-ci.yml files.
+
 ---
 
 ## 1. Deploy .Net Web in IIS
@@ -24,6 +26,7 @@ Run test if available on main branche and deploy project manually on IIS when an
 - Create CI file in the project root
 
 ```yaml title =".gitlab-ci.yml"
+
 stages: [build, test, package]
 
 # ---------- CI (build/test/publish) ----------
@@ -74,6 +77,7 @@ package:
 ```
 
 -  [Download Runner](https://docs.gitlab.com/runner/install/windows.html)
+
 -  Register Runner to the Gitlab project
     - Settings > CI/CD > Runner > Tag: windows
 
