@@ -20,7 +20,7 @@
 ## Deploy .Net Web in IIS
 Run test if available on main branche and deploy project manually on IIS when any changes applied to the production branch.
 
-0. One-time IIS server prep. Do these on the remote server:
+1. One-time IIS server prep. Do these on the remote server:
     - Install .NET Hosting Bundle (match your target, e.g. .NET 9). Reboot if the installer asks.
    
     - Create the site folder
@@ -44,8 +44,9 @@ Run test if available on main branche and deploy project manually on IIS when an
     ```
     Add-LocalGroupMember -Group "IIS_IUSRS" -Member "gitlab_deploy"
     ```
+    
     - Enable WinRM + HTTPS listener (port 5986)
-
+  
     ```
     # Enable WinRM
     Enable-PSRemoting -Force
@@ -74,10 +75,9 @@ Run test if available on main branche and deploy project manually on IIS when an
   
 - Create VS Project and add the project to the source control
 
-- Create CI file in the project root
+- Create CI file ".gitlab-ci.yml" in the project root
 
-```yaml title =".gitlab-ci.yml"
-
+```
 stages: [build, test, package]
 
 # ---------- CI (build/test/publish) ----------
