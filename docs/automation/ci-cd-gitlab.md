@@ -93,4 +93,85 @@ package:
 .\gitlab-runner.exe run
 ```
 
--  
+- The runner service will run as gitlab-runner user
+    - Make sure that user has write permission to the IIS site folder (e.g. C:\inetpub\wwwroot\HelloWorld).
+    - Make sure the IIS server already has the [.NET 9 Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) installed.
+
+- Add the deploy job to the .gitlab-ci.yml:
+
+```
+stages: [build, test, package, deploy]
+
+# ---------- CI (build/test/publish) ----------
+image: mcr.microsoft.com/dotnet/sdk:9.0
+
+variables:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
+  CONFIGURATION: "Release"
+
+cache:
+  key: "nuget"
+  paths:
+    - .nuget/packages
+
+build:
+  stage: build
+  script:
+    - dotnet --info
+    - dotnet restore
+    - dotnet build -c $CONFIGURATION
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "production"'
+
+test:
+  stage: test
+  script:
+    - if [ -d "tests" ]; then dotnet test --no-build -c $CONFIGURATION; else echo "No tests found, skipping."; fi
+  needs: [build]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+package:
+  stage: package
+  script:
+    # publish to a fixed folder that we artifact
+    - dotnet publish Hello-World.csproj -c $CONFIGURATION -o publish
+  needs: [build]
+  artifacts:
+    paths:
+      - publish/**           
+      - scripts/**
+    expire_in: 7 days
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "production"'
+  when: on_success
+
+# ---------- CD (manual deploy to IIS over WinRM) ----------
+# Requires a Windows GitLab Runner (executor: shell) tagged "windows"
+# and the repo file: scripts/Deploy-IIS-RemoteWinRM.ps1
+deploy_prod_remote_winrm:
+  stage: deploy
+  tags: ["windows"]                 # <-- Windows runner tag
+  variables:
+    GIT_STRATEGY: none              # only need artifacts from 'package'
+  needs: [package]
+  script:
+    - >
+      powershell -NoProfile -ExecutionPolicy Bypass -File
+      scripts\Deploy-IIS-RemoteWinRM.ps1
+      -PackageDir "$env:CI_PROJECT_DIR\publish"
+      -ComputerName "$env:PROD_SERVER"
+      -SitePath "$env:IIS_SITE_PATH"
+      -AppPool "$env:IIS_APPPOOL"
+      -Username "$env:PROD_USER"
+      -Password "$env:PROD_PASSWORD"
+  environment:
+    name: production
+    url: http://localhost/      # adjust if you have a hostname/binding
+  when: manual                      # ✅ requires confirmation click
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "production"'
+
+```
