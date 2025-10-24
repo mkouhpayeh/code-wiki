@@ -10,13 +10,16 @@
     - Visibility: Select Visible (default), Masked, or Masked and hidden.
     - Expand variable reference: Optional. If selected, the variable can reference another variable. It is not possible to reference another variable if Visibility is set to Masked or Masked and hidden.
 
-Pipelines can run automatically for specific events, like when pushing to a branch, creating a merge request, or on a schedule. When needed, you can also run pipelines manually.
+- Pipelines can run automatically for specific events, like when pushing to a branch, creating a merge request, or on a schedule. When needed, you can also run pipelines manually.
+
 ---
 
 ## 1. Deploy .Net Web in IIS
 Run test if available on main branche and deploy project manually on IIS when any changes applied to the production branch
 - Create GitLab Repository
+  
 - Create VS Project and add the project to the source control
+
 - Create CI file in the project root
 
 ``` yaml title =".gitlab-ci.yml"
@@ -80,6 +83,7 @@ package:
 # enter executer: shell
 # edit the config.toml => shell = "powershell"
 ```
+
 ```
 .\gitlab-runner.exe run
 ```
