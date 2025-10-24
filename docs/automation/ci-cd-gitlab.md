@@ -17,8 +17,59 @@
 
 ---
 
-## 1. Deploy .Net Web in IIS
-Run test if available on main branche and deploy project manually on IIS when any changes applied to the production branch
+## Deploy .Net Web in IIS
+Run test if available on main branche and deploy project manually on IIS when any changes applied to the production branch.
+
+0. One-time IIS server prep. Do these on the remote server:
+    - Install .NET Hosting Bundle (match your target, e.g. .NET 9). Reboot if the installer asks.
+   
+    - Create the site folder
+   
+    ```
+    New-Item -ItemType Directory -Force -Path "C:\inetpub\wwwroot\Hello-World"
+    ```
+    
+    - Create a deploy user (least-privilege)
+   
+    ```
+    New-LocalUser -Name "gitlab_deploy" -Password (Read-Host -AsSecureString "Password") -FullName "GitLab Deploy User" -PasswordNeverExpires
+    Add-LocalGroupMember -Group "Remote Management Users" -Member "gitlab_deploy"
+    # File write permission on the site folder:
+    $acl = Get-Acl "C:\inetpub\wwwroot\Hello-World"
+    $rule = New-Object System.Security.AccessControl.FileSystemAccessRule("gitlab_deploy","Modify","ContainerInherit, ObjectInherit","None","Allow")
+    $acl.AddAccessRule($rule)
+    Set-Acl "C:\inetpub\wwwroot\Hello-World" $acl
+    ```
+
+    ```
+    Add-LocalGroupMember -Group "IIS_IUSRS" -Member "gitlab_deploy"
+    ```
+    - Enable WinRM + HTTPS listener (port 5986)
+
+    ```
+    # Enable WinRM
+    Enable-PSRemoting -Force
+    
+    # Create a self-signed cert for WinRM HTTPS
+    $cert = New-SelfSignedCertificate -DnsName "ws2019dggweb" -CertStoreLocation "Cert:\LocalMachine\My"
+
+    # Create HTTPS listener using that cert
+    $thumb = $cert.Thumbprint
+    winrm create winrm/config/Listener?Address=*+Transport=HTTPS "@{Hostname=`"ws2019dggweb`"; CertificateThumbprint=`"$thumb`"}"
+
+    # Open firewall
+    New-NetFirewallRule -DisplayName "WinRM HTTPS (5986)" -Direction Inbound -Protocol TCP -LocalPort 5986 -Action Allow
+    ```
+
+    - Verify:
+  
+    ```
+    winrm enumerate winrm/config/Listener
+    Test-NetConnection -ComputerName ws2019dggweb -Port 5986
+    ```
+
+
+2. 
 - Create GitLab Repository
   
 - Create VS Project and add the project to the source control
@@ -97,7 +148,7 @@ package:
     - Make sure that user has write permission to the IIS site folder (e.g. C:\inetpub\wwwroot\HelloWorld).
     - Make sure the IIS server already has the [.NET 9 Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) installed.
 
-- Add the deploy job to the .gitlab-ci.yml:
+- Add the deploy job to the .gitlab-ci.yml (replace it):
 
 ```
 stages: [build, test, package, deploy]
@@ -174,4 +225,7 @@ deploy_prod_remote_winrm:
   rules:
     - if: '$CI_COMMIT_BRANCH == "production"'
 
+```
+
+```
 ```
