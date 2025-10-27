@@ -240,9 +240,9 @@ We need a Windows runner somewhere that can reach ServerName:5986:
 7. Add protected CI/CD variables in GitLab
     - Project → Settings → CI/CD → Variables (mask & protect where appropriate):
       
-        - PROD_SERVER = ws2019dggweb (or 192.168.35.15)
+        - PROD_SERVER = ServerName (or 192.168.35.15)
         
-        - PROD_USER = ws2019dggweb\gitlab_deploy
+        - PROD_USER = ServerName\gitlab_deploy
      
         - PROD_PASSWORD = (the password you set)
      
@@ -257,7 +257,6 @@ We need a Windows runner somewhere that can reach ServerName:5986:
     ```
     stages: [build, test, package, deploy]
 
-    # ---------- CI (build/test/publish) ----------
     image: mcr.microsoft.com/dotnet/sdk:9.0
 
     variables:
@@ -270,16 +269,17 @@ We need a Windows runner somewhere that can reach ServerName:5986:
       paths:
         - .nuget/packages
 
+    # 1️⃣ Build
     build:
       stage: build
       script:
-        - dotnet --info
         - dotnet restore
         - dotnet build -c $CONFIGURATION
       rules:
         - if: '$CI_COMMIT_BRANCH == "main"'
         - if: '$CI_COMMIT_BRANCH == "production"'
 
+    # 2️⃣ Test
     test:
       stage: test
       script:
@@ -288,47 +288,41 @@ We need a Windows runner somewhere that can reach ServerName:5986:
       rules:
         - if: '$CI_COMMIT_BRANCH == "main"'
 
+    # 3️⃣ Package
     package:
       stage: package
       script:
-        # publish to a fixed folder that we artifact
         - dotnet publish Hello-World.csproj -c $CONFIGURATION -o publish
       needs: [build]
       artifacts:
         paths:
-          - publish/**           
+          - publish/**
           - scripts/**
         expire_in: 7 days
       rules:
         - if: '$CI_COMMIT_BRANCH == "production"'
-      when: on_success
 
-    # ---------- CD (manual deploy to IIS over WinRM) ----------
-    # Requires a Windows GitLab Runner (executor: shell) tagged "windows"
-    # and the repo file: scripts/Deploy-IIS-RemoteWinRM.ps1
+    # 4️⃣ Deploy via WinRM
     deploy_prod_remote_winrm:
       stage: deploy
-      tags: ["windows"]                 # <-- Windows runner tag
+      tags: ["windows"]          # runner tag that can run PowerShell + has WinRM access
+      needs: ["package"]
       variables:
-        GIT_STRATEGY: none             
-      needs: [package]
+        GIT_STRATEGY: none
       script:
-        - >
-          powershell -NoProfile -ExecutionPolicy Bypass -File
-          scripts\Deploy-IIS-RemoteWinRM.ps1
-          -PackageDir "$env:CI_PROJECT_DIR\publish"
-          -ComputerName "$env:PROD_SERVER"
-          -SitePath "$env:IIS_SITE_PATH"
-          -AppPool "$env:IIS_APPPOOL"
-          -Username "$env:PROD_USER"
-          -Password "$env:PROD_PASSWORD"
+        - powershell -NoProfile -ExecutionPolicy Bypass -File "scripts\Deploy-IIS-RemoteWinRM.ps1" `
+            -PackageDir "$env:CI_PROJECT_DIR\publish" `
+            -ComputerName "$env:PROD_SERVER" `
+            -SitePath "$env:IIS_SITE_PATH" `
+            -AppPool "$env:IIS_APPPOOL" `
+            -Username "$env:PROD_USER" `
+            -Password "$env:PROD_PASSWORD"
       environment:
         name: production
-        url: https://ServerName/      
-      when: manual                      # ✅ requires confirmation click
+        url: http://$env:PROD_SERVER/
+      when: manual
       rules:
         - if: '$CI_COMMIT_BRANCH == "production"'
-
     ```
 
 9. Protect the production path (optional but recommended)
