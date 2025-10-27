@@ -522,7 +522,7 @@ We need a Windows runner somewhere that can reach ServerName:5986:
     package:
       stage: package
       script:
-        - dotnet publish Hello-World.csproj -c $CONFIGURATION -o publish
+        - dotnet publish Hello-World.csproj -c $CONFIGURATION -o publish  # replace the name of project
       needs: [build]
       artifacts:
         paths:
@@ -539,11 +539,10 @@ We need a Windows runner somewhere that can reach ServerName:5986:
         GIT_STRATEGY: none              # only need artifacts, not source checkout
       needs: [package]
       script:
-        - powershell -NoProfile -Command "Write-Host 'Using publish at: ' $env:CI_PROJECT_DIR'\publish'"
-        - powershell -NoProfile -ExecutionPolicy Bypass -File "scripts\Deploy-IIS-Local.ps1" `
-            -PackageDir "$env:CI_PROJECT_DIR\publish" `
-            -SitePath "$env:IIS_SITE_PATH" `
-            -AppPool "$env:IIS_APPPOOL"
+      - powershell -NoProfile -ExecutionPolicy Bypass -File "scripts\Deploy-IIS-Local.ps1" `
+        -PackageDir "$env:CI_PROJECT_DIR\publish" `
+        -SitePath "$env:IIS_SITE_PATH" `
+        -AppPool "$env:IIS_APPPOOL"
       environment:
         name: production
         url: http://<your-site-binding>/
