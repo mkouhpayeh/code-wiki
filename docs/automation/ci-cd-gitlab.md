@@ -159,7 +159,100 @@ We need a Windows runner somewhere that can reach ServerName:5986:
 
         - Make sure the IIS server already has the [.NET 9 Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) installed.
 
-5. Add the deploy script to the repo .gitlab-ci.yml (replace it):
+5. Add deploy script to the repo
+    Create folder scripts/ and add Deploy-IIS-RemoteWinRM.ps1:
+    ```
+    param(
+      [Parameter(Mandatory=$true)][string]$PackageDir,          # local publish dir (from artifacts)
+      [Parameter(Mandatory=$true)][string]$ComputerName,        # ServerName
+      [Parameter(Mandatory=$true)][string]$SitePath,            # e.g. C:\inetpub\wwwroot\Hello-World
+      [Parameter(Mandatory=$false)][string]$AppPool,            # optional, e.g. 'HelloWorldPool'
+      [Parameter(Mandatory=$true)][string]$Username,            # e.g. ServerName\gitlab_deploy
+      [Parameter(Mandatory=$true)][string]$Password
+    )
+
+    $ErrorActionPreference = 'Stop'
+
+    # Prepare credentials & session
+    $sec = ConvertTo-SecureString $Password -AsPlainText -Force
+    $cred = New-Object System.Management.Automation.PSCredential ($Username, $sec)
+    $so = New-PSSessionOption -SkipCACheck -SkipCNCheck
+
+    # Create a zip of the publish folder
+    $zip = Join-Path $env:TEMP ("app_" + [guid]::NewGuid().Guid + ".zip")
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    if (Test-Path $zip) { Remove-Item $zip -Force }
+    [System.IO.Compression.ZipFile]::CreateFromDirectory($PackageDir, $zip)
+
+    # Open remote session over WinRM HTTPS
+    $session = New-PSSession -ComputerName $ComputerName -UseSSL -Credential $cred -SessionOption $so
+    try {
+      $remoteTemp = Invoke-Command -Session $session -ScriptBlock {
+        $p = Join-Path $env:TEMP ("deploy_" + [guid]::NewGuid().Guid)
+        New-Item -ItemType Directory -Path $p -Force | Out-Null
+        $p
+      }
+
+      # Copy zip to remote
+      Copy-Item -Path $zip -Destination (Join-Path $remoteTemp "app.zip") -ToSession $session
+
+      # Remote unpack + mirror + recycle app pool
+      Invoke-Command -Session $session -ScriptBlock {
+        param($zipPath, $targetPath, $appPool)
+        $ErrorActionPreference = 'Stop'
+
+        if (!(Test-Path $targetPath)) { New-Item -ItemType Directory -Force -Path $targetPath | Out-Null }
+
+        # Take app offline to avoid lock issues
+        $offline = Join-Path $targetPath 'app_offline.htm'
+        '<!DOCTYPE html><html><body><h3>Updating…</h3></body></html>' | Out-File -Encoding utf8 $offline
+
+        if ($appPool) {
+          Import-Module WebAdministration
+          if (Test-Path "IIS:\AppPools\$appPool") { Stop-WebAppPool -Name $appPool }
+        }
+
+        Add-Type -AssemblyName System.IO.Compression.FileSystem
+        $tmpExtract = Join-Path $env:TEMP ("extract_" + [guid]::NewGuid().Guid)
+        New-Item -ItemType Directory -Force -Path $tmpExtract | Out-Null
+        [System.IO.Compression.ZipFile]::ExtractToDirectory($zipPath, $tmpExtract)
+
+        # Mirror files (fast & resilient)
+        $rc = robocopy $tmpExtract $targetPath /MIR /NFL /NDL /NP /R:2 /W:2
+        if ($LASTEXITCODE -ge 8) { throw "Robocopy failed with code $LASTEXITCODE" }
+
+        Remove-Item $offline -ErrorAction SilentlyContinue
+
+        if ($appPool) { Start-WebAppPool -Name $appPool }
+
+        Remove-Item $tmpExtract -Recurse -Force
+        Remove-Item $zipPath -Force
+      } -ArgumentList (Join-Path $remoteTemp "app.zip"), $SitePath, $AppPool
+
+    } finally {
+      if ($session) { Remove-PSSession $session }
+      if (Test-Path $zip) { Remove-Item $zip -Force }
+    }
+
+    Write-Host "Remote deploy complete."
+    ```
+
+7. Add protected CI/CD variables in GitLab
+    - Project → Settings → CI/CD → Variables (mask & protect where appropriate):
+      
+        - PROD_SERVER = ws2019dggweb (or 192.168.35.15)
+        
+        - PROD_USER = ws2019dggweb\gitlab_deploy
+     
+        - PROD_PASSWORD = (the password you set)
+     
+        - IIS_SITE_PATH = C:\inetpub\wwwroot\Hello-World
+     
+        - (Optional) IIS_APPPOOL = your app pool name if you want to stop/start it
+    
+    - Mark them Protected so they’re only available to the production branch.
+
+8. Extend the .gitlab-ci.yml with the deploy job (replace it):
 
     ```
     stages: [build, test, package, deploy]
@@ -238,5 +331,25 @@ We need a Windows runner somewhere that can reach ServerName:5986:
 
     ```
 
-```
-```
+9. Protect the production path (optional but recommended)
+    - Protect production branch: Settings → Repository → Protected Branches.
+  
+    - Environment approvals: Deployments → Environments → production → Protect, add at least one approver.
+
+10. Test the full flow
+
+    - Push to production branch (your pipeline will run build → package → deploy).
+   
+    - In Pipelines, click “Play” on deploy_prod_remote_winrm.
+   
+    - Watch the logs — it should:
+   
+        - Zip publish/
+     
+        - Open WinRM session to ws2019dggweb
+     
+        - Copy zip → extract → mirror into C:\inetpub\wwwroot\Hello-World
+     
+        - (Optionally) stop/start the app pool
+
+    - Browse to http://ws2019dggweb/ (or the site binding you use) and verify the app.
