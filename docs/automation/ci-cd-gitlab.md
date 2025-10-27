@@ -580,3 +580,53 @@ We need a Windows runner somewhere that can reach ServerName:5986:
          ```
          <aspNetCore processPath="dotnet" arguments=".\YourApp.dll" stdoutLogEnabled="true" stdoutLogFile=".\logs\stdout" hostingModel="inprocess" />
          ```
+
+## Add notifications (Slack/ Teams/ Email)
+
+1. Slack (recommended)
+
+    - In Slack:
+  
+        - Go to your workspace → Apps → Manage apps → Incoming Webhooks
+     
+        - Create a new webhook → choose your channel → copy the webhook URL.
+  
+    - In GitLab:
+  
+        -  Project → Settings → Integrations → Slack notifications
+     
+        -  Paste the webhook URL.
+     
+        -  Choose events (Pipeline, Job, Merge Request, etc.).
+     
+        -  Save.
+     
+      - Now Slack will automatically post updates like:
+     
+          - ✅ Pipeline succeeded — production deploy complete
+
+2. Microsoft Teams
+
+    - In your Teams channel:
+    
+        - Go to Connectors → Incoming Webhook → Add → give it a name and copy the webhook URL.
+     
+    - In GitLab:
+  
+        - Go to Settings → Integrations → Microsoft Teams notifications → paste the webhook URL → select pipeline/job events.
+
+3. Email Notifications (simple)
+
+    - GitLab already emails users automatically on:
+  
+        - failed pipelines (if you’re subscribed),
+     
+        - failed jobs you own.
+     
+    - To fine-tune:
+  
+        - GitLab → User Menu → Preferences → Notifications → choose “Participating” or “Watch” level for your project.
+   
+    - Or use project-level notifications:
+  
+        - Go to Project → Settings → Notifications → Add custom notification email 
