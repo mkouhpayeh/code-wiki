@@ -560,30 +560,28 @@ We need a Windows runner somewhere that can reach ServerName:5986:
     - Variables Protected: set IIS_SITE_PATH and IIS_APPPOOL to Protected = ON.
     
 9. Deploy flow
-    - Push to production branch.
+    - Push to `production` branch.
 
-    - Pipeline runs build → package.
+    - Pipeline runs `build` → `package`.
 
-    - Click Play on deploy_prod_local.
+    - Click **Play** on `deploy_prod_local`.
 
-    - The job runs on the IIS server itself, copies publish/** into C:\inetpub\wwwroot\Hello-World, writes app_offline.htm, mirrors files, removes it, (optionally) recycles the app pool.
+    - The job runs on the IIS server itself, copies `publish/**` into `C:\inetpub\wwwroot\Hello-World`, writes `app_offline.htm`, mirrors files, removes it, (optionally) recycles the app pool.
 
-    - Browse your site.
+    - Browse the site.
     
 10. Quick verification & common fixes
-    - Job can’t start → runner tag mismatch or protection mismatch. Fix tags, Protected toggles.
+    - **Job can’t start** → runner tag mismatch or protection mismatch. Fix tags, Protected toggles.
    
-    - Access denied → run the runner service as Local System (default) or grant your custom account Modify on the site folder and ability to manage IIS.
+    - **Access denied** → run the runner service as Local System (default) or grant your custom account Modify on the site folder and ability to manage IIS.
    
-    - Site locked during copy → app_offline.htm already included; ensure no antivirus is holding locks.
+    - **Site locked during copy** → `app_offline.htm` already included; ensure no antivirus is holding locks.
    
-    - Wrong csproj path → adjust dotnet publish path in package job.
+    - **Wrong csproj path** → adjust `dotnet publish` path in `package` job.
    
-    - Artifacts missing → check that package uploaded publish/** and deploy has needs: [package].
+    - **Artifacts missing** → check that `package` uploaded `publish/**` and `deploy` has `needs: [package]`.
    
-    - Get the real error (enable stdout logs):
-   
-        - In the deployed site folder (same level as your .dll), open web.config and temporarily enable ANCM stdout logs: 
+    - **Get the real error (enable stdout logs)** →  In the deployed site folder (same level as your .dll), open `web.config` and temporarily `enable ANCM stdout logs`: 
 
          ```
          <aspNetCore processPath="dotnet" arguments=".\YourApp.dll" stdoutLogEnabled="true" stdoutLogFile=".\logs\stdout" hostingModel="inprocess" />
