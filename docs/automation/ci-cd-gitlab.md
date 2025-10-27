@@ -21,7 +21,7 @@
 Run test if available on main branche and deploy project manually on IIS when any changes applied to the production branch.
 
 1. One-time IIS server prep. Do these on the remote server:
-    - Install .NET Hosting Bundle (match your target, e.g. .NET 9). Reboot if the installer asks.
+    - Install [.NET Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) (match your target, e.g. .NET 9). Reboot if the installer asks.
    
     - Create the site folder
    
