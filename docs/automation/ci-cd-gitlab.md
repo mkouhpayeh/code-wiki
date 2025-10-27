@@ -52,11 +52,11 @@ Run test if available on main branche and deploy project manually on IIS when an
     Enable-PSRemoting -Force
     
     # Create a self-signed cert for WinRM HTTPS
-    $cert = New-SelfSignedCertificate -DnsName "ws2019dggweb" -CertStoreLocation "Cert:\LocalMachine\My"
+    $cert = New-SelfSignedCertificate -DnsName "ServerName" -CertStoreLocation "Cert:\LocalMachine\My"
 
     # Create HTTPS listener using that cert
     $thumb = $cert.Thumbprint
-    winrm create winrm/config/Listener?Address=*+Transport=HTTPS "@{Hostname=`"ws2019dggweb`"; CertificateThumbprint=`"$thumb`"}"
+    winrm create winrm/config/Listener?Address=*+Transport=HTTPS "@{Hostname=`"ServerName`"; CertificateThumbprint=`"$thumb`"}"
 
     # Open firewall
     New-NetFirewallRule -DisplayName "WinRM HTTPS (5986)" -Direction Inbound -Protocol TCP -LocalPort 5986 -Action Allow
@@ -66,166 +66,177 @@ Run test if available on main branche and deploy project manually on IIS when an
   
     ```
     winrm enumerate winrm/config/Listener
-    Test-NetConnection -ComputerName ws2019dggweb -Port 5986
+    Test-NetConnection -ComputerName ServerName -Port 5986
     ```
 
 
-2. 
-- Create GitLab Repository
-  
-- Create VS Project and add the project to the source control
+2. On the Windows GitLab Runner machine (not the IIS server)
+We need a Windows runner somewhere that can reach ServerName:5986:
+    - Install & register GitLab Runner (executor = shell), tag it windows.
+   
+    - Allow connecting to self-signed/hostname-mismatch (we’ll pass flags in the script). (No global TrustedHosts needed because we use HTTPS + skip checks.)
+   
+    ```
+    $sec = ConvertTo-SecureString "YourStrongPassword!" -AsPlainText -Force
+    $cred = New-Object pscredential ("ServerName\gitlab_deploy", $sec)
+    $so = New-PSSessionOption -SkipCACheck -SkipCNCheck
+    New-PSSession -ComputerName ServerName -UseSSL -Credential $cred -SessionOption $so
+    # If you get a session object (not an error), you’re good. Then:
+    Get-PSSession | Remove-PSSession
+    ```
 
-- Create CI file ".gitlab-ci.yml" in the project root
+3. Create CI file ".gitlab-ci.yml" in the project root
 
-```
-stages: [build, test, package]
+    ```
+    stages: [build, test, package]
 
-# ---------- CI (build/test/publish) ----------
-image: mcr.microsoft.com/dotnet/sdk:9.0
+    # ---------- CI (build/test/publish) ----------
+    image: mcr.microsoft.com/dotnet/sdk:9.0
 
-variables:
-  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
-  CONFIGURATION: "Release"
+    variables:
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
+      CONFIGURATION: "Release"
 
-cache:
-  key: "nuget"
-  paths:
-    - .nuget/packages
+    cache:
+      key: "nuget"
+      paths:
+        - .nuget/packages
 
-build:
-  stage: build
-  script:
-    - dotnet --info
-    - dotnet restore
-    - dotnet build -c $CONFIGURATION
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - if: '$CI_COMMIT_BRANCH == "production"'
+    build:
+      stage: build
+      script:
+        - dotnet --info
+        - dotnet restore
+        - dotnet build -c $CONFIGURATION
+      rules:
+        - if: '$CI_COMMIT_BRANCH == "main"'
+        - if: '$CI_COMMIT_BRANCH == "production"'
 
-test:
-  stage: test
-  script:
-    - if [ -d "tests" ]; then dotnet test --no-build -c $CONFIGURATION; else echo "No tests found, skipping."; fi
-  needs: [build]
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    test:
+      stage: test
+      script:
+        - if [ -d "tests" ]; then dotnet test --no-build -c $CONFIGURATION; else echo "No tests found, skipping."; fi
+      needs: [build]
+      rules:
+        - if: '$CI_COMMIT_BRANCH == "main"'
 
-package:
-  stage: package
-  script:
-    # publish to a fixed folder that we artifact
-    - dotnet publish Hello-World.csproj -c $CONFIGURATION -o publish
-  needs: [build]
-  artifacts:
-    paths:
-      - publish/**          
-      - scripts/**
-    expire_in: 7 days
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "production"'
-  when: on_success
-```
+    package:
+      stage: package
+      script:
+        # publish to a fixed folder that we artifact
+        - dotnet publish Hello-World.csproj -c $CONFIGURATION -o publish
+      needs: [build]
+      artifacts:
+        paths:
+          - publish/**          
+          - scripts/**
+        expire_in: 7 days
+      rules:
+        - if: '$CI_COMMIT_BRANCH == "production"'
+      when: on_success
+    ```
+    
+4. Register Runner
+    -  [Download Runner](https://docs.gitlab.com/runner/install/windows.html)
+    -  Register Runner to the Gitlab project
+        - Settings > CI/CD > Runner > Tag: windows
+      
+        ```bash
+        .\gitlab-runner.exe register  --url https://gitlab-URL  --token xxxxxxxxxxxxxx
+        # enter the URL
+        # enter the name
+        # enter executer: shell
+        # edit the config.toml => shell = "powershell"
+        ```
+        
+        ```bash
+        .\gitlab-runner.exe run
+        ```
+    - The runner service will run as gitlab-runner user
+   
+        - Make sure that user has write permission to the IIS site folder (e.g. C:\inetpub\wwwroot\HelloWorld).
 
--  [Download Runner](https://docs.gitlab.com/runner/install/windows.html)
+        - Make sure the IIS server already has the [.NET 9 Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) installed.
 
--  Register Runner to the Gitlab project
-    - Settings > CI/CD > Runner > Tag: windows
+5. Add the deploy script to the repo .gitlab-ci.yml (replace it):
 
-```bash
-.\gitlab-runner.exe register  --url https://gitlab-URL  --token xxxxxxxxxxxxxx
-# enter the URL
-# enter the name
-# enter executer: shell
-# edit the config.toml => shell = "powershell"
-```
+    ```
+    stages: [build, test, package, deploy]
 
-```bash
-.\gitlab-runner.exe run
-```
+    # ---------- CI (build/test/publish) ----------
+    image: mcr.microsoft.com/dotnet/sdk:9.0
 
-- The runner service will run as gitlab-runner user
-    - Make sure that user has write permission to the IIS site folder (e.g. C:\inetpub\wwwroot\HelloWorld).
-    - Make sure the IIS server already has the [.NET 9 Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) installed.
+    variables:
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
+      CONFIGURATION: "Release"
 
-- Add the deploy job to the .gitlab-ci.yml (replace it):
+    cache:
+      key: "nuget"
+      paths:
+        - .nuget/packages
 
-```
-stages: [build, test, package, deploy]
+    build:
+      stage: build
+      script:
+        - dotnet --info
+        - dotnet restore
+        - dotnet build -c $CONFIGURATION
+      rules:
+        - if: '$CI_COMMIT_BRANCH == "main"'
+        - if: '$CI_COMMIT_BRANCH == "production"'
 
-# ---------- CI (build/test/publish) ----------
-image: mcr.microsoft.com/dotnet/sdk:9.0
+    test:
+      stage: test
+      script:
+        - if [ -d "tests" ]; then dotnet test --no-build -c $CONFIGURATION; else echo "No tests found, skipping."; fi
+      needs: [build]
+      rules:
+        - if: '$CI_COMMIT_BRANCH == "main"'
 
-variables:
-  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
-  CONFIGURATION: "Release"
+    package:
+      stage: package
+      script:
+        # publish to a fixed folder that we artifact
+        - dotnet publish Hello-World.csproj -c $CONFIGURATION -o publish
+      needs: [build]
+      artifacts:
+        paths:
+          - publish/**           
+          - scripts/**
+        expire_in: 7 days
+      rules:
+        - if: '$CI_COMMIT_BRANCH == "production"'
+      when: on_success
 
-cache:
-  key: "nuget"
-  paths:
-    - .nuget/packages
+    # ---------- CD (manual deploy to IIS over WinRM) ----------
+    # Requires a Windows GitLab Runner (executor: shell) tagged "windows"
+    # and the repo file: scripts/Deploy-IIS-RemoteWinRM.ps1
+    deploy_prod_remote_winrm:
+      stage: deploy
+      tags: ["windows"]                 # <-- Windows runner tag
+      variables:
+        GIT_STRATEGY: none             
+      needs: [package]
+      script:
+        - >
+          powershell -NoProfile -ExecutionPolicy Bypass -File
+          scripts\Deploy-IIS-RemoteWinRM.ps1
+          -PackageDir "$env:CI_PROJECT_DIR\publish"
+          -ComputerName "$env:PROD_SERVER"
+          -SitePath "$env:IIS_SITE_PATH"
+          -AppPool "$env:IIS_APPPOOL"
+          -Username "$env:PROD_USER"
+          -Password "$env:PROD_PASSWORD"
+      environment:
+        name: production
+        url: https://ServerName/      
+      when: manual                      # ✅ requires confirmation click
+      rules:
+        - if: '$CI_COMMIT_BRANCH == "production"'
 
-build:
-  stage: build
-  script:
-    - dotnet --info
-    - dotnet restore
-    - dotnet build -c $CONFIGURATION
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - if: '$CI_COMMIT_BRANCH == "production"'
-
-test:
-  stage: test
-  script:
-    - if [ -d "tests" ]; then dotnet test --no-build -c $CONFIGURATION; else echo "No tests found, skipping."; fi
-  needs: [build]
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-
-package:
-  stage: package
-  script:
-    # publish to a fixed folder that we artifact
-    - dotnet publish Hello-World.csproj -c $CONFIGURATION -o publish
-  needs: [build]
-  artifacts:
-    paths:
-      - publish/**           
-      - scripts/**
-    expire_in: 7 days
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "production"'
-  when: on_success
-
-# ---------- CD (manual deploy to IIS over WinRM) ----------
-# Requires a Windows GitLab Runner (executor: shell) tagged "windows"
-# and the repo file: scripts/Deploy-IIS-RemoteWinRM.ps1
-deploy_prod_remote_winrm:
-  stage: deploy
-  tags: ["windows"]                 # <-- Windows runner tag
-  variables:
-    GIT_STRATEGY: none              # only need artifacts from 'package'
-  needs: [package]
-  script:
-    - >
-      powershell -NoProfile -ExecutionPolicy Bypass -File
-      scripts\Deploy-IIS-RemoteWinRM.ps1
-      -PackageDir "$env:CI_PROJECT_DIR\publish"
-      -ComputerName "$env:PROD_SERVER"
-      -SitePath "$env:IIS_SITE_PATH"
-      -AppPool "$env:IIS_APPPOOL"
-      -Username "$env:PROD_USER"
-      -Password "$env:PROD_PASSWORD"
-  environment:
-    name: production
-    url: http://localhost/      # adjust if you have a hostname/binding
-  when: manual                      # ✅ requires confirmation click
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "production"'
-
-```
+    ```
 
 ```
 ```
