@@ -17,7 +17,7 @@
 
 ---
 
-## Deploy .Net Web in IIS
+## Deploy .Net Web in IIS (WinRM)
 Run test if available on main branche and deploy project manually on IIS when any changes applied to the production branch.
 
 1. One-time IIS server prep. Do these on the remote server:
@@ -353,3 +353,231 @@ We need a Windows runner somewhere that can reach ServerName:5986:
         - (Optionally) stop/start the app pool
 
     - Browse to http://ws2019dggweb/ (or the site binding you use) and verify the app.
+
+
+## Deploy .Net Web in IIS (Runner on the IIS)
+
+1. Prereqs (one-time on the IIS server)
+
+    - Install [.NET Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) (match your target, e.g. .NET 9). Reboot if the installer asks.
+   
+    - Create the site folder
+   
+    ```
+    New-Item -ItemType Directory -Force -Path "C:\inetpub\wwwroot\Hello-World"
+    ```
+    
+    - (Optional) App Pool
+        In IIS Manager create an App Pool, e.g. HelloWorldPool (No Managed Code, Integrated).
+
+2. Install GitLab Runner on the IIS server (Windows)
+
+    ```
+    # choose a folder, e.g.:
+    mkdir C:\gitlab-runner
+    cd C:\gitlab-runner
+
+    # download runner (if you haven't)
+    # (Or copy gitlab-runner.exe here)
+
+    # install as a Windows service
+    .\gitlab-runner.exe install
+    .\gitlab-runner.exe start
+    ```
+
+    - Register the runner (project-scoped)
+        
+        - Get the registration token from your project: Project → Settings → CI/CD → Runners → “New project runner”
+        
+        - Then register:
+      
+        ```
+          .\gitlab-runner.exe register `
+          --url https://<your-gitlab-host>/ `
+          --registration-token <PROJECT_TOKEN> `
+          --executor shell `
+          --shell powershell `
+          --description "IIS Local Runner" `
+          --tag-list "windows,iis-local" `
+          --non-interactive
+        ```
+        
+        > The tags you set here (e.g., iis-local) are what you’ll use in the deploy job.
+
+        - Adjust runner config (recommended): Open C:\gitlab-runner\config.toml and ensure:
+      
+        - Then restart:
+      
+        ```
+        cd C:\gitlab-runner
+        .\gitlab-runner.exe stop
+        .\gitlab-runner.exe start
+        .\gitlab-runner.exe verify
+        ```
+
+        - Service account permissions: The Windows service gitlab-runner runs under Local System by default. That’s usually enough to write to C:\inetpub\wwwroot\Hello-World and control IIS. If you run it under a custom account, give that account:
+     
+           - Modify on C:\inetpub\wwwroot\Hello-World
+          
+           - Membership in IIS_IUSRS (to start/stop app pool), or grant that right via policy.
+            
+3. GitLab CI/CD variables (project → Settings → CI/CD → Variables)
+    - Create these (no secrets here, so Masked = OFF; set Protected = ON if branch is protected):
+        - IIS_SITE_PATH = C:\inetpub\wwwroot\Hello-World
+     
+        - IIS_APPPOOL = HelloWorldPool (optional; blank if you don’t recycle)
+    (You do not need PROD_SERVER, PROD_USER, PROD_PASSWORD anymore.)
+   
+5. Add the local deploy script to your repo
+    - Create scripts/Deploy-IIS-Local.ps1:
+
+    ```
+    param(
+      [Parameter(Mandatory=$true)][string]$PackageDir,   # local publish folder (artifact)
+      [Parameter(Mandatory=$true)][string]$SitePath,     # e.g. C:\inetpub\wwwroot\Hello-World
+      [Parameter(Mandatory=$false)][string]$AppPool      # optional: HelloWorldPool
+    )
+
+    $ErrorActionPreference = 'Stop'
+    Write-Host "== Local IIS deploy =="
+    Write-Host "PackageDir: $PackageDir"
+    Write-Host "SitePath  : $SitePath"
+    if ($AppPool) { Write-Host "AppPool   : $AppPool" }
+
+    if (!(Test-Path $PackageDir)) { throw "PackageDir not found: $PackageDir" }
+    $srcCount = (Get-ChildItem -Recurse -Force $PackageDir | Where-Object { -not $_.PSIsContainer }).Count
+    if ($srcCount -eq 0) { throw "PackageDir is empty." }
+
+    # Take site offline to avoid file locks
+    $offline = Join-Path $SitePath 'app_offline.htm'
+    '<!DOCTYPE html><html><body><h3>Updating…</h3></body></html>' | Out-File -Encoding utf8 $offline
+
+    # Stop app pool if provided
+    if ($AppPool) {
+      Import-Module WebAdministration
+      if (Test-Path "IIS:\AppPools\$AppPool") {
+        Write-Host "Stopping AppPool: $AppPool"
+        Stop-WebAppPool -Name $AppPool
+      } else {
+        Write-Warning "AppPool $AppPool not found."
+      }
+    }
+
+    # Ensure target exists
+    if (!(Test-Path $SitePath)) { New-Item -ItemType Directory -Force -Path $SitePath | Out-Null }
+
+    # Mirror files (fast & resilient)
+    $before = (Get-ChildItem -Recurse -Force $SitePath | Where-Object { -not $_.PSIsContainer }).Count
+    $rc = robocopy $PackageDir $SitePath /MIR /NFL /NDL /NP /R:2 /W:2
+    if ($LASTEXITCODE -ge 8) { throw "Robocopy failed with code $LASTEXITCODE" }
+    $after = (Get-ChildItem -Recurse -Force $SitePath | Where-Object { -not $_.PSIsContainer }).Count
+
+    Remove-Item $offline -ErrorAction SilentlyContinue
+
+    if ($AppPool) {
+      Write-Host "Starting AppPool: $AppPool"
+      Start-WebAppPool -Name $AppPool
+    }
+
+    Write-Host "Files before: $before; after: $after"
+    Write-Host "Deploy complete."
+    ```
+    
+7. Update .gitlab-ci.yml
+    - Keep your working build/test/package jobs. Add a local deploy job that uses the IIS server’s runner tag (e.g., iis-local) and no WinRM.
+
+    ```
+    stages: [build, test, package, deploy]
+
+    image: mcr.microsoft.com/dotnet/sdk:9.0
+
+    variables:
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
+      CONFIGURATION: "Release"
+
+    cache:
+      key: "nuget"
+      paths:
+        - .nuget/packages
+
+    build:
+      stage: build
+      script:
+        - dotnet --info
+        - dotnet restore
+        - dotnet build -c $CONFIGURATION
+      rules:
+        - if: '$CI_COMMIT_BRANCH == "main"'
+        - if: '$CI_COMMIT_BRANCH == "production"'
+
+    test:
+      stage: test
+      script:
+        - if [ -d "tests" ]; then dotnet test --no-build -c $CONFIGURATION; else echo "No tests found, skipping."; fi
+      needs: [build]
+      rules:
+        - if: '$CI_COMMIT_BRANCH == "main"'
+
+    package:
+      stage: package
+      script:
+        - dotnet publish Hello-World.csproj -c $CONFIGURATION -o publish
+      needs: [build]
+      artifacts:
+        paths:
+          - publish/**
+          - scripts/**                   # include the deploy script for simplicity
+        expire_in: 7 days
+      rules:
+        - if: '$CI_COMMIT_BRANCH == "production"'
+
+    deploy_prod_local:
+      stage: deploy
+      tags: ["iis-local"]               # <-- tag of the Runner installed on IIS
+      variables:
+        GIT_STRATEGY: none              # only need artifacts, not source checkout
+      needs: [package]
+      script:
+        - powershell -NoProfile -Command "Write-Host 'Using publish at: ' $env:CI_PROJECT_DIR'\publish'"
+        - powershell -NoProfile -ExecutionPolicy Bypass -File "scripts\Deploy-IIS-Local.ps1" `
+            -PackageDir "$env:CI_PROJECT_DIR\publish" `
+            -SitePath "$env:IIS_SITE_PATH" `
+            -AppPool "$env:IIS_APPPOOL"
+      environment:
+        name: production
+        url: http://<your-site-binding>/
+      when: manual                      # manual confirmation
+      rules:
+        - if: '$CI_COMMIT_BRANCH == "production"'
+    ```
+    > If your runner tag is just windows, change tags: ["iis-local"] to tags: ["windows"].
+    
+8. Protect the production path (recommended)
+    - Protect branch: Settings → Repository → Protected branches → protect production.
+
+    - Runner Protected: set the runner to Protected = ON (so it only runs on protected branches).
+
+    - Variables Protected: set IIS_SITE_PATH and IIS_APPPOOL to Protected = ON.
+    
+9. Deploy flow
+    - Push to production branch.
+
+    - Pipeline runs build → package.
+
+    - Click Play on deploy_prod_local.
+
+    - The job runs on the IIS server itself, copies publish/** into C:\inetpub\wwwroot\Hello-World, writes app_offline.htm, mirrors files, removes it, (optionally) recycles the app pool.
+
+    - Browse your site.
+    
+10. Quick verification & common fixes
+    - Job can’t start → runner tag mismatch or protection mismatch. Fix tags, Protected toggles.
+   
+    - Access denied → run the runner service as Local System (default) or grant your custom account Modify on the site folder and ability to manage IIS.
+   
+    - Site locked during copy → app_offline.htm already included; ensure no antivirus is holding locks.
+   
+    - Wrong csproj path → adjust dotnet publish path in package job.
+   
+    - Artifacts missing → check that package uploaded publish/** and deploy has needs: [package].
