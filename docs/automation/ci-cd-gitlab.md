@@ -580,3 +580,11 @@ We need a Windows runner somewhere that can reach ServerName:5986:
     - Wrong csproj path → adjust dotnet publish path in package job.
    
     - Artifacts missing → check that package uploaded publish/** and deploy has needs: [package].
+   
+    - Get the real error (enable stdout logs):
+   
+        - In the deployed site folder (same level as your .dll), open web.config and temporarily enable ANCM stdout logs: 
+
+         ```
+         <aspNetCore processPath="dotnet" arguments=".\YourApp.dll" stdoutLogEnabled="true" stdoutLogFile=".\logs\stdout" hostingModel="inprocess" />
+         ```
