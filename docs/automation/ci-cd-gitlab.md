@@ -349,8 +349,9 @@ We need a Windows runner somewhere that can reach ServerName:5986:
     - Browse to http://ws2019dggweb/ (or the site binding you use) and verify the app.
 
 
-## Deploy .Net Web in IIS (Runner on the IIS)
-
+## Deploy .Net Web in IIS
+ Runner installed on the IIS Server
+ 
 1. Prereqs (one-time on the IIS server)
 
     - Install [.NET Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) (match your target, e.g. .NET 9). Reboot if the installer asks.
@@ -581,7 +582,7 @@ We need a Windows runner somewhere that can reach ServerName:5986:
          <aspNetCore processPath="dotnet" arguments=".\YourApp.dll" stdoutLogEnabled="true" stdoutLogFile=".\logs\stdout" hostingModel="inprocess" />
          ```
 
-## Add notifications (Slack/ Teams/ Email)
+## Add notifications
 
 1. Slack (recommended)
 
