@@ -2,6 +2,6 @@
 
 ## Website Tech Analyze
 
-- **W3Techs**: A research / analysis site that gives info about what programming languages, web servers, CMSs, etc. are used across many websites.
+- [**W3Techs**](https://w3techs.com/): A research / analysis site that gives info about what programming languages, web servers, CMSs, etc. are used across many websites.
 
-- **WhatRuns**: A simpler (and free) browser‐extension style tool for identifying technologies used on a website.
+- [**WhatRuns**](https://www.whatruns.com/): A simpler (and free) browser‐extension style tool for identifying technologies used on a website.
