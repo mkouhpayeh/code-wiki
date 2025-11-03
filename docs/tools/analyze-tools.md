@@ -1,6 +1,6 @@
-# Analyse Tools
+# Analyze Tools
 
-## Website Tech Analyse
+## Website Tech Analyze
 
 - **W3Techs**: A research / analysis site that gives info about what programming languages, web servers, CMSs, etc. are used across many websites.
 
