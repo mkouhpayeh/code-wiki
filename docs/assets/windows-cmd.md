@@ -55,3 +55,23 @@ tasklist /fi "WINDOWTITLE eq MyApp*" /fi "USERNAME eq DOMAIN\User"
 ``` shell
 Get-TlsCipherSuite
 ```
+
+## Set Env Variable
+
+### CMD
+``` shell
+setx AZURE_OPENAI_API_KEY "xxxxxxxxxxxx"
+```
+
+### PowerShell
+``` shell title="current user"
+[Environment]::SetEnvironmentVariable("AZURE_OPENAI_API_KEY", "xxxxxxxxxxxx", "User")
+```
+
+``` shell title="system-wide (needs admin rights)"
+[Environment]::SetEnvironmentVariable("AZURE_OPENAI_API_KEY", "xxxxxxxxxxxx", "Machine")
+```
+
+``` shell title="Temporary (current session)"
+$env:AZURE_OPENAI_API_KEY = "xxxxxxxxxxxx"
+```
