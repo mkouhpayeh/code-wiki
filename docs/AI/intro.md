@@ -1,5 +1,5 @@
 
-# AI
+# AI Foundation
 
 ## Simple Chat 
 
