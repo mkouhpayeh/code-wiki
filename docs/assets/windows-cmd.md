@@ -57,6 +57,7 @@ Get-TlsCipherSuite
 ```
 
 ## Set Env Variable
+If you had Visual Studio running while you were setting the environment variables, you have to restart Visual Studio so that the new environment variables can take effect.
 
 ### CMD
 ``` shell
