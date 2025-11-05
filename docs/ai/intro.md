@@ -9,19 +9,12 @@ Because our app waited until the entire poem was ready before showing it. And Ch
 The current generation speed of GPT-4 is slightly faster than what a human can read. This means that if we stream the response, the user can essentially follow along and doesn't perceive the AI as slow. </br></br>
 
 As cool as streaming is, it has its disadvantages:
-
     - It's more complex to implement. Instead of simply receiving and displaying a complete response
-    
     - We have to handle partial responses, keep track of the chunks, handle intermediate errors, and so on
-    
     - Requires more bandwidth as every chunk comes with quite a lot of overhead and only one or two useful words worth of content. 
     
 Should we use streaming in your project? The answer, as it's pretty much always is, it depends. 
-
     - The model
-    
     - The load on the server
-    
-    - The amount of text you need to generate
-    
+    - he amount of text you need to generate
     - User's expectations or mindset.
