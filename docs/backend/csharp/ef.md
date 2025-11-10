@@ -60,20 +60,30 @@ private readonly AppDBContext _context;
 using (var dbContext = new DbContext())
 {
   var query = dbContext.Users
-     .Where(u=>u.Age>5)
-     .Orderby (u=>u.Name);
+     .Where (u => u.Age>5)
+     .Orderby (u => u.Name);
   string query = query.ToQueryString();
   Console.WriteLine(query);
 }
 ```
 
 ## Global Query Filter
+- **OnModelCreating** is a method for defining the model structure:
+    - Table mappings
+    - Relationships
+    - Constraints
+    - Default values
+    - **Query filters** ✅
+
+- **OnConfiguring** is a method for configuring the database connection.
+    
 ```  cs title="BlogContext.cs"
 public class BlogContext : DbContext
 {
-  protected override void OnConfiguring(ModelBuilder modelBuilder)
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
-    modelBuilder.Entity<Blog>().HasQueryFilters().ToListAsync();
+    modelBuilder.Entity<Blog>()
+        .HasQueryFilters(b => !b.IsArchived);
   }
 }
 ```
