@@ -133,6 +133,8 @@ using (var scope = app.Services.CreateScope())
 }
 ```
 
+> After each changes: should run add-migration
+
 ## Database First 
 ### Package Manager Console CMD
 
