@@ -69,7 +69,7 @@ public class AppDBContext : DbContext
 Add-Migration "Initial Migration"
 ```
 
-```  cs
+```  cs title="if no seeding"
 Update-Database
 ```
 
