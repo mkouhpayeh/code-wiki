@@ -63,7 +63,7 @@ public class AppDBContext : DbContext
 }
 ```
 
-### Package Manager Console CMD
+### Package Manager Console
 
 ```  cs
 Add-Migration "Initial Migration"
@@ -136,7 +136,7 @@ using (var scope = app.Services.CreateScope())
 > After each changes: should run add-migration
 
 ## Database First 
-### Package Manager Console CMD
+### Package Manager Console
 
 ```  cs
 Scaffold-DbContext "Connection String" Microsoft.EntityFrameworkCore.SqlServer -ContextDir DataFolder -OutputDir Models -DataAnnotation
