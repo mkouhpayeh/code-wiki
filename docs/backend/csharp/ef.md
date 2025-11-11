@@ -19,27 +19,56 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 
 ## Code First 
 ### Create Model
+
 ```  cs
 public class Item
 {
-    public int ID { get; set; } 
-    public string Title { get; set; }
+    public int ID { get; set; }
+    [Required, MaxLength(200)]
+    public string Title { get; set; } = default!;
+    public bool IsActive { get; set; } = true;
+    public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
 }
-```  
+```
+
 ### Create DBContext Model
+
 ```  cs
 public class AppDBContext : DbContext
 {
     public AppDBContext(DbContextOptions<AppDBContext> options) : base(options) { }
 
-    public DbSet<Item> Items { get; set; }
+    public DbSet<Item> Items => Set<Item>();
+
+    protected override void OnModelCreating(ModelBuilder b)
+    {
+        // -----------------------
+        // Item
+        // -----------------------
+        b.Entity<Item>(e =>
+        {
+            e.ToTable("Item");
+    
+            e.Property(p => p.CreatedUtc)
+                .HasDefaultValueSql("SYSUTCDATETIME()");
+    
+            e.Property(p => p.IsActive)
+                .HasDefaultValue(true);
+
+            e.HasIndex(p => p.Title)
+                .IsUnique()
+                .HasFilter("[Title] IS NOT NULL"); 
+        });
+
 }
 ```
 
 ### Package Manager Console CMD
+
 ```  cs
 Add-Migration "Initial Migration"
 ```
+
 ```  cs
 Update-Database
 ```
@@ -106,6 +135,7 @@ using (var scope = app.Services.CreateScope())
 
 ## Database First 
 ### Package Manager Console CMD
+
 ```  cs
 Scaffold-DbContext "Connection String" Microsoft.EntityFrameworkCore.SqlServer -ContextDir DataFolder -OutputDir Models -DataAnnotation
 ```
@@ -147,6 +177,7 @@ public class BlogContext : DbContext
   }
 }
 ```
+
 ``` cs title="To disable it"
 val allBlogs = await _context.Blogs.IgnoreQueryFilters().ToListAsync();
 ```
