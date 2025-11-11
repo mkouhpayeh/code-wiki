@@ -8,4 +8,4 @@ Works in **C#**, **VB.NET**, **C++**, **JavaScript**, etc.
 Applicable to **Visual Studio 2019**, **2022**, and later.
 
 ## Format Document
-**Shortcut:** `Ctrl + K + D`  
+**Shortcut:** `Ctrl + K, Ctrl + D`  
