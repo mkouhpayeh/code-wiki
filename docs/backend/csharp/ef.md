@@ -44,6 +44,66 @@ Add-Migration "Initial Migration"
 Update-Database
 ```
 
+### Seed Data
+``` 
+add-migration init 
+```
+
+``` cs
+    public static class SeedData
+    {
+        public static void Initialize(AppDBContext db)
+        {
+            db.Database.Migrate();
+
+            using var tx = db.Database.BeginTransaction();
+
+            try
+            {
+                // -------------------------------
+                // Items
+                // -------------------------------
+                if (!db.Items.Any())
+                {
+                    db.Units.AddRange(
+                        new Item
+                        {
+                            Title = "Item1"
+                        },
+                        new Item
+                        {
+                            Title = "Item2"
+                        }
+                    );
+                    db.SaveChanges();
+                }
+
+                var item1 = db.Items.First(u => u.Name.Contains("Item1"));
+                var item2 = db.Items.First(u => u.Name.Contains("Item2"));
+
+                tx.Commit();
+            }
+            catch
+            {
+                tx.Rollback();
+                throw;
+            }
+        }
+    }
+
+```
+
+``` cs title="Program.cs"
+// ----------------------
+// DB initial
+// ----------------------
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+    SeedData.Initialize(db);
+}
+```
+
 ## Database First 
 ### Package Manager Console CMD
 ```  cs
