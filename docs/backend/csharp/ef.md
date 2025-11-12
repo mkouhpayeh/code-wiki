@@ -175,7 +175,7 @@ public class BlogContext : DbContext
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
     modelBuilder.Entity<Blog>()
-        .HasQueryFilters(b => !b.IsArchived);
+        .HasQueryFilter(b => !b.IsArchived);
   }
 }
 ```
