@@ -1,4 +1,4 @@
-# Controller's Attribute
+# API (Application Programming Interface)
 
 ## REST API Settings
 ``` cs title="program.cs"
@@ -17,7 +17,7 @@ app.MapControllers();
 app.Run();
 ```
 
-## Attributes
+## Controller Attributes
 ``` cs title="Controllers"
  [ApiController]
  [Route("[controller]")]
