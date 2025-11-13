@@ -1,4 +1,5 @@
-# API (Application Programming Interface)
+# API
+**Application Programming Interface** 
 
 ## REST API Settings
 ``` cs title="program.cs"
