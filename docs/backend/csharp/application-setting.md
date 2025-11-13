@@ -94,7 +94,7 @@ add settings in Manage user secrets on contextmenu of each project
 
 ``` json title="appsettings.json"
 {
-  "ApiSettings": {
+  "ApiOptions": {
     "BaseAddress": "https://api.example.com/",
     "DefaultAccept": "application/json"
   }
@@ -102,11 +102,11 @@ add settings in Manage user secrets on contextmenu of each project
 ```
 
 ``` cs title="Program.cs"
-builder.Services.Configure<ApiOptions>(builder.Configuration.GetSection("ApiSettings"));
+builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiOptions"));
 ```
 
-``` cs
-public sealed class ApiOptions
+``` cs title="ApiSettings.cs"
+public sealed class ApiSettings
 {
     public string BaseAddress { get; set; } = default!;
     public string? DefaultAccept { get; set; }
