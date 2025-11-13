@@ -88,7 +88,6 @@ public async Task<IActionResult> ReadItems()
         return StatusCode(500, new ResponseModel<List<Item>> { Message = "Get Items failed! ", Status = ResponseStatusEnum.Exception, Data = null });
     }
 }
-```
 
 [HttpGet("ReadItemByName")]
 public async Task<IActionResult> ReadItemByName([FromQuery] string name)
@@ -107,9 +106,7 @@ public async Task<IActionResult> ReadItemByName([FromQuery] string name)
         return StatusCode(500, new ResponseModel<Item> { Message = "Get Items failed! ", Status = ResponseStatusEnum.Exception, Data = item });
     }
 }
-```
 
-``` cs title="ServicesController.cs"
 [HttpPost("UpdateItem")]
 public async Task<IActionResult> UpdateItem([FromBody] Item model)
 {
@@ -144,6 +141,7 @@ public async Task<IActionResult> UpdateItem([FromBody] Item model)
     }
 }
 ```
+
 - 
 
 ## API Usage
