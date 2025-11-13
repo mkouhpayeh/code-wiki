@@ -89,3 +89,26 @@ install-package Microsoft.Extensions.Configuration.UserSecrets
 
 add settings in Manage user secrets on contextmenu of each project
 ```
+
+## Bind options from config 
+
+``` json title="appsettings.json"
+{
+  "ApiSettings": {
+    "BaseAddress": "https://api.example.com/",
+    "DefaultAccept": "application/json"
+  }
+}
+```
+
+``` cs title="Program.cs"
+builder.Services.Configure<ApiOptions>(builder.Configuration.GetSection("ApiSettings"));
+```
+
+``` cs
+public sealed class ApiOptions
+{
+    public string BaseAddress { get; set; } = default!;
+    public string? DefaultAccept { get; set; }
+}
+```
