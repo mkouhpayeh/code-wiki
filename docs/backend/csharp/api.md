@@ -37,7 +37,7 @@ app.Run();
 
 ## API Definition
 
-- Entity framework settings
+- [Entity framework settings](/ef.md)
 
 - Prepare Response structure
 
