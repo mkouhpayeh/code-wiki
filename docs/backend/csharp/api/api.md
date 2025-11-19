@@ -142,7 +142,7 @@ app.Run();
     }
     ```
 
-## [API Client](./api-client.md)
+## [API Usage](./api-client.md)
 
 
 ## [API Architecture](./api-arch.md)
