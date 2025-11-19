@@ -141,11 +141,10 @@ app.Run();
     }
     ```
 
-## API Usage
-[API Client](./api-client.md)
+## [API Client](./api-client.md)
 
-## API Architecture
-[API Structure](./api-arch.md)
 
-## API Security
-[API Security](./api-sec.md)
+## [API Architecture](./api-arch.md)
+
+
+## [API Security](./api-sec.md)
