@@ -145,6 +145,12 @@ public async Task<IActionResult> UpdateItem([FromBody] Item model)
 - 
 
 ## API Usage
+```
+dotnet add package Polly
+dotnet add package Microsoft.Extensions.Http.Polly
+
+```
+
 ``` cs
 // ResponseStatusEnum.cs
 public enum ResponseStatusEnum { Success, InvalidModelState, NotFound, Exception, Conflict }
@@ -200,12 +206,15 @@ builder.Services.ConfigureHttpJsonOptions(o =>
     o.SerializerOptions.PropertyNamingPolicy = null;
 });
 
+// Retry 3 times automatically when: The remote API is down for a short moment or get HTTP 500, 502, 503, 504 or get 429 (Too many requests → rate limiting)
+// With wait times: 200ms, 400ms, 600ms
 // resilience
 static IAsyncPolicy<HttpResponseMessage> RetryPolicy() =>
     HttpPolicyExtensions
         .HandleTransientHttpError()
         .OrResult(r => r.StatusCode == HttpStatusCode.TooManyRequests)
         .WaitAndRetryAsync(3, retry => TimeSpan.FromMilliseconds(200 * (retry + 1)));
+
 
 builder.Services.AddHttpClient("Api", client =>
 {
@@ -215,7 +224,7 @@ builder.Services.AddHttpClient("Api", client =>
     // client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "<token>");
 })
 .AddPolicyHandler(RetryPolicy())
-.SetHandlerLifetime(TimeSpan.FromMinutes(5));
+.SetHandlerLifetime(TimeSpan.FromMinutes(5));     // Prevents DNS and socket exhaustion. Default lifetime: 2 minutes. This ensures HttpClient reuses connections efficiently.
 
 // register generic CRUD client
 builder.Services.AddScoped<IApiClientFactory, ApiClientFactory>();
