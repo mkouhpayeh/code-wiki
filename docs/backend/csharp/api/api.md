@@ -146,3 +146,6 @@ app.Run();
 
 ## API Architecture
 [API Structure](./api-arch.md)
+
+## API Security
+[API Security](./api-sec.md)
