@@ -42,11 +42,11 @@ app.Run();
 - Prepare Response structure
 
 ``` cs title="ResponseModel.cs"
-public class ResponseModel<T>
+public class ResponseModel
 {
     public string Message { get; set; }
     public ResponseStatusEnum Status { get; set; }
-    public T Data { get; set; }
+    public object? Data { get; set; }
 }
 ```
 
@@ -154,7 +154,7 @@ public class ResponseModel<T>
 {
     public string Message { get; set; }
     public ResponseStatusEnum Status { get; set; }
-    public T Data { get; set; }
+    public T? Data { get; set; }
 }
 
 // Paging.cs
