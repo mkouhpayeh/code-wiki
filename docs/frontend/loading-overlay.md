@@ -70,6 +70,8 @@ $(function () {
 
 ``` html title="Layout.cshtml"
 @Html.Partial("_LoadingOverlay")
+
+<script src="~/scripts/site-overlay.js"></script>
 ```
 
 ## Disable Overlay
