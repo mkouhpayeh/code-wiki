@@ -299,4 +299,63 @@ public class EditModel : PageModel
 }
 ```
 
+- Simple Razor Page
+
+``` cs title="Components\Pages\Home.razor"
+@page "/"
+
+@using TestFactoryWeb.Models
+
+@inject IApiClientFactory Factory
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+
+@if (_items is not null && _items.Count > 0)
+{
+    <table>
+        @foreach (var item in _items)
+        {
+            <tr>
+                <td>@item.Name</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No products found</p>
+}
+
+
+@code {
+    private ICrudApi<ProductDto, int>? _products;
+    private List<ProductDto>? _items = new();
+
+    private ProductDto item = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _products = Factory.Create<ProductDto, int>("products"); 
+            var response = await _products.ListAsync();
+
+            _items = response.Data ?? new List<ProductDto>();
+
+            var product = await _products.ReadAsync(1);
+            item = product.Data!;
+
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}
+
+```
 
