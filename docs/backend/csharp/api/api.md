@@ -71,7 +71,7 @@ app.Run();
 
 - Controllers
     ``` cs title="ServicesController.cs"
-    [HttpGet("ReadItems")]
+    [HttpGet]
     public async Task<IActionResult> ReadItems()
     {
         try
@@ -86,6 +86,26 @@ app.Run();
         {
             // Log
             return StatusCode(500, new ResponseModel<List<Item>> { Message = "Get Items failed! ", Status = ResponseStatusEnum.Exception, Data = null });
+        }
+    }
+
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> ReadAsync(int id)
+    {
+        try
+        {
+            var item = await _dbContext.Products
+                 .FindAsync(id);
+
+            if (item == null)
+                return NotFound(new ResponseModel { Message = "Product not found!", Status = ResponseStatusEnum.NotFound, Data = null });
+
+            return Ok(new ResponseModel { Message = "Products found successfully!", Status = ResponseStatusEnum.Success, Data = item });
+        }
+        catch (Exception ex)
+        {
+            // Log
+            return StatusCode(500, new ResponseModel { Message = "Get Item failed! ", Status = ResponseStatusEnum.Exception, Data = null });
         }
     }
     
@@ -107,7 +127,7 @@ app.Run();
         }
     }
     
-    [HttpPost("UpdateItem")]
+   [HttpPut]
     public async Task<IActionResult> UpdateItem([FromBody] Item model)
     {
         try
