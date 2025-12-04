@@ -304,8 +304,6 @@ public class EditModel : PageModel
 ``` cs title="Components\Pages\Home.razor"
 @page "/"
 
-@using TestFactoryWeb.Models
-
 @inject IApiClientFactory Factory
 
 <PageTitle>Home</PageTitle>
