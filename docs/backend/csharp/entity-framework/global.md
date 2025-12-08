@@ -41,6 +41,6 @@ builder.Property(p=>p.Code)
     .HasMaxLength(10);
 
 nuilder.Property(p=>p.Code)
-    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore); // Throw, Save, Ignore
 ```
 
