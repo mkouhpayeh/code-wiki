@@ -21,8 +21,20 @@ public class BlogContext : DbContext
 }
 ```
 
+``` cs title="To disable it"
+val allBlogs = await _context.Blogs.IgnoreQueryFilters().ToListAsync();
+```
+
 
 ## Initialization
+- Prevents EF from updating the property after the entity is saved
+
+> entity.Code = "ABC123";
+context.SaveChanges(); // value written to DB
+
+> entity.Code = "XYZ999";
+context.SaveChanges(); // ignored — DB value is not updated
+
 ```
 builder.Property(p=>p.Code)
     .IsRequired()
@@ -32,7 +44,3 @@ nuilder.Property(p=>p.Code)
     .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 ```
 
-
-``` cs title="To disable it"
-val allBlogs = await _context.Blogs.IgnoreQueryFilters().ToListAsync();
-```
