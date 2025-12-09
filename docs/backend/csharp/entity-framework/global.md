@@ -1,4 +1,4 @@
-# Globalization 
+# Configuration 
 
 ## Global Query Filter
 - **OnModelCreating** is a method for defining the model structure:
