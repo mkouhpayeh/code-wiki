@@ -1,52 +1,58 @@
 # External Auth
 Install packages:
-   * Microsoft.AspNetCore.Authentication.JwtBearer
-   * Microsoft.AspNetCore.Authentication.Negotiate
-   * Microsoft.AspNetCore.Identity.EntityFrameworkCore
-   * Microsoft.EntityFrameworkCore.SqlServer
-   * Microsoft.EntityFrameworkCore.Tools
+
+    - Microsoft.AspNetCore.Authentication.JwtBearer
+    - Microsoft.AspNetCore.Authentication.Negotiate
+    - Microsoft.AspNetCore.Identity.EntityFrameworkCore
+    - Microsoft.EntityFrameworkCore.SqlServer
+    - Microsoft.EntityFrameworkCore.Tools
      
 ## Active Directory
 1. Install packages 
+
 2. Configure authentication/authorization
-   ``` cs title="Program.cs"
-   builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
-      .AddNegotiate();
+    ``` cs title="Program.cs"
+    builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
+       .AddNegotiate();
    
-   builder.Services.AddAuthorization(options =>
-   {
-       options.FallbackPolicy = options.DefaultPolicy;
-   });
+    builder.Services.AddAuthorization(options =>
+    {
+        options.FallbackPolicy = options.DefaultPolicy;
+    });
    
-   var app = builder.Build();
+    var app = builder.Build();
    
-   app.UseAuthentication();
-   app.UseAuthorization();
+    app.UseAuthentication();
+    app.UseAuthorization();
    
-   app.MapControllers();
-   ```
+    app.MapControllers();
+    ```
+    
 3. Now any controller/action with [Authorize] (or all, if you used the fallback policy) will require a valid Windows login. You can read the user with:
-   ``` cs 
-   var user = HttpContext.User;                // ClaimsPrincipal
-   var name = user.Identity?.Name;             // "DOMAIN\\username"
-   var isAuth = user.Identity?.IsAuthenticated == true; 
-   User.Identity?.AuthenticationType; // "Negotiate" or "NTLM"
-   ```
-4. In Razor components:
-   ``` cs
-   @inject IHttpContextAccessor HttpContextAccessor
+
+    ``` cs 
+    var user = HttpContext.User;                // ClaimsPrincipal
+    var name = user.Identity?.Name;             // "DOMAIN\\username"
+    var isAuth = user.Identity?.IsAuthenticated == true; 
+    User.Identity?.AuthenticationType; // "Negotiate" or "NTLM"
+    ```
+
+5. In Razor components:
+    ``` cs
+    @inject IHttpContextAccessor HttpContextAccessor
    
-   @code{
-        private async Task CheckLdapAuthenticationAsync()
-        {
-            var domainUser = HttpContextAccessor.HttpContext?.User?.Identity?.Name;
-             if (domainUser == null)
-             {
-             }
-        }
-   }
-   ```
-5. Development hosting (IIS Express) – enable Windows auth
+    @code{
+         private async Task CheckLdapAuthenticationAsync()
+         {
+             var domainUser = HttpContextAccessor.HttpContext?.User?.Identity?.Name;
+              if (domainUser == null)
+              {
+              }
+         }
+    }
+    ```
+
+6. Development hosting (IIS Express) – enable Windows auth
    In Properties/launchSettings.json (IIS Express profile):
    ``` json
    "iisSettings": {
@@ -55,9 +61,9 @@ Install packages:
    }
    ```
    Or set this in Visual Studio: Project Properties → Debug → App URL (IIS Express) → Enable Windows Authentication (on) / Anonymous (off).
-6. Kestrel/self-host
+7. Kestrel/self-host
    You can run on Kestrel; negotiation still works. For browsers to SSO without a prompt, the site must be in clients’ Local Intranet zone (IE/Edge) or configured in Chrome/Firefox to allow integrated auth for your domain.
-7. Authorize by AD group
+8. Authorize by AD group
    ``` cs
    [Authorize(Roles = @"MYDOMAIN\\Developers")]
    [ApiController]
@@ -78,7 +84,7 @@ Install packages:
    [Authorize(Policy = "ITAdmins")]
    public IActionResult AdminOnly() => Ok("Hi admin!");
    ```
-8. If you really want to keep ASP.NET Core Identity together with Windows auth
+9. If you really want to keep ASP.NET Core Identity together with Windows auth
    ``` cs title="Program.cs"
    app.Use(async (ctx, next) =>
    {
