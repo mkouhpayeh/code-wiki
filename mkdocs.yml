@@ -5,7 +5,6 @@ nav:
   - Home: index.md
   - Fundamentals: 
       - Coding Foundation: fundamentals/foundation.md
-      - 
   - Backend: backend/
   - SQL: SQL/
   - Frontend: frontend/
