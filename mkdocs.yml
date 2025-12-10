@@ -9,14 +9,33 @@ nav:
     - Shortcuts: fundamentals/shortcut.md
     - Windows Command: fundamentals/windows-cmd.md
   - Backend: backend/
-  - SQL: SQL/
-  - Frontend: frontend/
-  - AI: AI/
-  - Automation: automation/
-  - Docker: docker/
-  - Tools: tools/
-  - Assets: assets/
-  
+  - SQL: 
+    - Coding Foundation: fundamentals/foundation.md
+    - MkDocs Guide: fundamentals/mkdocs.md
+    - Shortcuts: fundamentals/shortcut.md
+    - Windows Command: fundamentals/windows-cmd.md
+    - MkDocs Guide: fundamentals/mkdocs.md
+    - Shortcuts: fundamentals/shortcut.md
+    - Windows Command: fundamentals/windows-cmd.md
+  - Frontend: 
+    - CSS Tips: frontend/css-tips.md
+    - Bootstrap: frontend/bootstrap.md
+    - Loading Page: frontend/loading-overlay.md
+    - Markdown: frontend/markdown.md
+  - AI: 
+    - AI Foundation: AI/foundation.md
+  - Automation: 
+    - CI/CD GitLab: automation/ci-cd-gitlab.md
+    - CI/CD GitHub: automation/ci-cd-github.md
+    - Ansible Introduction: automation/ansible-intro.md
+    - Ansible Playbook: automation/ansible-playbook.md
+  - Docker: 
+    - Docker Introduction: docker/docker-intro.md
+    - Docker Installation: docs/docker/docker-install.md
+    - Docker Usage: docker/docker-useage.md
+  - Tools: 
+    - Analyze Tools: tools/analyze-tools.md
+    - Performance Tools: tools/performance-tools.md
   
 theme:
   name: material
