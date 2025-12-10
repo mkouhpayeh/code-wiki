@@ -67,7 +67,7 @@ nav:
     - Ansible Playbook: automation/ansible-playbook.md
   - Docker: 
     - Docker Introduction: docker/docker-intro.md
-    - Docker Installation: docs/docker/docker-install.md
+    - Docker Installation: docker/docker-install.md
     - Docker Usage: docker/docker-useage.md
   - Tools: 
     - Analyze Tools: tools/analyze-tools.md
