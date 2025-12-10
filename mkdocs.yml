@@ -1,5 +1,18 @@
 site_name: Code WiKi
 site_url: https://mkouhpayeh.github.io/code-wiki
+
+nav:
+  - Fundamentals: fundamentals/
+  - Backend: backend/
+  - SQL: SQL/
+  - Frontend: frontend/
+  - AI: AI/
+  - Automation: automation/
+  - Docker: docker/
+  - Tools: tools/
+  - Assets: assets/
+  - Home: index.md
+  
 theme:
   name: material
   font:
