@@ -1,4 +1,4 @@
-# Bootstrap Update
+# Bootstrap
 
 ## Update to Bootstrap 5
 
