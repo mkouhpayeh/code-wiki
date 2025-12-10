@@ -3,12 +3,12 @@
 ## Migrate from MySQL to MsSQL
 
 ### Install required package
-```csharp
-Install Package Microsoft.EntityFrameworkCore.SqlServer
-Install Package Microsoft.EntityFrameworkCore
-Install Package Microsoft.EntityFrameworkCore.Tools
-Install Package Microsoft.EntityFrameworkCore.Design
-```
+
+- Install Package Microsoft.EntityFrameworkCore.SqlServer
+- Install Package Microsoft.EntityFrameworkCore
+- Install Package Microsoft.EntityFrameworkCore.Tools
+- Install Package Microsoft.EntityFrameworkCore.Design
+
 
 ### Add SQL Server DB Context
 ```csharp
