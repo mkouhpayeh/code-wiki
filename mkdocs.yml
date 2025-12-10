@@ -5,10 +5,10 @@ nav:
   - Home: index.md
   - Fundamentals:
     - Coding Foundation: fundamentals/foundation.md
-    - MkDocs Guide: fundamentals/mkdocs.md
     - Shortcuts: fundamentals/shortcut.md
     - SSH Settings: fundamentals/ssh-key.md
     - Windows Command: fundamentals/windows-cmd.md
+    - MkDocs Guide: fundamentals/mkdocs.md
   - Backend: 
     - Csharp:
       - API:
