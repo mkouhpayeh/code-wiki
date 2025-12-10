@@ -1,7 +1,7 @@
 
-# 📚 AI Foundation
+# 📚 **AI Foundation**
 
-## 📖 Simple Chat 
+## 📖 **Simple Chat** 
 ``` cs
 using Azure;
 using Azure.AI.OpenAI;
