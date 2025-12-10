@@ -1,4 +1,4 @@
-# CI/CD GitLab
+# 📚 CI/CD GitLab
 
 - CI/CD pipelines are the fundamental component of GitLab CI/CD. Pipelines are configured in a ".gitlab-ci.yml" file by using YAML keywords.
   
