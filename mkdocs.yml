@@ -32,6 +32,17 @@ nav:
       - Validation:
         - Validation Attributes: backend/csharp/validation/attrib.md
         - Custom Validation: backend/csharp/validation/custom-attrib.md
+      - Patterns: backend/csharp/pattern.md
+      - Application Settings: backend/csharp/application-setting.md
+      - Connection String: backend/csharp/con-string.md
+      - Error Handling: backend/csharp/error.md
+      - Google reCAPTCHA: backend/csharp/google-recaptcha.md
+      - HTTP Requests: backend/csharp/http-request.md
+      - IIS Deploy: backend/csharp/iis-virtualApp.md
+      - Migrate DB: backend/csharp/migrate-sqlserver.md
+      - Security: backend/csharp/security.md
+      - State Service: backend/csharp/state-service.md
+      - Azure Insights: backend/csharp/azure-insights.md
     - Python:
       - Extract Firebird: python/extract-firebird.md
   - SQL: 
