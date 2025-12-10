@@ -2,7 +2,10 @@ site_name: Code WiKi
 site_url: https://mkouhpayeh.github.io/code-wiki
 
 nav:
-  - Fundamentals: fundamentals/
+  - Home: index.md
+  - Fundamentals: 
+      - Coding Foundation: fundamentals/foundation.md
+      - 
   - Backend: backend/
   - SQL: SQL/
   - Frontend: frontend/
@@ -11,7 +14,7 @@ nav:
   - Docker: docker/
   - Tools: tools/
   - Assets: assets/
-  - Home: index.md
+  
   
 theme:
   name: material
