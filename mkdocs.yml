@@ -23,9 +23,9 @@ nav:
         - Installation: backend/csharp/entity-framework/ef.md
         - Configuration: backend/csharp/entity-framework/config.md
       - Exception:
-        - Exception Customization: backend/csharp/exception/exception-custom.md
-        - Exception Handler: backend/csharp/exception/exception-handler.md
-        - Exception Filter: backend/csharp/exception/exception-filter.md
+        - Exc Customization: backend/csharp/exception/exception-custom.md
+        - Exc Handler: backend/csharp/exception/exception-handler.md
+        - Exc Filter: backend/csharp/exception/exception-filter.md
       - Mailing:
         - Email Service: backend/csharp/mailing/email-service.md
         - Cloud Service: backend/csharp/mailing/email-cloud-service.md
