@@ -1,4 +1,4 @@
-# 📚 Docker Usage
+# Docker Usage
 - Everything you create within a container stays within the container. Once the container stops, the data gets deleted with it.
 - Use only verified images for security. Verified image have a **Docker Official Image** designation on them to let you know that they are scanned by Docker themselves. There are some image scanners:
     - Clair
