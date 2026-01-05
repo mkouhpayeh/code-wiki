@@ -1,6 +1,8 @@
-# Local State Service
+# 📚 Local State Service
 
-## Add Java script
+---
+
+## 1️⃣ Add Java script
 ``` js title="site.js"
 window.localStorageHelper = {
     setItem: function (key, value) {
@@ -16,7 +18,9 @@ window.localStorageHelper = {
 };
 ```
 
-## Add Service Model
+---
+
+## 2️⃣ Add Service Model
 ``` cs title="PracticeStateService.cs"
 public class PracticeStateService
 {
@@ -97,7 +101,9 @@ public class PracticeStateService
 }
 ```
 
-## Add DI
+---
+
+## 3️⃣ Add DI
 ``` cs title="Program.cs"
 builder.Services.AddScoped<PracticeStateService>();
 ```
