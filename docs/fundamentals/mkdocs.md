@@ -1,8 +1,10 @@
-# mkdocs Materials
+# 📚 mkdocs Materials
 
 [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/reference/)
 
-## Add note
+---
+
+## 1️⃣ Add note
 ```
 !!! note "CAUTION!"
 
@@ -10,3 +12,5 @@
     xxx
 
 ```
+
+---
