@@ -1,4 +1,6 @@
-# Index Fragmentation
+# 📚 Index Fragmentation
+
+---
 
 ``` sql title="SQL Server"
 SELECT 
