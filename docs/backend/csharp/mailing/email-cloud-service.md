@@ -2,6 +2,8 @@
 1- In-house email services <br />
 2- Cloud-based email services <br />
 
+---
+
 ## Cloud services benefits
 - Lower cost
 - Updates
@@ -10,10 +12,14 @@
 - Expertise
 - Scalability
 
+---
+
 ## Common mailing services
 - SendGrid
 - Mandrill
 - Mailgun
+
+---
 
 ## Setup SendGrid
 1- Create an account : https://sendgrid.com <br />
@@ -135,16 +141,22 @@ public class EmailService: IEmailService
 builder.Services.AddTransient<IEmailService, EmailService>();
 ```
 
+---
+
 ## Webhook
-- Webhooks only work on HTTP or HTTPs and points rhich run on production envirinment.
+- Webhooks only work on HTTP or HTTPs and points which run on production envirinment.
 - So to be able to run a localhost in a production-like environment, we use a toll named "ngrok"
 - ngrok is a cross-platform application that enables developers tp expose a local development
+
+---
 
 ## Setup ngrok 
 1- Setup an Account: https://ngrok.com <br />
 2- Install ngrok <br />
 3- Create a Tunnel <br />
 4- Run VS as Administrator > Tools > Start ngrok Tunnel <br />
+
+---
 
 ## Add Event Webhook 
 ```cs title="SendGridEvents.cs"
@@ -170,6 +182,7 @@ public class SendGridEvents
   public string type { get; set; }
 }
 ```
+
 ```cs title="Add an Empty API Controller"
 private readonly AppDbContext _context;
 public ctor (AppDbContext context)
