@@ -1,4 +1,4 @@
-# 📚 Generate Sample Data
+# Generate Sample Data
 
 ---
 
