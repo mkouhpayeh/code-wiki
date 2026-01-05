@@ -1,9 +1,11 @@
-# Docker Introduction
+# 📚 Docker Introduction
 
 - In Linux, the kernel is the central component of the operating system, acting as a bridge between hardware and software.
 - It manages system resources such as the CPU, memory, and devices, and handles core functions like running programs, managing files, and controlling input/output operations.
 
-## Docker vs VirtualMachine
+--- 
+
+## 1️⃣ Docker vs VirtualMachine
  - This is understandable, but incorrect, comparison. The biggest difference is that **virtual machines** virtualize hardware whereas **containers** virtualize operating system kernels.
  - Virtual machines run on a platform called a hypervisor. The hypervisor's main job is to translate operations on emulated hardware within virtual machines like memory processors, disks, etc, to operations on real hardware within their hosts.
     - Run on top of hypervisors
@@ -17,8 +19,10 @@
     - Do not require OS Config
     - Run one app at a time (usually)
     - Take up less spaces
-      
-## Docker Anatomy 
+
+---
+
+## 2️⃣ Docker Anatomy 
 - A container is composed of two things: a Linux namespace (Host) and a Linux control group (Kernel).
 - Namespaces are a Linux kernel feature that provides the ability to expose different "views" of your system to applications running within it.
 - Namespace limits "What you can see".
@@ -41,11 +45,14 @@
 - Containers can run on anything but their images are tied to the kernel they were created from.
 - Containers created from container images configured for Linux kernels can only run on Linux. Conversely, containers created from container images configured for Windows can only run on Windows. 
 
-## Docker Advantages
+---
+
+## 3️⃣ Docker Advantages
 
 1- Docker Files make configuration and packaging apps and their environments really easy. <br />
 2- Docker Hub (Global repo of images maintained by Docker) makes sharing images with anyone in the world easy. <br />
 3- Docker CLI makes it really easy to start the apps in containers. <br />
+
 
 ### Docker Alternatives 
 - Kuberbetes
@@ -54,3 +61,5 @@
     - Security: Eliminates the need for a privileged daemon (reduces attack surface).
     - Integration with systemd: Containers can run as regular system services.
     - Kubernetes alignment: Uses the same OCI runtime/spec as Kubernetes (CRI-O).
+
+---
