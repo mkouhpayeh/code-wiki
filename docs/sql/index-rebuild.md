@@ -1,4 +1,6 @@
-# Index Rebuild
+# 📚Index Rebuild
+
+---
 
 - Index = NULL → It's a heap (no clustered index).
 ``` sql title="Rebuild the heap"
