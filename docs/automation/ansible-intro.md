@@ -7,7 +7,7 @@ Ansible uses the **Jinja2 templating engine** for variable replacement, loops, c
 
 ---
 
-## 1️⃣ Keywords
+## Keywords
 
 - **Community**  
   The easiest way for most admins to run Ansible. It contains Ansible binaries and many commonly used components packaged and ready to go.
@@ -65,7 +65,7 @@ Ansible uses the **Jinja2 templating engine** for variable replacement, loops, c
 
 ---
 
-## 2️⃣ Installation
+## Installation
 
 ```bash
 # Install Python (Fedora/RHEL example)
@@ -91,7 +91,7 @@ pip install paramiko
 
 ---
 
-## 3️⃣ Commands
+## Commands
 
 - `pwd` — Present Working Directory  
 - `ls` — List files  
@@ -101,7 +101,7 @@ pip install paramiko
 
 ---
 
-## 4️⃣ Examples
+## Examples
 
 1. Gather facts and display them
 ```yaml
@@ -181,7 +181,7 @@ curl http://127.0.0.1
 
 ---
 
-## 5️⃣ Idempotence output
+## Idempotence output
 
 - **OK** — Task completed successfully and no change was needed.  
 - **Changed** — Task completed and made a change on the host.  
@@ -190,7 +190,7 @@ curl http://127.0.0.1
 
 ---
 
-## 6️⃣ Installing Collections
+## Installing Collections
 
 1. Install a collection:
 ```bash
