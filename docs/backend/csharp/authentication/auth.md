@@ -2,6 +2,8 @@
 - Authentication is the process of validating the identity of a registered user who is accessing a service or an application.
 - Authorization is the process of validating the authenticated user if the user has permissions to access a certain service or an application.
 
+---
+
 ## Cookie-based Auth
 - You typically have a browser and a server. And if you want to be authenticated, you'd send the username and the password to the server. Let's say by using an API endpoint /authenticate.
 - Then the server is going to check if the credentials are correct. And if the credentials are correct, then the server is going to create a session in the server memory.
@@ -10,7 +12,9 @@
 - There was two problems:
     1. The first problem is that if let's say millions of users try to access your app at the same time, then the server is going to create millions of sessions, which is going to overload your server.
     2. The second problem is that if your cookies get stolen from the browser, the sessionIds are stolen as well.
-  
+
+---
+
 ## Token-based Auth
 - Here is the same way we have a browser and a server, if you want to be authenticated, you would send the username and password, and they server would check if these credentials are valid.
 - If the credentials are valid, the server will not create a session, but instead it is going to generate a token.
@@ -20,12 +24,16 @@
 - We have the short lived tokens, like the access token, or the token that gets returned from the server.
 - But we also have long lived tokens. We also call them refresh tokens. So once the token is expired, we use our refresh token to generate a new token.
 
+---
+
 ## Json Web Token
 - The [JWT](https://jwt.io) is an open standard that defines a compact and self-contained way for securely transmitting information between parties as a JSON object.
 - It has three parts:
     1. Header: Type of token, signing algorithm
     2. Payload: Claims(Registered, Public, Private)
     3. Signature: Signature(Secret)
+
+---
 
 ## Setup EF & JWT
 - Install NuGet packages:
