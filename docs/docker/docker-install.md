@@ -1,4 +1,4 @@
-# 📚 Docker Installation
+# Docker Installation
 
 ---
 
