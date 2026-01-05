@@ -1,4 +1,4 @@
-# Docker Usage
+# 📚 Docker Usage
 - Everything you create within a container stays within the container. Once the container stops, the data gets deleted with it.
 - Use only verified images for security. Verified image have a **Docker Official Image** designation on them to let you know that they are scanned by Docker themselves. There are some image scanners:
     - Clair
@@ -20,8 +20,10 @@
         - Kubernetes makes it really easy to group containers together, kind of like Docker Compose. You can also use Kubernetes to scale those container groups up or down to respond to your application's demands without creating more VMs or other hardware. This is typically expensive and sometimes cumbersome but much cheaper to do with Kubernetes.
         - Kubernetes also makes it really easy to secure traffic within your container networks and to or from the outside world. You can use Kubernetes to provide specific rules about how your traffic to or from your containers is routed.
         - Kubernetes can be used as a platform of platforms. 
-  
-## Docker CLI
+
+---
+
+## 1️⃣ Docker CLI
 ``` shell title="Exit the shell"
 ctrl+d
 ```
