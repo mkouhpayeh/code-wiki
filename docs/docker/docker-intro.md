@@ -54,7 +54,7 @@
 3- Docker CLI makes it really easy to start the apps in containers. <br />
 
 
-### Docker Alternatives 
+### 📖 Docker Alternatives 
 - Kuberbetes
 - Podman : developed by Red Hat to provide a more secure, daemon-less approach to container management. Supports rootless containers and can run multiple apps at once with an "init" system.
   - It was created to address some concerns around Docker:
