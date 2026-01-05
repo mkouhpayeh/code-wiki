@@ -1,5 +1,5 @@
 
-# 📚 **AI Foundation**
+# AI Foundation
 
 ---
 
