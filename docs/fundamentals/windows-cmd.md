@@ -1,4 +1,4 @@
-# 📚 Windows Command
+# Windows Command
 
 ---
 
