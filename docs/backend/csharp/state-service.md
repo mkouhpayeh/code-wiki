@@ -2,7 +2,7 @@
 
 ---
 
-## 1️⃣ Add Java script
+## Add Java script
 ``` js title="site.js"
 window.localStorageHelper = {
     setItem: function (key, value) {
@@ -20,7 +20,7 @@ window.localStorageHelper = {
 
 ---
 
-## 2️⃣ Add Service Model
+## Add Service Model
 ``` cs title="PracticeStateService.cs"
 public class PracticeStateService
 {
@@ -103,7 +103,7 @@ public class PracticeStateService
 
 ---
 
-## 3️⃣ Add DI
+## Add DI
 ``` cs title="Program.cs"
 builder.Services.AddScoped<PracticeStateService>();
 ```
