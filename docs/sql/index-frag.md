@@ -1,4 +1,4 @@
-# 📚 Index Fragmentation
+# Index Fragmentation
 
 ---
 
