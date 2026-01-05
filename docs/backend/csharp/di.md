@@ -42,14 +42,14 @@ Each lifetime defines **how long an instance of a service lives** and **how it i
     services.AddSingleton<ICacheService, CacheService>();
     ```
 
-⚠️ **Golden Rule** 
-- A service with a longer lifetime must NOT depend on a service with a shorter lifetime. **(This can cause memory leaks or unpredictable behavior)** 
-- ❌ Invalid dependencies:
-    - Singleton → Scoped
-    - Singleton → Transient
+- ⚠️ **Golden Rule** 
+    - A service with a longer lifetime must NOT depend on a service with a shorter lifetime. **(This can cause memory leaks or unpredictable behavior)** 
+    - ❌ Invalid dependencies:
+        - Singleton → Scoped
+        - Singleton → Transient
 
-🧭 **Quick Guide** 
-- Helper / Utility code → **Transient**
-- Business Logic → **Scoped**
-- Database Access (DbContext) → **Scoped**
-- Cache / Configuration → **Singleton**
+- 🧭 **Quick Guide** 
+    - Helper / Utility code → **Transient**
+    - Business Logic → **Scoped**
+    - Database Access (DbContext) → **Scoped**
+    - Cache / Configuration → **Singleton**
