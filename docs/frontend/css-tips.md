@@ -2,7 +2,7 @@
 
 ---
 
-## 1️⃣ List and Item
+## List and Item
 
 ```
 .obj-container {
