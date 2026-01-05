@@ -4,7 +4,7 @@
 
 ---
 
-## 1️⃣ Add note
+## Add note
 ```
 !!! note "CAUTION!"
 
