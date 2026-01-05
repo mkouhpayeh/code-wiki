@@ -1,4 +1,7 @@
 # Exception Handler
+
+---
+
 ## Create Exp Handler
 
 ``` cs
@@ -52,6 +55,8 @@ public static class ExceptionMiddlewareExtensions
 app.UseAuthorization();
 app.ConfigureBuiltInExceptionHandler();
 ```
+
+---
 
 ## Create Custom Exp Handler
 
