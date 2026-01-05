@@ -24,6 +24,9 @@ theme:
     - content.action.edit
     - toc.integrate
     
+  icon:
+    repo: null  
+    
   palette:
     # Dark Mode
     - scheme: slate
