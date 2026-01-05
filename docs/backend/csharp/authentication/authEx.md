@@ -6,7 +6,9 @@ Install packages:
     - Microsoft.AspNetCore.Identity.EntityFrameworkCore
     - Microsoft.EntityFrameworkCore.SqlServer
     - Microsoft.EntityFrameworkCore.Tools
-     
+
+---
+
 ## Active Directory
 1. Install packages 
 
@@ -37,7 +39,7 @@ Install packages:
     User.Identity?.AuthenticationType; // "Negotiate" or "NTLM"
     ```
 
-5. In Razor components:
+4. In Razor components:
     ``` cs
     @inject IHttpContextAccessor HttpContextAccessor
    
@@ -52,7 +54,7 @@ Install packages:
     }
     ```
 
-6. Development hosting (IIS Express) – enable Windows auth
+5. Development hosting (IIS Express) – enable Windows auth
    In Properties/launchSettings.json (IIS Express profile):
    ``` json
    "iisSettings": {
@@ -61,9 +63,9 @@ Install packages:
    }
    ```
    Or set this in Visual Studio: Project Properties → Debug → App URL (IIS Express) → Enable Windows Authentication (on) / Anonymous (off).
-7. Kestrel/self-host
+6. Kestrel/self-host
    You can run on Kestrel; negotiation still works. For browsers to SSO without a prompt, the site must be in clients’ Local Intranet zone (IE/Edge) or configured in Chrome/Firefox to allow integrated auth for your domain.
-8. Authorize by AD group
+7. Authorize by AD group
    ``` cs
    [Authorize(Roles = @"MYDOMAIN\\Developers")]
    [ApiController]
@@ -84,7 +86,7 @@ Install packages:
    [Authorize(Policy = "ITAdmins")]
    public IActionResult AdminOnly() => Ok("Hi admin!");
    ```
-9. If you really want to keep ASP.NET Core Identity together with Windows auth
+8. If you really want to keep ASP.NET Core Identity together with Windows auth
    ``` cs title="Program.cs"
    app.Use(async (ctx, next) =>
    {
@@ -291,7 +293,8 @@ iii. Enable TLS and Extended Protection (IIS)
          Constrain domain: check the DOMAIN\user part if needed, but the group SID is the real gate.
          Harden: Kerberos + SPN, disable NTLM, HTTPS, Extended Protection.
 
-   
+---
+
 ## Google Ex Auth
 1. [Open Google Cloud Dashboard](https://console.cloud.google.com/)
 2. Create New Project > APIs and services 
