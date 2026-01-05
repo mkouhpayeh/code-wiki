@@ -1,8 +1,10 @@
-# Patterns
+# 📚 Patterns
 
-## Declaration Pattern
+---
 
-### Pattern Matching
+## 1️⃣ Declaration Pattern
+
+### 📖 Pattern Matching
 Allows to check both the type of ano object and also declare a vriable of that type in a single statement.
 
 ``` cs
