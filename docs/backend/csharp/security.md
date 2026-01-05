@@ -1,4 +1,4 @@
-# 📚 Security
+# Security
 
 ---
 
