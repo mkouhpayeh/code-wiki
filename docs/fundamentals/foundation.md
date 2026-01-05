@@ -2,7 +2,7 @@
 
 ---
 
-## 1️⃣ Database, Dataset, Datasource
+## Database, Dataset, Datasource
 
 - **Database**: Is the main data storage system. A structured collection of data stored electronically.
 
@@ -17,7 +17,7 @@
 
 ---
 
-## 2️⃣ Parameter, Argument
+## Parameter, Argument
 
 - **Parameter**: Defined in Function **definition** and it is a placeholder variable declared by the function to receive input values.
 
