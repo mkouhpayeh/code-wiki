@@ -1,4 +1,4 @@
-# 📚 Coding Foundation
+# Coding Foundation
 
 ---
 
