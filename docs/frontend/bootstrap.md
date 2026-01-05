@@ -1,6 +1,8 @@
-# Bootstrap
+# 📚 Bootstrap
 
-## Update to Bootstrap 5
+---
+
+## 1️⃣ Update to Bootstrap 5
 
 - Remove null reference error with adding this reference to each **Layout**
 ``` csharp
@@ -54,3 +56,5 @@ bundles.Add(new StyleBundle("~/Content/css").Include(
 ```csharp
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 ```
+
+---
