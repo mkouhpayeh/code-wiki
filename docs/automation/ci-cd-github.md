@@ -1,10 +1,10 @@
-# CI/CD GitHub
+# 📚 CI/CD GitHub
 
 CI/CD is a set of practices and automation that let teams integrate code frequently, build and test artifacts automatically, and deploy them to environments reliably.
 
 ---
 
-## Overview
+## 1️⃣ Overview
 
 - **Continuous Integration (CI):** Developers frequently merge code into a shared repository. Each merge (or push) triggers automated checks such as linting, static analysis, and unit tests so problems are discovered early.
 - **Continuous Delivery (CD - delivery):** After successful CI, code is packaged into a build artifact (a package or container image). Additional higher-level tests (integration, acceptance) run and the artifact is stored in a registry so it’s always ready to be released.
@@ -23,7 +23,7 @@ CI/CD is a set of practices and automation that let teams integrate code frequen
 
 ---
 
-## Typical process
+## 2️⃣ Typical process
 
 - Developer pushes code to repository → workflow triggered.
 
@@ -48,7 +48,7 @@ CI/CD is a set of practices and automation that let teams integrate code frequen
 
 ---
 
-## Artifacts & Registries
+## 3️⃣ Artifacts & Registries
 
 - **Artifacts** are the output of a build (packages, container images, etc.).
 
@@ -68,7 +68,7 @@ CI/CD is a set of practices and automation that let teams integrate code frequen
 
 ---
 
-## Reusable workflows
+## 4️⃣ Reusable workflows
 
 To make a workflow callable from another workflow:
 
@@ -107,7 +107,7 @@ jobs:
 
 ---
 
-## Deploying: Environments & protections
+## 5️⃣ Deploying: Environments & protections
 
 - Use **environments** to represent targets: `staging`, `production`, etc.
 - Reference an environment in a job:
@@ -156,7 +156,7 @@ jobs:
 
 ---
 
-## Recommended practices
+## 6️⃣ Recommended practices
 
 - Keep CI fast: split quick checks (lint, unit tests) from long-running tests (integration).
 - Fail early: run lightweight validation first so more expensive steps only run on passing builds.
@@ -168,7 +168,7 @@ jobs:
 
 ---
 
-## GitHub Pages
+## 7️⃣ GitHub Pages
 
 - Build
     - **Jeykyll** is the default static site generator for GitHub Pages. The starter workflow is provided.
@@ -288,7 +288,7 @@ jobs:
 
 ---
 
-## Service accounts
+## 8️⃣ Service accounts
 
 - Service accounts provide a secure way for our deployment workflows to interact with services outside of GitHub.
 
@@ -307,6 +307,8 @@ jobs:
 
 - Configure workflows to access and use secrets
 
-## Terraform
+---
+
+## 9️⃣ Terraform
 Terraform is a widely adopted open-source tool for working with infrastructure as code. When we run Terraform, a report is generated called the **Terraform plan**. The plan describes any changes that need to be made to produce the desired state according to the configuration in the repo. We can use command-line tools, like **awk** and **sed**, to modify the Terraform plan into a report using Markdown styling. Then we can write the report to **GITHUB_STEP_SUMMARY** so the plan can be quickly and easily viewed before it gets applied. 
 - We need to update the permissions on the service account. We should add the **AmazonS3FullAccess permission**. Terraform will use the service account credentials to read and write state files to an S3 bucket. We need also to create a bucket to hold the Terraform state files. 
