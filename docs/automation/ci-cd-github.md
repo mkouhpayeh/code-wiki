@@ -1,4 +1,4 @@
-# 📚 CI/CD GitHub
+# CI/CD GitHub
 
 CI/CD is a set of practices and automation that let teams integrate code frequently, build and test artifacts automatically, and deploy them to environments reliably.
 
