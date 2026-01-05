@@ -17,6 +17,8 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 );
 ```
 
+---
+
 ## Code First 
 ### Create Model
 
@@ -135,6 +137,8 @@ using (var scope = app.Services.CreateScope())
 
 > After each changes: should run add-migration
 
+---
+
 ## Database First 
 ### Package Manager Console
 
@@ -142,10 +146,14 @@ using (var scope = app.Services.CreateScope())
 Scaffold-DbContext "Connection String" Microsoft.EntityFrameworkCore.SqlServer -ContextDir DataFolder -OutputDir Models -DataAnnotation
 ```
 
+---
+
 ## Usage 
 ```  cs
 private readonly AppDBContext _context;
 ```
+
+---
 
 ## Linq to SQL 
 ``` cs
