@@ -1,5 +1,7 @@
 # Configuration 
 
+---
+
 ## Global Query Filter
 - **OnModelCreating** is a method for defining the model structure:
     - Table mappings
@@ -25,6 +27,7 @@ public class BlogContext : DbContext
 val allBlogs = await _context.Blogs.IgnoreQueryFilters().ToListAsync();
 ```
 
+---
 
 ## Save Behaviors
 EF Core has two different “phases” of saving:
