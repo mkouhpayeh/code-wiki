@@ -1,6 +1,8 @@
 
 # 📚 **AI Foundation**
 
+---
+
 ## 1️⃣ **Simple Chat** 
 ``` cs
 using Azure;
@@ -58,6 +60,8 @@ switch(response.Value.FinishReason)
 
 Console.ReadKey();
 ```
+
+---
 
 ## 2️⃣ Streaming
 When we compare our chat application with the official ChatGPT interface, there is a big difference. Even though the generation speed was pretty much the same, our app still felt a lot slower. Why? </br>
