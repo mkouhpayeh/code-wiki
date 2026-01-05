@@ -1,4 +1,4 @@
-# 📚 Ansible
+# Ansible
 
 *Written in Python. The Ansible controller requires Python.*  
 Ansible follows the principle of **idempotence** — you can run automation repeatedly and it only makes changes when necessary.  
