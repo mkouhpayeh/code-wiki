@@ -1,4 +1,4 @@
-# 📚 Loading Page
+# Loading Page
 
 ---
 
