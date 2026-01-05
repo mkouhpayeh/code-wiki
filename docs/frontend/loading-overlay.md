@@ -1,6 +1,8 @@
-# Loading Page
+# 📚 Loading Page
 
-## Enable Overlay
+---
+
+## 1️⃣ Enable Overlay
 ``` js title="site-overlay.js"
 $(function () {
     var $overlay = $("#loadingOverlay");
@@ -74,7 +76,9 @@ $(function () {
 <script src="~/scripts/site-overlay.js"></script>
 ```
 
-## Disable Overlay
+---
+
+## 2️⃣ Disable Overlay
 Use 'data-no-overlay="true"' on any parent element to prevent overlay on specific forms or buttons.
 
 ```
@@ -101,3 +105,5 @@ Use 'data-no-overlay="true"' on any parent element to prevent overlay on specifi
     <option value="1">Firma A</option>
 </select>
 ```
+
+---
