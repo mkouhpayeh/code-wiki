@@ -1,5 +1,7 @@
 # Dependency Injection
 
+---
+
 ## Dependency Injection Lifetimes
 ASP.NET Core provides three main lifetimes for services registered in the Dependency Injection (DI) container.  
 Each lifetime defines **how long an instance of a service lives** and **how it is shared**.
