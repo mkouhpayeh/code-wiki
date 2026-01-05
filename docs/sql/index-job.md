@@ -1,4 +1,6 @@
-# Index Rebuild Job
+# 📚 Index Rebuild Job
+
+---
 
 ``` sql title="Job script"
 USE msdb;
