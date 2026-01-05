@@ -1,4 +1,4 @@
-# 📚 mkdocs Materials
+# mkdocs Materials
 
 [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/reference/)
 
