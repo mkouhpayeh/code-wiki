@@ -1,5 +1,7 @@
 # Anonymous Endpoint
 
+---
+
 ## Allow Anonymous Endpoint
 
 ``` scharp title="program.cs"
