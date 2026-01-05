@@ -1,5 +1,7 @@
 # API Architecture
 
+---
+
 ## Several external APIs
 
 - Named clients (string names like "BillingApi", "UserApi", …)
