@@ -1,5 +1,7 @@
 # Email Service
 
+---
+
 ## .Net Core
 
 ``` shell
@@ -86,6 +88,8 @@ Install-Package MailKit
 ``` csharp title="program.cs"
  builder.Services.AddTransient<MyEmailSender>();
 ```
+
+---
 
 ## ASP.Net MVC
 ``` csharp
