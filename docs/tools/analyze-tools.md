@@ -1,4 +1,4 @@
-# 📚Analyze Tools
+# Analyze Tools
 
 ---
 
