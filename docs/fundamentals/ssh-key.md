@@ -1,4 +1,4 @@
-# 📚 SSH Key
+# SSH Key
 
 Use this guide to create an SSH key on Windows and add it to your Git hosting service for secure, password-less pushes.
 
