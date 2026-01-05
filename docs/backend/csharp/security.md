@@ -162,6 +162,8 @@ builder.Services.AddSession(options => {
 });
 ```
 
+---
+
 ## 8️⃣ Enforcing HTTPS
 ### 📖 Redirect 
 ``` cs title="Program.cs"
@@ -201,6 +203,8 @@ builder.Services.AddHsts(options=> {
 app.UseHsts();
 ```
 
+---
+
 ## 9️⃣ Error Handling
 ### Error Pages
 ``` cs title="Program.cs"
@@ -217,6 +221,8 @@ UseStatusCodePages();
 ``` cs title="Program.cs"
 app.UseExceptionHandler("Home/Error");
 ```
+
+---
 
 ## 🔟 Hiding Server Info
 ### Remove HTTP Headers
@@ -242,6 +248,8 @@ builder.WebHost.UseKestrel(options=> {
     </system.webServer>
 </Configuration>
 ```
+
+---
 
 - 1️⃣1️⃣ Security HTTP Headers
 ### 📖 X-Frame-Options
