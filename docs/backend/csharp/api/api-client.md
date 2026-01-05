@@ -1,5 +1,7 @@
 # API Client
 
+---
+
 ```
 dotnet add package Polly
 dotnet add package Microsoft.Extensions.Http.Polly
