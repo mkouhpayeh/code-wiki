@@ -1,6 +1,8 @@
-# Generate Sample Data
+# 📚 Generate Sample Data
 
-## Random Names
+---
+
+## 1️⃣ Random Names
 - Using a CTE (numbers table) is preferred in SQL Server because it is much faster (set-based, not row-by-row) and has cleaner & shorter code.
 
 ``` sql
@@ -13,3 +15,5 @@ INSERT INTO TableName (ColumnName)
 SELECT 'Product ' + CAST(n AS nvarchar(10))
 FROM Numbers;
 ```
+
+---
