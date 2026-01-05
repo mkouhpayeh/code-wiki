@@ -1,4 +1,4 @@
-# 📚 Local State Service
+# Local State Service
 
 ---
 
