@@ -5,7 +5,7 @@
 
 --- 
 
-## 1️⃣ Docker vs VirtualMachine
+## Docker vs VirtualMachine
  - This is understandable, but incorrect, comparison. The biggest difference is that **virtual machines** virtualize hardware whereas **containers** virtualize operating system kernels.
  - Virtual machines run on a platform called a hypervisor. The hypervisor's main job is to translate operations on emulated hardware within virtual machines like memory processors, disks, etc, to operations on real hardware within their hosts.
     - Run on top of hypervisors
@@ -22,7 +22,7 @@
 
 ---
 
-## 2️⃣ Docker Anatomy 
+## Docker Anatomy 
 - A container is composed of two things: a Linux namespace (Host) and a Linux control group (Kernel).
 - Namespaces are a Linux kernel feature that provides the ability to expose different "views" of your system to applications running within it.
 - Namespace limits "What you can see".
@@ -47,14 +47,14 @@
 
 ---
 
-## 3️⃣ Docker Advantages
+## Docker Advantages
 
 1- Docker Files make configuration and packaging apps and their environments really easy. <br />
 2- Docker Hub (Global repo of images maintained by Docker) makes sharing images with anyone in the world easy. <br />
 3- Docker CLI makes it really easy to start the apps in containers. <br />
 
 
-### 📖 Docker Alternatives 
+### Docker Alternatives 
 - Kuberbetes
 - Podman : developed by Red Hat to provide a more secure, daemon-less approach to container management. Supports rootless containers and can run multiple apps at once with an "init" system.
   - It was created to address some concerns around Docker:
