@@ -1,4 +1,4 @@
-# 📚 Performance Tools
+# Performance Tools
 
 ## Load Test - Bombardier
 Bombardier is a HTTP(S) benchmarking tool. It is written in Go programming language and uses excellent **FastHTTP** instead of Go's default http library, because of its lightning fast performance.
