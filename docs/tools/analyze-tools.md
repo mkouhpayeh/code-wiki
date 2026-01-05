@@ -2,7 +2,7 @@
 
 ---
 
-## 1️⃣ Website Tech Analyze
+## Website Tech Analyze
 
 - [**W3Techs**](https://w3techs.com/): A research / analysis site that gives info about what programming languages, web servers, CMSs, etc. are used across many websites.
 
