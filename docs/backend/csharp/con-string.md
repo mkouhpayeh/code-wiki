@@ -28,6 +28,8 @@ builder.Services.AddDbContext<DBContext>(options =>
 });
 ```
 
+---
+
 ## PostgreSQL
 
 ``` cs title="AppSettings"
