@@ -17,7 +17,7 @@
 
 ---
 
-## 1️⃣ Deploy .Net in IIS (WinRM)
+## Deploy .Net in IIS (WinRM)
 Run test if available on main branche and deploy project manually on IIS when any changes applied to the production branch.
 
 1. One-time IIS server prep. Do these on the remote server:
@@ -350,7 +350,7 @@ We need a Windows runner somewhere that can reach ServerName:5986:
 
 ---
 
-## 2️⃣ Deploy .Net in IIS
+## Deploy .Net in IIS
 Runner installed on the IIS Server
  
 1. Prereqs (one-time on the IIS server)
@@ -584,7 +584,7 @@ Runner installed on the IIS Server
          ```
 ---
 
-## 3️⃣ Add notifications
+## Add notifications
 
 1. Slack (recommended)
 
