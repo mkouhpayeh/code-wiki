@@ -2,7 +2,7 @@
 
 ---
 
-## 1️⃣ Docker Desktop
+## Docker Desktop
 Docker Desktop bundles the Docker Engine, CLI, and a friendly GUI for Windows and macOS.
 
 1. Download and install:
@@ -18,12 +18,12 @@ docker run hello-world
 
 ---
 
-## 2️⃣ Docker Machine 
+## Docker Machine 
 Docker Machine historically created a small VM (often using VirtualBox) to run the Docker Engine on platforms that didn't support Docker natively. This is mostly superseded by Docker Desktop and WSL2 on modern systems.
 
 ---
 
-## 3️⃣ Install on Linux
+## Install on Linux
 Example (Debian/Ubuntu-based systems):
 
 ```bash
@@ -41,7 +41,7 @@ sudo docker run hello-world
 
 ---
 
-## 4️⃣ Post-install
+## Post-install
 To run Docker without `sudo`, add your user to the `docker` group:
 
 ```bash
@@ -67,7 +67,7 @@ docker run hello-world
 
 ---
 
-## 5️⃣ Common tips
+## Common tips
 
 - If `docker run hello-world` fails:
   - Ensure the Docker service is running: `sudo systemctl status docker`
@@ -83,7 +83,7 @@ sudo systemctl start docker
 
 ---
 
-## 6️⃣ Useful links
+## Useful links
 - Official Docker docs: https://docs.docker.com
 - Docker Desktop: https://www.docker.com/products/docker-desktop
 - Get Docker installer script: https://get.docker.com
