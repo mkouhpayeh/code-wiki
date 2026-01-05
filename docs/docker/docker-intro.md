@@ -1,4 +1,4 @@
-# 📚 Docker Introduction
+# Docker Introduction
 
 - In Linux, the kernel is the central component of the operating system, acting as a bridge between hardware and software.
 - It manages system resources such as the CPU, memory, and devices, and handles core functions like running programs, managing files, and controlling input/output operations.
