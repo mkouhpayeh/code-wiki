@@ -1,4 +1,4 @@
-# 📚 Extract Firebird .sql data
+# Extract Firebird .sql data
 
 ---
 
