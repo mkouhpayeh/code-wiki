@@ -4,7 +4,7 @@ An Ansible playbook is a YAML file that defines a set of tasks to automate confi
 
 ---
 
-## 1️⃣ Linux Hosts
+## Linux Hosts
 
 ```shell title="ansible.cfg"
 [defaults]
@@ -420,7 +420,7 @@ ansible-playbook -i files/custom_inventory.py dynamic-inventory.yml
 
 ---
 
-## 2️⃣ Roles
+## Roles
 
 Roles abstract reusable parts of a playbook (like functions). Roles live in a `roles/` directory and follow a specific layout. Create a role with:
 
@@ -503,7 +503,7 @@ ansible-playbook -i inventory nginx-role.yml
 
 ---
 
-## 3️⃣ Secrets (Vault)
+## Secrets (Vault)
 
 Encrypt secrets with Ansible Vault. Decrypt them at runtime with a vault password or vault ID.
 
@@ -537,7 +537,7 @@ ansible-playbook -i inventory vault.yml --ask-vault-pass
 
 ---
 
-## 4️⃣ Windows Hosts
+## Windows Hosts
 
 - Connections via WinRM
 - Patch management (WSUS, Intune, etc.)
@@ -567,7 +567,7 @@ ansible-playbook -i inventory windows.yml
 
 ---
 
-## 5️⃣ Network Hosts
+## Network Hosts
 
 ```yaml title="network.yml"
 ---
@@ -602,7 +602,7 @@ ansible-playbook -i inventory windows.yml
 
 ---
 
-## 6️⃣ APIs
+## APIs
 
 Use the `uri` module to interact with HTTP APIs.
 
