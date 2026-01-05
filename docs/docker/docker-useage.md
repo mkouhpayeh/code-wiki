@@ -23,7 +23,7 @@
 
 ---
 
-## 1️⃣ Docker CLI
+## Docker CLI
 ``` shell title="Exit the shell"
 ctrl+d
 ```
