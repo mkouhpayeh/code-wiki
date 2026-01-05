@@ -5,6 +5,8 @@
 dotnet add package Microsoft.ApplicationInsights.AspNetCore
 ```
 
+---
+
 ## Configure
 ``` cs title="Program.cs"
 using Microsoft.ApplicationInsights;
@@ -60,6 +62,8 @@ public class WeatherService
 
 ```
 
+---
+
 ## Add ConnectionString
 ``` cs title="appsettings.json"
 {
@@ -81,6 +85,8 @@ public class WeatherService
 - Open Azure Portal → Application Insights → Logs / Live Metrics.
 
 - You’ll see your requests, events, and errors streaming in real-time. 🎉
+
+---
 
 ## Querying Telemetry with KQL
 -Application Insights uses Kusto Query Language (KQL) for analyzing telemetry data.<br> For example, 
