@@ -1,6 +1,8 @@
 # API Server
 **Application Programming Interface** 
 
+---
+
 ## REST API Settings
 ``` cs title="program.cs"
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,8 @@ app.MapControllers();
 app.Run();
 ```
 
+---
+
 ## Controller Attributes
 ``` cs title="Controllers"
  [ApiController]
@@ -34,6 +38,8 @@ app.Run();
 ``` cs title="Preventing a Public Method from Being Invoked"
 [NonAction]
 ```
+
+---
 
 ## API Definition
 
@@ -161,6 +167,8 @@ app.Run();
         }
     }
     ```
+
+---
 
 ## [API Usage](./api-client.md)
 
