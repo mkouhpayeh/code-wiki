@@ -1,6 +1,8 @@
-# Coding Foundation
+# 📚 Coding Foundation
 
-## Database, Dataset, Datasource
+---
+
+## 1️⃣ Database, Dataset, Datasource
 
 - **Database**: Is the main data storage system. A structured collection of data stored electronically.
 
@@ -13,7 +15,9 @@
 
 - **Dataset**: A dataset is a collection of data retrieved from a data source, often stored in memory for use in applications or reports. The result of a query or a group of tables you’re currently working with in code.
 
-## Parameter, Argument
+---
+
+## 2️⃣ Parameter, Argument
 
 - **Parameter**: Defined in Function **definition** and it is a placeholder variable declared by the function to receive input values.
 
