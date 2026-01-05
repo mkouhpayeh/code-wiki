@@ -1,4 +1,4 @@
-# 📚 Schema Index List
+# Schema Index List
 
 ---
 
