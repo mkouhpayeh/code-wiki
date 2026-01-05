@@ -3,9 +3,6 @@ site_description: Personal technical knowledge base and code reference
 site_author: Mahboubeh Kouhpayeh
 site_url: https://mkouhpayeh.github.io/code-wiki/
 
-repo_name: mkouhpayeh/code-wiki
-repo_url: https://github.com/mkouhpayeh/code-wiki
-
 copyright: Copyright © 2025 Mahboubeh Kouhpayeh
 
 theme:
