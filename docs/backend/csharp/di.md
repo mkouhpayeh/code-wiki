@@ -4,7 +4,7 @@
 ASP.NET Core provides three main lifetimes for services registered in the Dependency Injection (DI) container.  
 Each lifetime defines **how long an instance of a service lives** and **how it is shared**.
 
-1️⃣ Transient (New Instance Every Time) </br>
+1️⃣ Transient (New Instance Every Time)
     - A **new instance is created every time** the service is requested
     - Suitable for:
         - Lightweight classes
