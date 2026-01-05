@@ -45,7 +45,7 @@ nav:
       - State Service: backend/csharp/state-service.md
       - Azure Insights: backend/csharp/azure-insights.md
     - Python:
-      - Extract Firebird: python/extract-firebird.md
+      - Extract Firebird: backend/python/extract-firebird.md
   - SQL: 
     - Column Length: sql/col-max-len.md
     - Index Fragmentation: sql/index-frag.md
