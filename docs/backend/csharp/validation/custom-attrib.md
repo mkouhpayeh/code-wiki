@@ -1,5 +1,7 @@
 # Custom Validation
 
+---
+
 ## Attribute Usage
 ```
 public class ChangePasswordModel
@@ -23,6 +25,8 @@ public class SharedValidationAttribute
 {
 }
 ```
+
+---
 
 ## Compare Text Attribute
 ``` cs title="CompareText"
@@ -75,6 +79,8 @@ public class CompareTextAttribute : ValidationAttribute
     }
 }
 ```
+
+---
 
 ## Email Requirements Attribute
 ``` cs title="EmailRequirements"
@@ -132,6 +138,8 @@ public class EmailRequirementsAttribute : ValidationAttribute
 }
 ```
 
+---
+
 ## Field Required Attribute
 ``` cs title="FieldIsRequired"
 public class FieldIsRequiredAttribute : ValidationAttribute
@@ -172,6 +180,8 @@ public class FieldIsRequiredAttribute : ValidationAttribute
 }
 ```
 
+---
+
 ## Must Be True Attribute
 ``` cs title="MustBeTrue"
 public class MustBeTrueAttribute : ValidationAttribute
@@ -210,6 +220,8 @@ public class MustBeTrueAttribute : ValidationAttribute
     }
 }
 ```
+
+---
 
 ## Password Requirements Attribute
 ``` cs title="PasswordRequirements"
