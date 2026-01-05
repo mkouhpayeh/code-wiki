@@ -1,4 +1,4 @@
-# Ansible
+# 📚 Ansible
 
 *Written in Python. The Ansible controller requires Python.*  
 Ansible follows the principle of **idempotence** — you can run automation repeatedly and it only makes changes when necessary.  
@@ -7,7 +7,7 @@ Ansible uses the **Jinja2 templating engine** for variable replacement, loops, c
 
 ---
 
-## Keywords
+## 1️⃣ Keywords
 
 - **Community**  
   The easiest way for most admins to run Ansible. It contains Ansible binaries and many commonly used components packaged and ready to go.
@@ -65,7 +65,7 @@ Ansible uses the **Jinja2 templating engine** for variable replacement, loops, c
 
 ---
 
-## Installation
+## 2️⃣ Installation
 
 ```bash
 # Install Python (Fedora/RHEL example)
@@ -91,7 +91,7 @@ pip install paramiko
 
 ---
 
-## Commands
+## 3️⃣ Commands
 
 - `pwd` — Present Working Directory  
 - `ls` — List files  
@@ -101,7 +101,7 @@ pip install paramiko
 
 ---
 
-## Examples
+## 4️⃣ Examples
 
 1. Gather facts and display them
 ```yaml
@@ -181,7 +181,7 @@ curl http://127.0.0.1
 
 ---
 
-## Idempotence output
+## 5️⃣ Idempotence output
 
 - **OK** — Task completed successfully and no change was needed.  
 - **Changed** — Task completed and made a change on the host.  
@@ -190,7 +190,7 @@ curl http://127.0.0.1
 
 ---
 
-## Installing Collections
+## 6️⃣ Installing Collections
 
 1. Install a collection:
 ```bash
