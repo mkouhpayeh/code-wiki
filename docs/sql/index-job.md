@@ -1,4 +1,4 @@
-# 📚 Index Rebuild Job
+# Index Rebuild Job
 
 ---
 
