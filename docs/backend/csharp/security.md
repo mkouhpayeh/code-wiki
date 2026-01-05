@@ -49,8 +49,9 @@
         
         app.UseCors("Policy1");
         ```
+---
 
-### SQL Injection
+## SQL Injection
 - Do not send the value of ID as a string
 - ADO.net: Do not use string concatanation to write the sql command. (1;Drop table Test1)
     -  Use parametrized queries with **@** and the name as a placeholder.
@@ -141,6 +142,7 @@ var options = new CookieOptions {
     SameSite = SameSiteMode.Lax //Cookie is being sent with a Cross-Site request, but only if you're using an HTTP method 
 };
 ```
+
 ``` cs title="Program.cs"
     builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options =>
@@ -152,7 +154,7 @@ var options = new CookieOptions {
         });
 ```
 
-### 📖 Sessions
+### Sessions
 - A client sends a request to the server. The server once again responds with a Set-Cookie HTTP header, sets a cookie and the value of that cookie is a so-called session ID or contains a session ID that's an identifier for that session. We don't want to store cleartext information on the client because the client isn't trustworthy but an ID for something on the server works well. With subsequent requests, the client returns that session cookie.
 ``` cs title="Program.cs"
 builder.Services.AddSession(options => {
