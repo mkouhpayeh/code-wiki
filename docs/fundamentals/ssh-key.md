@@ -1,10 +1,10 @@
-# SSH Key
+# 📚 SSH Key
 
 Use this guide to create an SSH key on Windows and add it to your Git hosting service for secure, password-less pushes.
 
 ---
 
-## Create SSH Key
+## 1️⃣ Create SSH Key
 
 - Here is the command to create an SSH key. If you want to start pushing your projects to GIT, it's the first step.  
 - When you log in to the GIT website you will see a notification to add your SSH key. Run this command in PowerShell or CMD:
@@ -20,19 +20,25 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -f "C:\path\to\your\folder
 ssh-keygen -t ed25519 -C "your_email@example.com" -f "C:\path\to\your\folder\your_ed25519_key"
 ```
 
-## Check for existing Key
+---
+
+## 2️⃣ Check for existing Key
 
 ```bash
 dir C:\Users\YourUsername\.ssh
 ```
 
-## Copy public key (Windows)
+---
+
+## 3️⃣ Copy public key (Windows)
 
 ```powershell
 type C:\path\to\your\folder\your_key_name.pub | clip
 ```
 
-## Notes
+---
+
+## 4️⃣ Notes
 
 - Keep your **private** key (`your_key_name` without `.pub`) secure and never share it.
 - Use `ssh-agent` to load keys for the session:
@@ -41,3 +47,5 @@ type C:\path\to\your\folder\your_key_name.pub | clip
 Start-Service ssh-agent
 ssh-add C:\path\to\your\folder\your_key_name
 ```
+
+---
