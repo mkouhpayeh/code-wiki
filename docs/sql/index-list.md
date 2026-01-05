@@ -1,6 +1,8 @@
-# Schema Index List
+# 📚 Schema Index List
 
-## Index list for each **schema**
+---
+
+## 1️⃣ Index list for each **schema**
 ``` sql title="SQL Server"
 SELECT
     tablename,
@@ -14,3 +16,5 @@ ORDER BY
     tablename,
     indexname;
 ```
+
+---
