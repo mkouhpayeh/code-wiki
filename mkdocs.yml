@@ -36,6 +36,7 @@ nav:
       - Application Settings: backend/csharp/application-setting.md
       - Connection String: backend/csharp/con-string.md
       - Error Handling: backend/csharp/error.md
+      - Dep Injection: backend/csharp/di.md
       - Google reCAPTCHA: backend/csharp/google-recaptcha.md
       - HTTP Requests: backend/csharp/http-request.md
       - IIS Deploy: backend/csharp/iis-virtualApp.md
