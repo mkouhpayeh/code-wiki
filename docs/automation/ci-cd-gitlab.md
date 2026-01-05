@@ -351,7 +351,7 @@ We need a Windows runner somewhere that can reach ServerName:5986:
 ---
 
 ## 2️⃣ Deploy .Net in IIS
- Runner installed on the IIS Server
+Runner installed on the IIS Server
  
 1. Prereqs (one-time on the IIS server)
 
@@ -424,7 +424,7 @@ We need a Windows runner somewhere that can reach ServerName:5986:
         - IIS_APPPOOL = HelloWorldPool (optional; blank if you don’t recycle)
     (You do not need PROD_SERVER, PROD_USER, PROD_PASSWORD anymore.)
    
-5. Add the local deploy script to your repo
+4. Add the local deploy script to your repo
     - Create scripts/Deploy-IIS-Local.ps1:
 
     ```
@@ -479,7 +479,7 @@ We need a Windows runner somewhere that can reach ServerName:5986:
     Write-Host "Deploy complete."
     ```
     
-7. Update .gitlab-ci.yml
+5. Update .gitlab-ci.yml
     - Keep your working build/test/package jobs. Add a local deploy job that uses the IIS server’s runner tag (e.g., iis-local) and no WinRM.
 
     ```
@@ -546,16 +546,17 @@ We need a Windows runner somewhere that can reach ServerName:5986:
       rules:
         - if: '$CI_COMMIT_BRANCH == "production"'
     ```
+    
     > If your runner tag is just windows, change tags: ["iis-local"] to tags: ["windows"].
     
-8. Protect the production path (recommended)
+6. Protect the production path (recommended)
     - Protect branch: Settings → Repository → Protected branches → protect production.
 
     - Runner Protected: set the runner to Protected = ON (so it only runs on protected branches).
 
     - Variables Protected: set IIS_SITE_PATH and IIS_APPPOOL to Protected = ON.
     
-9. Deploy flow
+7. Deploy flow
     - Push to `production` branch.
 
     - Pipeline runs `build` → `package`.
@@ -566,7 +567,7 @@ We need a Windows runner somewhere that can reach ServerName:5986:
 
     - Browse the site.
     
-10. Quick verification & common fixes
+8. Quick verification & common fixes
     - **Job can’t start** → runner tag mismatch or protection mismatch. Fix tags, Protected toggles.
    
     - **Access denied** → run the runner service as Local System (default) or grant your custom account Modify on the site folder and ability to manage IIS.
@@ -578,8 +579,7 @@ We need a Windows runner somewhere that can reach ServerName:5986:
     - **Artifacts missing** → check that `package` uploaded `publish/**` and `deploy` has `needs: [package]`.
    
     - **Get the real error (enable stdout logs)** →  In the deployed site folder (same level as your .dll), open `web.config` and temporarily `enable ANCM stdout logs`: 
-
-         ```
+         ``` cs
          <aspNetCore processPath="dotnet" arguments=".\YourApp.dll" stdoutLogEnabled="true" stdoutLogFile=".\logs\stdout" hostingModel="inprocess" />
          ```
 ---
