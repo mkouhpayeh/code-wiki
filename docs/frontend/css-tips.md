@@ -1,6 +1,8 @@
-# CSS Tips
+# 📚 CSS Tips
 
-## List and Item
+---
+
+## 1️⃣ List and Item
 
 ```
 .obj-container {
