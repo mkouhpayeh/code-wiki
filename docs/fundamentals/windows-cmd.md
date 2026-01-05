@@ -2,7 +2,7 @@
 
 ---
 
-## 1️⃣ Copy files
+## Copy files
 ```cmd
 robocopy "C:\SourceFolder" "Z:\DestinationFolder" /E /Z /MT:32 /R:1 /W:1
 ```
@@ -23,7 +23,7 @@ robocopy "C:\SourceFolder" "Z:\DestinationFolder" /E /Z /MT:32 /R:1 /W:1
 
 ---
 
-## 2️⃣ Get PID / Find running process
+## Get PID / Find running process
 ```cmd
 tasklist /fi "IMAGENAME eq AsyncTest.exe"
 ```
@@ -40,7 +40,7 @@ tasklist /fi "WINDOWTITLE eq MyApp*" /fi "USERNAME eq DOMAIN\User"
 
 ---
 
-## 3️⃣ TLS protocol
+## TLS protocol
 
 ### Show/Set TLS
 
@@ -64,7 +64,7 @@ Get-TlsCipherSuite
 
 ---
 
-## 4️⃣ Set Env Variable
+## Set Env Variable
 If you had Visual Studio running while you were setting the environment variables, you have to restart Visual Studio so that the new environment variables can take effect.
 
 ### CMD
