@@ -1,4 +1,4 @@
-# 📚 CSS Tips
+# CSS Tips
 
 ---
 
