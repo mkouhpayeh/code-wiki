@@ -30,14 +30,18 @@ theme:
   palette:
     # Dark Mode
     - scheme: slate
+      primary: indigo
+      accent: indigo
       toggle:
-        icon: material/toggle-switch
+        icon: material/weather-night #material/toggle-switch
         name: Dark mode
       
     # Light Mode
     - scheme: default
+      primary: indigo
+      accent: indigo
       toggle:
-        icon: material/toggle-switch-off-outline
+        icon: material/weather-sunny #material/toggle-switch-off-outline
         name: Light mode
 
 
