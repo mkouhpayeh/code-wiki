@@ -1,14 +1,57 @@
-site_name: Code WiKi
-site_url: https://mkouhpayeh.github.io/code-wiki
+site_name: Code Wiki
+site_description: Personal technical knowledge base and code reference
+site_author: Mahboubeh Kouhpayeh
+site_url: https://mkouhpayeh.github.io/code-wiki/
+
+repo_name: mkouhpayeh/code-wiki
+repo_url: https://github.com/mkouhpayeh/code-wiki
+edit_uri: edit/main/docs/
+
+copyright: Copyright © 2025 Mahboubeh Kouhpayeh
+
+theme:
+  name: material
+  language: en
+  logo: assets/logo.png
+  favicon: assets/favicon.ico
+  font:
+    text: Segoe UI #ui-sans-serif
+    code: SFMono-Regular # Red Hat Mono
+  
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - content.action.edit
+    - toc.integrate
+    
+  palette:
+    # Dark Mode
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Dark mode
+      
+    # Light Mode
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Light mode
+
 
 nav:
   - Home: index.md
+  
   - Fundamentals:
     - Coding Foundation: fundamentals/foundation.md
     - Shortcuts: fundamentals/shortcut.md
     - SSH Settings: fundamentals/ssh-key.md
     - Windows Command: fundamentals/windows-cmd.md
     - MkDocs Guide: fundamentals/mkdocs.md
+    
   - Backend: 
     - Csharp:
       - API:
@@ -44,8 +87,10 @@ nav:
       - Security: backend/csharp/security.md
       - State Service: backend/csharp/state-service.md
       - Azure Insights: backend/csharp/azure-insights.md
+      
     - Python:
       - Extract Firebird: backend/python/extract-firebird.md
+      
   - SQL: 
     - Column Length: sql/col-max-len.md
     - Index Fragmentation: sql/index-frag.md
@@ -54,75 +99,65 @@ nav:
     - Index Rebuild: sql/index-rebuild.md
     - Generate Data: sql/sample-data.md
     - Vol Space: sql/vol-space.md
+    
   - Frontend: 
     - CSS Tips: frontend/css-tips.md
     - Bootstrap: frontend/bootstrap.md
     - Loading Page: frontend/loading-overlay.md
     - Markdown: frontend/markdown.md
+    
   - AI: 
     - AI Foundation: ai/foundation.md
+    
   - Automation: 
     - CI/CD GitLab: automation/ci-cd-gitlab.md
     - CI/CD GitHub: automation/ci-cd-github.md
     - Ansible Introduction: automation/ansible-intro.md
     - Ansible Playbook: automation/ansible-playbook.md
+    
   - Docker: 
     - Docker Introduction: docker/docker-intro.md
     - Docker Installation: docker/docker-install.md
     - Docker Usage: docker/docker-useage.md
+    
   - Tools: 
     - Analyze Tools: tools/analyze-tools.md
     - Performance Tools: tools/performance-tools.md
-  
-theme:
-  name: material
-  font:
-    text: Segoe UI #ui-sans-serif
-    code: SFMono-Regular # Red Hat Mono
-  logo: assets/logo.png
-  favicon: assets/favicon.ico
-  features:
-    - navigation.footer
-    - content.code.copy
-  palette:
-    # Dark Mode
-    - scheme: slate
-      toggle:
-        icon: material/toggle-switch
-        name: Dark mode
-      
 
-    # Light Mode
-    - scheme: default
-      toggle:
-        icon: material/toggle-switch-off-outline
-        name: Light mode
-
- 
+   
 markdown_extensions:
-  - attr_list
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - admonition
+  - pymdownx.details
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
-      alternate_style: true
-  - admonition
-  - pymdownx.details
+      alternate_style: true   
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets     
+  - attr_list
+  - toc:
+      permalink: true
+      toc_depth: 2      
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
 
 extra:
+  generator: false
   social:
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/mahboubeh-kouhpayeh/
 
-copyright: Copyright &copy; 2025 Mahi)
+extra_css:
+  #- styles/custom.css   # optional
+
+extra_javascript:
+  - https://unpkg.com/mermaid/dist/mermaid.min.js
