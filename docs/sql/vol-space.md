@@ -1,4 +1,4 @@
-# 📚 Volume Space
+# Volume Space
 
 ---
 
