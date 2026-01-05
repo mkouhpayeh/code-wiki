@@ -17,7 +17,7 @@
 
 ---
 
-## 📖 Deploy .Net in IIS (WinRM)
+## 1️⃣ Deploy .Net in IIS (WinRM)
 Run test if available on main branche and deploy project manually on IIS when any changes applied to the production branch.
 
 1. One-time IIS server prep. Do these on the remote server:
@@ -348,8 +348,9 @@ We need a Windows runner somewhere that can reach ServerName:5986:
 
     - Browse to http://ws2019dggweb/ (or the site binding you use) and verify the app.
 
+---
 
-## 📖 Deploy .Net in IIS
+## 2️⃣ Deploy .Net in IIS
  Runner installed on the IIS Server
  
 1. Prereqs (one-time on the IIS server)
@@ -581,8 +582,9 @@ We need a Windows runner somewhere that can reach ServerName:5986:
          ```
          <aspNetCore processPath="dotnet" arguments=".\YourApp.dll" stdoutLogEnabled="true" stdoutLogFile=".\logs\stdout" hostingModel="inprocess" />
          ```
+---
 
-## 📖 Add notifications
+## 3️⃣ Add notifications
 
 1. Slack (recommended)
 
