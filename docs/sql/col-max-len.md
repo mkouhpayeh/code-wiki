@@ -1,4 +1,4 @@
-# 📚 Column Max Length
+# Column Max Length
 
 ``` sql title="SQL Server"
 SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH 
