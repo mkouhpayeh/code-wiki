@@ -1,6 +1,8 @@
-# Windows Command
+# 📚 Windows Command
 
-## Copy files
+---
+
+## 1️⃣ Copy files
 ```cmd
 robocopy "C:\SourceFolder" "Z:\DestinationFolder" /E /Z /MT:32 /R:1 /W:1
 ```
@@ -19,7 +21,9 @@ robocopy "C:\SourceFolder" "Z:\DestinationFolder" /E /Z /MT:32 /R:1 /W:1
 - For large transfers consider increasing `/MT` but monitor CPU and disk I/O.
 - When using network drives, map them first or use UNC paths (`\\server\share`).
 
-## Get PID / Find running process
+---
+
+## 2️⃣ Get PID / Find running process
 ```cmd
 tasklist /fi "IMAGENAME eq AsyncTest.exe"
 ```
@@ -34,7 +38,9 @@ Or filter by window title or username:
 tasklist /fi "WINDOWTITLE eq MyApp*" /fi "USERNAME eq DOMAIN\User"
 ```
 
-## TLS protocol
+---
+
+## 3️⃣ TLS protocol
 
 ### Show/Set TLS
 
@@ -56,7 +62,9 @@ tasklist /fi "WINDOWTITLE eq MyApp*" /fi "USERNAME eq DOMAIN\User"
 Get-TlsCipherSuite
 ```
 
-## Set Env Variable
+---
+
+## 4️⃣ Set Env Variable
 If you had Visual Studio running while you were setting the environment variables, you have to restart Visual Studio so that the new environment variables can take effect.
 
 ### CMD
@@ -76,3 +84,5 @@ setx AZURE_OPENAI_API_KEY "xxxxxxxxxxxx"
 ``` shell title="Temporary (current session)"
 $env:AZURE_OPENAI_API_KEY = "xxxxxxxxxxxx"
 ```
+
+---
