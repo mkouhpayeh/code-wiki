@@ -1,5 +1,6 @@
 # Application Settings
 
+---
 
 ## Powershell env. Config
 ``` bash title="Set Environment Variable"
@@ -10,6 +11,8 @@
     
     Run the PowerShell as Administrator.
     Restart the IDE after setting the **Environment** values.
+
+---
 
 ## Set appsettings.json
 ``` cs
@@ -27,6 +30,8 @@
     }
   }
 ```
+
+---
 
 ## Set Program.cs 
 ``` cs title="program.cs"
@@ -50,10 +55,14 @@ builder.Services.AddDbContext<DBContext>(options =>
 }, ServiceLifetime.Scoped);
 ```
 
+---
+
 ## Read appsettings.json 
 ``` cs title="usage"
 configuration.GetSection("ExAuthentication:Google:ClientId").Value
 ```
+
+---
 
 ## CMD env. Config
 ```
@@ -65,6 +74,8 @@ setx ExAuthentication__Facebook__AppSecret "facebook"
 setx ExAuthentication__Google__ClientId "ClientId"
 setx ExAuthentication__Google__ClientSecret "ClientSecret"
 ```
+
+---
 
 ## Powershell env. Config
 ```
@@ -79,6 +90,8 @@ setx ExAuthentication__Google__ClientSecret "ClientSecret"
 [System.Environment]::SetEnvironmentVariable('ExAuthentication__Google__ClientSecret', 'ClientSecret', [System.EnvironmentVariableTarget]::Machine)
 ```
 
+---
+
 ## User Secrets file
 ```
 install-package Microsoft.Extensions.Configuration.UserSecrets
@@ -89,6 +102,8 @@ install-package Microsoft.Extensions.Configuration.UserSecrets
 
 add settings in Manage user secrets on contextmenu of each project
 ```
+
+---
 
 ## Bind options from config 
 
