@@ -2,7 +2,7 @@
 
 ---
 
-## 1️⃣ Random Names
+## Random Names
 - Using a CTE (numbers table) is preferred in SQL Server because it is much faster (set-based, not row-by-row) and has cleaner & shorter code.
 
 ``` sql
