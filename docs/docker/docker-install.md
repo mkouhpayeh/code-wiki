@@ -83,7 +83,7 @@ sudo systemctl start docker
 
 ---
 
-## Useful links
+## 6️⃣ Useful links
 - Official Docker docs: https://docs.docker.com
 - Docker Desktop: https://www.docker.com/products/docker-desktop
 - Get Docker installer script: https://get.docker.com
