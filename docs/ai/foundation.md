@@ -3,7 +3,7 @@
 
 ---
 
-## 1️⃣ **Simple Chat** 
+## Simple Chat
 ``` cs
 using Azure;
 using Azure.AI.OpenAI;
@@ -63,7 +63,7 @@ Console.ReadKey();
 
 ---
 
-## 2️⃣ Streaming
+## Streaming
 When we compare our chat application with the official ChatGPT interface, there is a big difference. Even though the generation speed was pretty much the same, our app still felt a lot slower. Why? </br>
 Because our app waited until the entire poem was ready before showing it. And ChatGPT showed the text as it was being written word by word. This is called **streaming**. ChatGPT displays the response in chunks, allowing us to start reading the answer much earlier. </br>
 The current generation speed of GPT-4 is slightly faster than what a human can read, but the GPT-3.5 is faster than GPT-4. This means that if we stream the response, the user can essentially follow along and doesn't perceive the AI as slow. </br></br>
