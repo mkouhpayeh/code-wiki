@@ -54,7 +54,6 @@ app.Run();
         public object? Data { get; set; }
     }
     ```
-
     ``` cs title="ResponseStatusEnum.cs"
     public enum ResponseStatusEnum
     {
@@ -76,6 +75,7 @@ app.Run();
     ```
 
 - Controllers
+    
     ``` cs title="ServicesController.cs"
     [HttpGet]
     public async Task<IActionResult> ReadItems()
