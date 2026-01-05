@@ -2,7 +2,7 @@
 
 ---
 
-## 1️⃣ Enable Overlay
+## Enable Overlay
 ``` js title="site-overlay.js"
 $(function () {
     var $overlay = $("#loadingOverlay");
@@ -78,7 +78,7 @@ $(function () {
 
 ---
 
-## 2️⃣ Disable Overlay
+## Disable Overlay
 Use 'data-no-overlay="true"' on any parent element to prevent overlay on specific forms or buttons.
 
 ```
