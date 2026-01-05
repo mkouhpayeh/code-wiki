@@ -2,7 +2,7 @@
 
 ---
 
-## 1️⃣ Index list for each **schema**
+## Index list for each **schema**
 ``` sql title="SQL Server"
 SELECT
     tablename,
