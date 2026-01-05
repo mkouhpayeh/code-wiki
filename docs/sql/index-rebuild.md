@@ -1,4 +1,4 @@
-# 📚Index Rebuild
+# Index Rebuild
 
 ---
 
