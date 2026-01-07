@@ -82,15 +82,22 @@ nav:
       - Settings: 
         - App Settings: csharp/appsettings.md
         - Connection String: csharp/con-string.md
-      - Error Handling: csharp/error.md
-      - Dependency Injection: csharp/di.md
-      - Google reCAPTCHA: csharp/google-recaptcha.md
-      - HTTP Requests: csharp/http-request.md
-      - IIS Deploy: csharp/iis-virtualApp.md
-      - Migrate DB: csharp/migrate-sqlserver.md
-      - Security: csharp/security.md
-      - State Service: csharp/state-service.md
-      - Azure Insights: csharp/azure-insights.md
+        - State Service: csharp/state-service.md
+        - Migrate DB: csharp/migrate-sqlserver.md
+      - Error:
+        - Error Handling: csharp/error.md
+      - Dependency Injection: 
+        - Lifetimes: csharp/di-lifetime.md
+      - Google:
+        - reCAPTCHA: csharp/google-recaptcha.md
+      - HTTP:
+        - Requests: csharp/http-request.md
+      - Deploy:
+        - IIS: csharp/iis-virtualApp.md
+      - Security: 
+        - Security: csharp/security.md
+      - Azure: 
+        - Azure Insights: csharp/azure-insights.md
       
   - SQL: 
     - Column Length: sql/col-max-len.md
