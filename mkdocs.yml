@@ -106,7 +106,7 @@ nav:
     - Markdown: frontend/markdown.md
 
   - Python:
-    - Extract Firebird: backend/python/extract-firebird.md
+    - Extract Firebird: python/extract-firebird.md
     
   - AI: 
     - AI Foundation: ai/foundation.md
