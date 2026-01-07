@@ -79,8 +79,9 @@ nav:
         - Custom Validation: csharp/validation/custom-attrib.md
       - Patterns: 
         - Declaration: csharp/dec-pattern.md
-      - Application Settings: csharp/application-setting.md
-      - Connection String: csharp/con-string.md
+      - Settings: 
+        - Application Settings: csharp/app-setting.md
+        - Connection String: csharp/con-string.md
       - Error Handling: csharp/error.md
       - Dependency Injection: csharp/di.md
       - Google reCAPTCHA: csharp/google-recaptcha.md
