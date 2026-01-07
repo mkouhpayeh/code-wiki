@@ -13,18 +13,21 @@
   border-radius: 4px;
 }
 
+.md-nav__link:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
 /* ============================
    Section Headings (Categories)
    ============================ */
 
 .md-nav__item--section > .md-nav__link {
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  text-decoration: underline;
-  letter-spacing: 0.03em;
-  opacity: 0.85;
-  margin-top: 0.8rem;
+  opacity: 0.65;
+  margin-top: 1rem;
+  pointer-events: none; 
 }
 
 /* ============================
