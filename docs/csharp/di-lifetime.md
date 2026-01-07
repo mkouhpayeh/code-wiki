@@ -1,12 +1,11 @@
-# Dependency Injection
+# Dependency Injection Lifetimes
 
----
-
-## Dependency Injection Lifetimes
 ASP.NET Core provides three main lifetimes for services registered in the Dependency Injection (DI) container.  
 Each lifetime defines **how long an instance of a service lives** and **how it is shared**.
 
-### 1️⃣ Transient
+---
+
+## Transient
 - A **new instance is created every time** the service is requested
 - Suitable for:
     - Lightweight classes
@@ -17,7 +16,7 @@ Each lifetime defines **how long an instance of a service lives** and **how it i
     services.AddTransient<IEmailService, EmailService>();
     ```
 
-### 2️⃣ Scoped
+## Scoped
 - One instance is created **per HTTP request**    
 - The **same instance** is shared within that request
 - Suitable for:
@@ -31,7 +30,7 @@ Each lifetime defines **how long an instance of a service lives** and **how it i
     services.AddScoped<IOrderService, OrderService>();
     ```
         
-### 3️⃣ Singleton 
+## Singleton 
 - Only **one instance for the whole application lifetime**
 - Shared across all users and requests
 - Suitable for:
