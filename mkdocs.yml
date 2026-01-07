@@ -55,7 +55,7 @@ nav:
     - Windows Command: fundamentals/windows-cmd.md
     - MkDocs Guide: fundamentals/mkdocs.md
     
-  - C#:
+  - C#.NET:
       - API:
         - API Server: csharp/api/api.md
         - API Client: csharp/api/api-client.md
