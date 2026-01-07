@@ -1,6 +1,6 @@
-/* =====================================================
-   SIDEBAR NAVIGATION – BASE
-   ===================================================== */
+/* ============================
+   Sidebar Navigation – Base
+   ============================ */
 
 .md-nav__item {
   margin: 0.15rem 0;
@@ -9,70 +9,61 @@
 .md-nav__link {
   font-size: 0.85rem;
   line-height: 1;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.4rem;
   border-radius: 4px;
-  transition: background-color 0.15s ease;
 }
 
-/* =====================================================
-   SECTION HEADINGS (TREE PARENTS)
-   ===================================================== */
+/* ============================
+   Section Headings (Categories)
+   ============================ */
 
 .md-nav__item--section > .md-nav__link {
   font-weight: 600;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   opacity: 0.85;
-  margin-top: 0.9rem;
-  padding-left: 0.3rem;
-  cursor: default;
+  margin-top: 0.8rem;
 }
 
-/* =====================================================
-   TREE INDENTATION – CHILDREN
-   ===================================================== */
+/* ============================
+   Nested Items (Children)
+   ============================ */
 
-/* First-level children under a section */
-.md-nav__item--section .md-nav__item > .md-nav__link {
-  padding-left: 1.4rem;
+.md-nav__item .md-nav__item .md-nav__link {
   font-weight: 400;
+  padding-left: 1.1rem;
 }
 
-/* Second-level children (if any) */
-.md-nav__item--section
-.md-nav__item
-.md-nav__item > .md-nav__link {
-  padding-left: 2.2rem;
-}
-
-/* =====================================================
-   ACTIVE PAGE HIGHLIGHT
-   ===================================================== */
+/* ============================
+   Active Page Highlight
+   ============================ */
 
 .md-nav__link--active {
   font-weight: 600;
   background-color: rgba(0, 0, 0, 0.06);
 }
 
-/* =====================================================
-   HOVER STATE
-   ===================================================== */
-
-.md-nav__link:hover {
-  background-color: rgba(0, 0, 0, 0.04);
-}
-
-/* =====================================================
-   DARK MODE ADJUSTMENTS
-   ===================================================== */
+/* ============================
+   Dark Mode Adjustments
+   ============================ */
 
 [data-md-color-scheme="slate"] .md-nav__link--active {
   background-color: rgba(255, 255, 255, 0.08);
 }
 
+[data-md-color-scheme="slate"] .md-nav__item--section > .md-nav__link {
+  opacity: 0.9;
+}
+
+/* ============================
+   Hover State (ADD THIS)
+   ============================ */
+
+.md-nav__link:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
 [data-md-color-scheme="slate"] .md-nav__link:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
-
-[data-md-color-schem]()
