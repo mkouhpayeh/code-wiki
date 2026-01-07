@@ -149,10 +149,8 @@ app.Run();
                 // with returned value you can find the existings item is Active or Not
                 return StatusCode(404, new ResponseModel() { Message = "Item not found!", Status = ResponseStatusEnum.NotFound, Data = item });
             }
-        
             _context.Entry(item).CurrentValues.SetValues(model);
             await _context.SaveChangesAsync();
-        
             return Ok(new ResponseModel<Item> { Message = "Item updated successfully!", Status = ResponseStatusEnum.Success, Data = item });
         }
         catch (Exception ex)
