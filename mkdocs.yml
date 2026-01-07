@@ -80,7 +80,7 @@ nav:
       - Patterns: 
         - Declaration: csharp/dec-pattern.md
       - Settings: 
-        - Application Settings: csharp/app-setting.md
+        - App Settings: csharp/appsettings.md
         - Connection String: csharp/con-string.md
       - Error Handling: csharp/error.md
       - Dependency Injection: csharp/di.md
