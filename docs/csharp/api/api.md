@@ -74,8 +74,7 @@ app.Run();
     }
     ```
 
-- Controllers
-    
+- Controllers    
     ``` cs title="ServicesController.cs"
     [HttpGet]
     public async Task<IActionResult> ReadItems()
