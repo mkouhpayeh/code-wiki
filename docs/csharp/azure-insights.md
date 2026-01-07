@@ -89,7 +89,7 @@ public class WeatherService
 ---
 
 ## Querying Telemetry with KQL
--Application Insights uses Kusto Query Language (KQL) for analyzing telemetry data.<br> For example, 
+- Application Insights uses Kusto Query Language (KQL) for analyzing telemetry data.<br> For example, 
 
 ### see all failed requests:
 ```
