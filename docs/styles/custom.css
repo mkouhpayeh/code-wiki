@@ -55,3 +55,15 @@
 [data-md-color-scheme="slate"] .md-nav__item--section > .md-nav__link {
   opacity: 0.9;
 }
+
+/* ============================
+   Hover State 
+   ============================ */
+
+.md-nav__link:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+[data-md-color-scheme="slate"] .md-nav__link:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
