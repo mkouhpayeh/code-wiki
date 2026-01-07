@@ -56,47 +56,47 @@ nav:
     - MkDocs Guide: fundamentals/mkdocs.md
     
   - C#.NET:
-      - API:
+    - API:
         - API Server: csharp/api/api.md
         - API Client: csharp/api/api-client.md
         - API Architecture: csharp/api/api-arch.md
         - Anonymous Endpoint: csharp/api/anonymous-endpoint.md
-      - Authentication:
+    - Authentication:
         - Authentication: csharp/authentication/auth.md
         - EX Authentication: csharp/authentication/authEx.md
-      - EntityFramework:
+    - EntityFramework:
         - Installation: csharp/entity-framework/ef.md
         - Configuration: csharp/entity-framework/config.md
-      - Exception:
+    - Exception:
         - Customization: csharp/exception/exception-custom.md
         - Handler: csharp/exception/exception-handler.md
         - Filter: csharp/exception/exception-filter.md
-      - Mailing:
+    - Mailing:
         - Email Service: csharp/mailing/email-service.md
         - Cloud Service: csharp/mailing/email-cloud-service.md
-      - Validation:
+    - Validation:
         - Validation Attributes: csharp/validation/attrib.md
         - Custom Validation: csharp/validation/custom-attrib.md
-      - Patterns: 
+    - Patterns: 
         - Declaration: csharp/dec-pattern.md
-      - Settings: 
+    - Settings: 
         - App Settings: csharp/appsettings.md
         - Connection String: csharp/con-string.md
         - State Service: csharp/state-service.md
         - Migrate DB: csharp/migrate-sqlserver.md
-      - Error:
+    - Error:
         - Error Handling: csharp/error.md
-      - Dependency Injection: 
+    - Dependency Injection: 
         - Lifetimes: csharp/di-lifetime.md
-      - Google:
+    - Google:
         - reCAPTCHA: csharp/google-recaptcha.md
-      - HTTP:
+    - HTTP:
         - Requests: csharp/http-request.md
-      - Deploy:
+    - Deploy:
         - IIS: csharp/iis-virtualApp.md
-      - Security: 
+    - Security: 
         - Security: csharp/security.md
-      - Azure: 
+    - Azure: 
         - Azure Insights: csharp/azure-insights.md
       
   - SQL: 
