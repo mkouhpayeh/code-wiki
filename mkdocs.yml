@@ -159,7 +159,7 @@ extra:
       link: https://www.linkedin.com/in/mahboubeh-kouhpayeh/
 
 extra_css:
-  #- styles/custom.css   # optional
+  - styles/custom.css   # optional
 
 extra_javascript:
   - https://unpkg.com/mermaid/dist/mermaid.min.js
