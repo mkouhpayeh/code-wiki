@@ -55,44 +55,40 @@ nav:
     - Windows Command: fundamentals/windows-cmd.md
     - MkDocs Guide: fundamentals/mkdocs.md
     
-  - Backend: 
-    - Csharp:
+  - C#:
       - API:
-        - API Server: backend/csharp/api/api.md
-        - API Client: backend/csharp/api/api-client.md
-        - API Architecture: backend/csharp/api/api-arch.md
-        - Anonymous Endpoint: backend/csharp/api/anonymous-endpoint.md
+        - API Server: csharp/api/api.md
+        - API Client: csharp/api/api-client.md
+        - API Architecture: csharp/api/api-arch.md
+        - Anonymous Endpoint: csharp/api/anonymous-endpoint.md
       - Authentication:
-        - Authentication: backend/csharp/authentication/auth.md
-        - EX Authentication: backend/csharp/authentication/authEx.md
+        - Authentication: csharp/authentication/auth.md
+        - EX Authentication: csharp/authentication/authEx.md
       - EntityFramework:
-        - Installation: backend/csharp/entity-framework/ef.md
-        - Configuration: backend/csharp/entity-framework/config.md
+        - Installation: csharp/entity-framework/ef.md
+        - Configuration: csharp/entity-framework/config.md
       - Exception:
-        - Customization: backend/csharp/exception/exception-custom.md
-        - Handler: backend/csharp/exception/exception-handler.md
-        - Filter: backend/csharp/exception/exception-filter.md
+        - Customization: csharp/exception/exception-custom.md
+        - Handler: csharp/exception/exception-handler.md
+        - Filter: csharp/exception/exception-filter.md
       - Mailing:
-        - Email Service: backend/csharp/mailing/email-service.md
-        - Cloud Service: backend/csharp/mailing/email-cloud-service.md
+        - Email Service: csharp/mailing/email-service.md
+        - Cloud Service: csharp/mailing/email-cloud-service.md
       - Validation:
-        - Validation Attributes: backend/csharp/validation/attrib.md
-        - Custom Validation: backend/csharp/validation/custom-attrib.md
-      - Patterns: backend/csharp/pattern.md
-      - Application Settings: backend/csharp/application-setting.md
-      - Connection String: backend/csharp/con-string.md
-      - Error Handling: backend/csharp/error.md
-      - Dependency Injection: backend/csharp/di.md
-      - Google reCAPTCHA: backend/csharp/google-recaptcha.md
-      - HTTP Requests: backend/csharp/http-request.md
-      - IIS Deploy: backend/csharp/iis-virtualApp.md
-      - Migrate DB: backend/csharp/migrate-sqlserver.md
-      - Security: backend/csharp/security.md
-      - State Service: backend/csharp/state-service.md
-      - Azure Insights: backend/csharp/azure-insights.md
-      
-    - Python:
-      - Extract Firebird: backend/python/extract-firebird.md
+        - Validation Attributes: csharp/validation/attrib.md
+        - Custom Validation: csharp/validation/custom-attrib.md
+      - Patterns: csharp/pattern.md
+      - Application Settings: csharp/application-setting.md
+      - Connection String: csharp/con-string.md
+      - Error Handling: csharp/error.md
+      - Dependency Injection: csharp/di.md
+      - Google reCAPTCHA: csharp/google-recaptcha.md
+      - HTTP Requests: csharp/http-request.md
+      - IIS Deploy: csharp/iis-virtualApp.md
+      - Migrate DB: csharp/migrate-sqlserver.md
+      - Security: csharp/security.md
+      - State Service: csharp/state-service.md
+      - Azure Insights: csharp/azure-insights.md
       
   - SQL: 
     - Column Length: sql/col-max-len.md
@@ -108,6 +104,9 @@ nav:
     - Bootstrap: frontend/bootstrap.md
     - Loading Page: frontend/loading-overlay.md
     - Markdown: frontend/markdown.md
+
+  - Python:
+    - Extract Firebird: backend/python/extract-firebird.md
     
   - AI: 
     - AI Foundation: ai/foundation.md
