@@ -34,6 +34,7 @@ The documentation is organized by technical domains and focuses on:
 - REST principles
 - Security and best practices
 - C# and .NET-related concepts
+- Python principles
 
 ### SQL
 - Query patterns
