@@ -93,7 +93,6 @@ app.Run();
             return StatusCode(500, new ResponseModel<List<Item>> { Message = "Get Items failed! ", Status = ResponseStatusEnum.Exception, Data = null });
         }
     }
-
     [HttpGet("{id:int}")]
     public async Task<IActionResult> ReadAsync(int id)
     {
@@ -113,7 +112,6 @@ app.Run();
             return StatusCode(500, new ResponseModel { Message = "Get Item failed! ", Status = ResponseStatusEnum.Exception, Data = null });
         }
     }
-    
     [HttpGet("ReadItemByName")]
     public async Task<IActionResult> ReadItemByName([FromQuery] string name)
     {
@@ -131,7 +129,6 @@ app.Run();
             return StatusCode(500, new ResponseModel<Item> { Message = "Get Items failed! ", Status = ResponseStatusEnum.Exception, Data = item });
         }
     }
-    
    [HttpPut]
     public async Task<IActionResult> UpdateItem([FromBody] Item model)
     {
@@ -158,7 +155,6 @@ app.Run();
         
             return Ok(new ResponseModel<Item> { Message = "Item updated successfully!", Status = ResponseStatusEnum.Success, Data = item });
         }
-        
         catch (Exception ex)
         {
             // Log
