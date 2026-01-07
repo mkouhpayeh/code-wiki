@@ -118,7 +118,7 @@ nav:
     - Extract Firebird: python/extract-firebird.md
     
   - AI: 
-    - AI Foundation: ai/foundation.md
+    - AI Foundation: ai/chat.md
     
   - Automation: 
     - CI/CD GitLab: automation/ci-cd-gitlab.md
