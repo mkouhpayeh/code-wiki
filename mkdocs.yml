@@ -77,7 +77,8 @@ nav:
       - Validation:
         - Validation Attributes: csharp/validation/attrib.md
         - Custom Validation: csharp/validation/custom-attrib.md
-      - Patterns: csharp/pattern.md
+      - Patterns: 
+        - Declaration: csharp/dec-pattern.md
       - Application Settings: csharp/application-setting.md
       - Connection String: csharp/con-string.md
       - Error Handling: csharp/error.md
