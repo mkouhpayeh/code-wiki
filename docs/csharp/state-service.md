@@ -10,6 +10,8 @@
   
 ---
 
+## Definition
+
 1. Add JavaScript Helper
 ``` js title="site.js"
 window.localStorageHelper = {
@@ -115,3 +117,7 @@ public sealed class PracticeStateService
 ``` cs title="Program.cs"
 builder.Services.AddScoped<PracticeStateService>();
 ```
+
+---
+
+## Usage
