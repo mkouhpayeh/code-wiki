@@ -1,6 +1,6 @@
 # Code Wiki
 
-A structured, continuously maintained technical knowledge base covering software development concepts, tools, and best practices.
+A structured, continuously maintained technical knowledge base covering software development concepts, tools, best practices Tips and Tricks.
 
 This documentation is designed as a **personal reference system** and a **long-term learning archive**, with an emphasis on clarity, consistency, and practical usability.
 
