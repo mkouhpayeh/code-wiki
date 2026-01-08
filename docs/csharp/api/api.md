@@ -163,10 +163,10 @@ app.Run();
 
 ---
 
-## [API Usage](./api-client.md)
+- [API Usage](./api-client.md)
 
 
-## [API Architecture](./api-arch.md)
+- [API Architecture](./api-arch.md)
 
 
-## [API Security](./api-sec.md)
+- [API Security](./api-sec.md)
