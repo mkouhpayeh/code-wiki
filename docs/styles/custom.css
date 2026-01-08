@@ -23,11 +23,15 @@
 
 .md-nav__item--section > .md-nav__link {
   font-weight: 600;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
   opacity: 0.65;
   margin-top: 1rem;
   pointer-events: none; 
+}
+
+.md-nav__item--active > .md-nav__link {
+  font-weight: 500;
 }
 
 /* ============================
