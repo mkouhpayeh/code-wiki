@@ -1,8 +1,16 @@
 # Local State Service
 
+- This code describes a simple local state management pattern using Browser Local Storage combined with a Blazor scoped service.
+- The goal of this approach is to:
+    - Preserve user state across page reloads
+    - Avoid unnecessary API calls
+    - Improve user experience during multi-step flows
+    - Centralize temporary session-related data
+    - **This pattern is especially useful for practice sessions, wizards, and step-based workflows.**
+  
 ---
 
-## Add Java script
+## JavaScript Helper
 ``` js title="site.js"
 window.localStorageHelper = {
     setItem: function (key, value) {
@@ -20,9 +28,9 @@ window.localStorageHelper = {
 
 ---
 
-## Add Service Model
+## State Service Model
 ``` cs title="PracticeStateService.cs"
-public class PracticeStateService
+public sealed class PracticeStateService
 {
     private const string StorageKey = "PracticeSession";
     private readonly IJSRuntime _jsRuntime;
