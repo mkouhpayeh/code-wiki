@@ -1,3 +1,15 @@
+/* =====================================================
+   Sidebar scrolling under header
+   ===================================================== */
+
+.md-sidebar__scrollwrap {
+  padding-top: var(--md-header-height);
+}
+
+.md-sidebar {
+  top: var(--md-header-height);
+}
+
 /* ============================
    Sidebar Navigation – Base
    ============================ */
