@@ -8,13 +8,9 @@
 
 .md-nav__link {
   font-size: 0.85rem;
-  line-height: 1.2;
+  line-height: 1.45;
   padding: 0.25rem 0.4rem;
   border-radius: 4px;
-}
-
-.md-nav__link:hover {
-  background-color: rgba(0, 0, 0, 0.04);
 }
 
 /* ============================
@@ -27,11 +23,7 @@
   text-transform: uppercase;
   opacity: 0.65;
   margin-top: 1rem;
-  pointer-events: none; 
-}
-
-.md-nav__item--active > .md-nav__link {
-  font-weight: 500;
+  pointer-events: none;
 }
 
 /* ============================
@@ -53,6 +45,14 @@
 }
 
 /* ============================
+   Hover State
+   ============================ */
+
+.md-nav__link:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* ============================
    Dark Mode Adjustments
    ============================ */
 
@@ -62,14 +62,6 @@
 
 [data-md-color-scheme="slate"] .md-nav__item--section > .md-nav__link {
   opacity: 0.9;
-}
-
-/* ============================
-   Hover State
-   ============================ */
-
-.md-nav__link:hover {
-  background-color: rgba(0, 0, 0, 0.04);
 }
 
 [data-md-color-scheme="slate"] .md-nav__link:hover {
