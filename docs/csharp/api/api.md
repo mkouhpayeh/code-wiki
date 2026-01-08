@@ -92,6 +92,71 @@ app.Run();
             // Log
             return StatusCode(500, new ResponseModel<List<Item>> { Message = "Get Items failed! ", Status = ResponseStatusEnum.Exception, Data = null });
         }
+    }[HttpGet("{id:int}")]
+    public async Task<IActionResult> ReadAsync(int id)
+    {
+        try
+        {
+            var item = await _dbContext.Products
+                 .FindAsync(id);
+
+            if (item == null)
+                return NotFound(new ResponseModel { Message = "Product not found!", Status = ResponseStatusEnum.NotFound, Data = null });
+
+            return Ok(new ResponseModel { Message = "Products found successfully!", Status = ResponseStatusEnum.Success, Data = item });
+        }
+        catch (Exception ex)
+        {
+            // Log
+            return StatusCode(500, new ResponseModel { Message = "Get Item failed! ", Status = ResponseStatusEnum.Exception, Data = null });
+        }
+    }
+    [HttpGet("ReadItemByName")]
+    public async Task<IActionResult> ReadItemByName([FromQuery] string name)
+    {
+        try
+        {
+            var item = await _context.Items
+               .IgnoreQueryFilters()
+               .FirstOrDefaultAsync(i=> i.Name == name);
+    
+            return Ok(new ResponseModel<Item> { Message = "Items found successfully!", Status = ResponseStatusEnum.Success, Data = item });
+        }
+        catch (Exception ex)
+        {
+            // Log
+            return StatusCode(500, new ResponseModel<Item> { Message = "Get Items failed! ", Status = ResponseStatusEnum.Exception, Data = item });
+        }
+    }
+   [HttpPut]
+    public async Task<IActionResult> UpdateItem([FromBody] Item model)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                // Log
+                return BadRequest(new ResponseModel { Message = "Model state is not valid", Status = ResponseStatusEnum.InvalidModelState });
+            }
+    
+                var item = await _context.Items
+                    .IgnoreQueryFilters()
+                    .FirstOrDefaultAsync(i => i.Id == model.Id);
+    
+            if (customer == null)
+            {
+                // with returned value you can find the existings item is Active or Not
+                return StatusCode(404, new ResponseModel() { Message = "Item not found!", Status = ResponseStatusEnum.NotFound, Data = item });
+            }
+            _context.Entry(item).CurrentValues.SetValues(model);
+            await _context.SaveChangesAsync();
+            return Ok(new ResponseModel<Item> { Message = "Item updated successfully!", Status = ResponseStatusEnum.Success, Data = item });
+        }
+        catch (Exception ex)
+        {
+            // Log
+            return StatusCode(500, new ResponseModel<Item> { Message = "Update item failed! ", Status = ResponseStatusEnum.Exception, Data = item });
+        }
     }
     
     ```
