@@ -10,7 +10,7 @@
   
 ---
 
-## JavaScript Helper
+1. Add JavaScript Helper
 ``` js title="site.js"
 window.localStorageHelper = {
     setItem: function (key, value) {
@@ -28,7 +28,7 @@ window.localStorageHelper = {
 
 ---
 
-## State Service Model
+2. Add State Service Model
 ``` cs title="PracticeStateService.cs"
 public sealed class PracticeStateService
 {
@@ -111,7 +111,7 @@ public sealed class PracticeStateService
 
 ---
 
-## Add DI
+3. Add DI
 ``` cs title="Program.cs"
 builder.Services.AddScoped<PracticeStateService>();
 ```
