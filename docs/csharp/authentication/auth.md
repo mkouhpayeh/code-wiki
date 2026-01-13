@@ -5,13 +5,15 @@
 ---
 
 ## Cookie-based Auth
-- You typically have a browser and a server. And if you want to be authenticated, you'd send the username and the password to the server. Let's say by using an API endpoint /authenticate.
-- Then the server is going to check if the credentials are correct. And if the credentials are correct, then the server is going to create a session in the server memory.
-- Then it is going to return to the user that sessionId. This sessionId gets stored in a cookie in the browser. tion type cookie-based authentication because the sessionId gets stored in a cookie.
-- Then next, if you want to get some data from the server, you'd pass the sessionId as part of the request as well.
-- There was two problems:
-    1. The first problem is that if let's say millions of users try to access your app at the same time, then the server is going to create millions of sessions, which is going to overload your server.
-    2. The second problem is that if your cookies get stolen from the browser, the sessionIds are stolen as well.
+- In a typical cookie-based authentication flow, a browser communicates directly with a server.
+    1. The client sends authentication credentials (e.g. username and password) to the server, usually via an endpoint such as /authenticate.
+    2. The server validates the credentials. If they are valid, it creates a server-side session, typically stored in memory or a session store.
+    3. The server returns a sessionId to the client. This identifier is stored in a browser cookie and is automatically included in subsequent requests.
+    4. For every follow-up request, the browser sends the cookie containing the sessionId. The server uses this value to locate the corresponding session and authenticate the user.
+- This approach is called cookie-based authentication because authentication relies on a session identifier stored in a cookie.
+- Limitations:
+    1. Scalability: Each authenticated user requires a server-side session. At large scale (e.g. millions of concurrent users), maintaining and synchronizing these sessions can become expensive and impact performance.
+    2. Security Risk: If authentication cookies are compromised (e.g. via XSS or insecure transport), the attacker gains access to the sessionId and can impersonate the user until the session expires or is revoked.
 
 ---
 
