@@ -42,7 +42,7 @@ Token-based systems usually use two types of tokens:
       
 ---
 
-## Json Web Token
+### Json Web Token
 - The [JWT](https://jwt.io) is an open standard that defines a compact and self-contained way for securely transmitting information between parties as a JSON object.
 - It has three parts:
     1. Header: Type of token, signing algorithm
@@ -51,107 +51,107 @@ Token-based systems usually use two types of tokens:
 
 ---
 
-## Setup EF & JWT
+#### Setup EF & JWT
 This section describes how to configure ASP.NET Core Identity, Entity Framework Core, and JWT-based authentication using access and refresh tokens.
 
-### Required NuGet Packages
-- Install the following packages:
-    - Microsoft.EntityFrameworkCore
-    - Microsoft.EntityFrameworkCore.SqlServer
-    - Microsoft.AspNetCore.Identity.EntityFrameworkCore
-    - Microsoft.EntityFrameworkCore.Tools
-    - Microsoft.AspNetCore.Authentication.JwtBearer
+- Step 1: Required NuGet Packages
+    - Install the following packages:
+        - Microsoft.EntityFrameworkCore
+        - Microsoft.EntityFrameworkCore.SqlServer
+        - Microsoft.AspNetCore.Identity.EntityFrameworkCore
+        - Microsoft.EntityFrameworkCore.Tools
+        - Microsoft.AspNetCore.Authentication.JwtBearer
 
-### JWT Configuration
+- Step 2: JWT Configuration
 Define JWT-related settings in appsettings.json.
 
-``` cs title="appsettings.json"
-"JwtSettings":{
-  "SecretKey": "xxxxxxxxxx",
-  "Issuer": "https://localhost:5002/",
-  "Audience": "user",
-  "AccessTokenMinutes" : "10",
-  "RefreshTokenDays" : "180"
-}
-```
+    ``` cs title="appsettings.json"
+    "JwtSettings":{
+      "SecretKey": "xxxxxxxxxx",
+      "Issuer": "https://localhost:5002/",
+      "Audience": "user",
+      "AccessTokenMinutes" : "10",
+      "RefreshTokenDays" : "180"
+    }
+    ```
 
-> ⚠️ Store SecretKey securely (User Secrets or environment variables).
+    > ⚠️ Store SecretKey securely (User Secrets or environment variables).
 
-### Settings POCO
+- Step 3: Settings POCO
 Strongly-typed configuration model for JWT settings.
 
-``` cs
-public sealed class JwtSettings
-{
-    public string SecretKey { get; set; } = null!;
-    public string Issuer { get; set; } = null!;
-    public string Audience { get; set; } = null!;
-    public int AccessTokenMinutes { get; set; }; 
-    public int RefreshTokenDays { get; set; };
-}
-```
-
-### App Configuration
-``` cs title="Program.cs"
-var builder = WebApplication.CreateBuilder(args);
-
-var configuration = new ConfigurationBuilder()
-    .SetBasePath(Environment.CurrentDirectory)
-    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true) // lowest priority
-    .AddUserSecrets<Program>(optional: true, reloadOnChange: true)         // overrides json
-    .AddEnvironmentVariables()                                            // highest priority
-    .Build();
-
-builder.Services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
-var jwt = configuration.GetSection("JwtSettings").Get<JwtSettings>()!;
-
-builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseSqlServer(configuration.GetConnectionString("DBConnection")));
-```
-
-### Configure Identity
-``` cs title="Program.cs"
-builder.Services
-    .AddIdentity<User, Role>(options =>
+    ``` cs
+    public sealed class JwtSettings
     {
-        options.User.RequireUniqueEmail = true;
+        public string SecretKey { get; set; } = null!;
+        public string Issuer { get; set; } = null!;
+        public string Audience { get; set; } = null!;
+        public int AccessTokenMinutes { get; set; }; 
+        public int RefreshTokenDays { get; set; };
+    }
+    ```
 
-        options.Password.RequireDigit = true;
-        options.Password.RequiredLength = 8;
-        options.Password.RequiredUniqueChars = 2;
-        options.Password.RequireLowercase = true;
-        options.Password.RequireNonAlphanumeric = true;
-        options.Password.RequireUppercase = true;
+- Step 4: App Configuration
+    ``` cs title="Program.cs"
+    var builder = WebApplication.CreateBuilder(args);
 
-        options.Lockout.AllowedForNewUsers = true;
-        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-        options.Lockout.MaxFailedAccessAttempts = 5;
+    var configuration = new ConfigurationBuilder()
+        .SetBasePath(Environment.CurrentDirectory)
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true) // lowest priority
+        .AddUserSecrets<Program>(optional: true, reloadOnChange: true)         // overrides json
+        .AddEnvironmentVariables()                                            // highest priority
+        .Build();
+    
+    builder.Services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+    var jwt = configuration.GetSection("JwtSettings").Get<JwtSettings>()!;
+    
+    builder.Services.AddDbContext<AppDbContext>(opt =>
+        opt.UseSqlServer(configuration.GetConnectionString("DBConnection")));
+    ```
 
-        options.SignIn.RequireConfirmedEmail = true;
-    })
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
-```
+- Step 5: Configure Identity
+    ``` cs title="Program.cs"
+    builder.Services
+        .AddIdentity<User, Role>(options =>
+        {
+            options.User.RequireUniqueEmail = true;
+        
+            options.Password.RequireDigit = true;
+            options.Password.RequiredLength = 8;
+            options.Password.RequiredUniqueChars = 2;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequireUppercase = true;
+        
+            options.Lockout.AllowedForNewUsers = true;
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            options.Lockout.MaxFailedAccessAttempts = 5;
+            
+            options.SignIn.RequireConfirmedEmail = true;
+        })
+        .AddEntityFrameworkStores<AppDbContext>()
+        .AddDefaultTokenProviders();
+    ```
 
-### JWT Token Validation
-``` cs title="Program.cs"
-var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey));
-var tokenValidationParameters = new TokenValidationParameters
-{
-    ValidateIssuerSigningKey = true,
-    IssuerSigningKey = key,
-
-    ValidateIssuer = true,
-    ValidIssuer = jwt.Issuer,
-
-    ValidateAudience = true,
-    ValidAudience = jwt.Audience,
-
-    ValidateLifetime = true,
-    ClockSkew = TimeSpan.Zero
-};
-builder.Services.AddSingleton(tokenValidationParameters);
-```
+- Step 6: JWT Token Validation
+    ``` cs title="Program.cs"
+    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey));
+    var tokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = key,
+        
+        ValidateIssuer = true,
+        ValidIssuer = jwt.Issuer,
+        
+        ValidateAudience = true,
+        ValidAudience = jwt.Audience,
+    
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+    builder.Services.AddSingleton(tokenValidationParameters);
+    ```
 
 ### Authentication Middleware
 ``` cs title="Program.cs"
@@ -182,7 +182,7 @@ app.MapControllers();
 app.Run();
 ```
 
-## Setup Database Context
+## Setup DB Context
 ``` cs title="AppDbContext.cs"
 public class AppDbContext : IdentityDbContext<
     User, Role, long,
