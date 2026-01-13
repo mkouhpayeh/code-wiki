@@ -60,7 +60,7 @@
 #### Setup JWT & EF
 This section describes how to configure ASP.NET Core Identity, Entity Framework Core, and JWT-based authentication using access and refresh tokens.
 
-- Step 1: Required NuGet Packages
+- **Step 1: Required NuGet Packages**
     - Install the following packages:
         - Microsoft.EntityFrameworkCore
         - Microsoft.EntityFrameworkCore.SqlServer
@@ -68,7 +68,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
         - Microsoft.EntityFrameworkCore.Tools
         - Microsoft.AspNetCore.Authentication.JwtBearer
 
-- Step 2: JWT Configuration
+- **Step 2: JWT Configuration**
     ``` cs title="appsettings.json"
         "JwtSettings":{
           "SecretKey": "xxxxxxxxxx",
@@ -81,7 +81,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
 
     > ⚠️ Store SecretKey securely (User Secrets or environment variables).
 
-- Step 3: Settings POCO
+- **Step 3: Settings POCO**
     - Strongly-typed configuration model for JWT settings:
 
     ``` cs
@@ -95,7 +95,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
     }
     ```
 
-- Step 4: App Configuration
+- **Step 4: App Configuration**
     ``` cs title="Program.cs"
     var builder = WebApplication.CreateBuilder(args);
 
@@ -113,7 +113,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
         opt.UseSqlServer(configuration.GetConnectionString("DBConnection")));
     ```
 
-- Step 5: Configure Identity
+- **Step 5: Configure Identity**
     ``` cs title="Program.cs"
     builder.Services
         .AddIdentity<User, Role>(options =>
@@ -137,7 +137,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
         .AddDefaultTokenProviders();
     ```
 
-- Step 6: JWT Token Validation
+- **Step 6: JWT Token Validation**
     ``` cs title="Program.cs"
     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey));
 
@@ -159,7 +159,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
     builder.Services.AddSingleton(tokenValidationParameters);
     ```
 
-- Step 7: Authentication Middleware
+- **Step 7: Authentication Middleware**
     ``` cs title="Program.cs"
     builder.Services
         .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -173,7 +173,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
     builder.Services.AddAuthorization();
     ```
 
-- Step 8: HTTP Pipeline
+- **Step 8: HTTP Pipeline**
     ``` cs title="Program.cs"
     var app = builder.Build();
 
@@ -187,7 +187,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
     app.Run();
     ```
 
-- Step 9: Role Seeding
+- **Step 9: Role Seeding**
     ``` cs
     public static class AppDbInitializer
     {
@@ -210,7 +210,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
     }
     ```
 
-- Step 10: Setup DB Context
+- **Step 10: Setup DB Context**
 
     ``` cs title="AppDbContext.cs"
     public class AppDbContext : IdentityDbContext<
@@ -247,7 +247,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
     }
     ```
 
-- Step 11: Setup Identity Models
+- **Step 11: Setup Identity Models**
     ``` cs
     public class User : IdentityUser<long>
     {
@@ -282,7 +282,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
     ```
 
 
-- Step 12: Refresh Token
+- **Step 12: Refresh Token**
     ``` cs
     public class RefreshToken
     {
