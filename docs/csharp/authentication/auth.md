@@ -298,11 +298,12 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
         public User User { get; set; } = null!;
     }
     ```
-
+    
+---
 
 #### AuthService
 
-- Step 1: Auth Result Model
+- **Step 1: Auth Result Model**
     ``` cs
     public sealed record AuthResult(
         string AccessToken,
@@ -310,7 +311,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
     );
     ```
 
-- Step 2: AuthService Interface
+- **Step 2: AuthService Interface**
     ``` cs
     public interface IAuthService
     {
@@ -320,7 +321,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
     }
     ```
 
-- Step 3: AuthService Implementation
+- **Step 3: AuthService Implementation**
     ``` cs
     public sealed class AuthService : IAuthService
     {
@@ -443,8 +444,10 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
     }
     ```
 
+---
+
 #### RegistrationService
-- Step 1: RegistrationService Interface
+- **Step 1: RegistrationService Interface**
     ``` cs
     public interface IRegistrationService
     {
@@ -452,7 +455,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
     }
     ```
 
-- Step 2: RegistrationService Implementation
+- **Step 2: RegistrationService Implementation**
     ```
     public sealed class RegistrationService : IRegistrationService
     {
@@ -508,8 +511,10 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
     }
     ```
 
+---
+
 #### EmailService
-- Step 1: EmailService Interface
+- **Step 1: EmailService Interface**
     ``` cs
     public interface IEmailService
     {
@@ -517,7 +522,7 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
     }
     ```
 
-- Step 2: EmailService Implementation
+- **Step 2: EmailService Implementation**
     ```
     public sealed class EmailService : IEmailService
     {
@@ -556,6 +561,8 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
         }
     }
     ```
+
+---
 
 #### Controller
 ``` cs
@@ -628,6 +635,8 @@ public sealed class AccountController : ControllerBase
 }
 ```
 
+---
+
 #### Dependency Injection
 ``` cs
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -635,6 +644,7 @@ builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 ```
 
+---
 
 #### Global exception handling
 ``` cs
