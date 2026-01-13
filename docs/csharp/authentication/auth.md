@@ -18,14 +18,28 @@
 ---
 
 ## Token-based Auth
-- Here is the same way we have a browser and a server, if you want to be authenticated, you would send the username and password, and they server would check if these credentials are valid.
-- If the credentials are valid, the server will not create a session, but instead it is going to generate a token.
-- This token is just an encrypted string, which has enough valuable information for the server to find out the identity of a user.
-- After the token is returned to the browser, the token will be stored in the browser, and on the next request when you want to get some data from the server, you'd use the authorization Bearer and pass the token value.
-- The tokens have an expiration time. So even if your token gets stolen, it will expire after typically 5 to 10 minutes, because that is the standard token lifetime.
-- We have the short lived tokens, like the access token, or the token that gets returned from the server.
-- But we also have long lived tokens. We also call them refresh tokens. So once the token is expired, we use our refresh token to generate a new token.
+- In token-based authentication, the client and server interact without creating server-side sessions.
+    1. The client sends authentication credentials (such as username and password) to the server.
+    2. The server validates the credentials. If they are valid, the server does not create a session. Instead, it generates a token.
+    3. The token is a cryptographically signed (and sometimes encrypted) string that contains enough information for the server to identify the user and validate the request.
+    4. The token is returned to the client and stored in the browser (for example, in memory or secure storage).
+    5. For subsequent requests, the client sends the token in the Authorization header using the Bearer scheme:
+        ``` cs
+        Authorization: Bearer <token>
+        ```
+        
+    6. The server validates the token on each request and uses the information inside it to authenticate the user.
 
+- Token Lifetime
+    - Tokens have a limited expiration time.
+    - Access tokens are typically short-lived (often 5–15 minutes).
+    - If an access token is compromised, its impact is limited by its short lifetime.
+
+- Access Tokens and Refresh Tokens
+Token-based systems usually use two types of tokens:
+    - Access Token: A short-lived token used to authenticate API requests.
+    - Refresh Token: A long-lived token used to obtain a new access token once the current one expires.
+      
 ---
 
 ## Json Web Token
