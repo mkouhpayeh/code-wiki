@@ -24,10 +24,9 @@
     3. The token is a cryptographically signed (and sometimes encrypted) string that contains enough information for the server to identify the user and validate the request.
     4. The token is returned to the client and stored in the browser (for example, in memory or secure storage).
     5. For subsequent requests, the client sends the token in the Authorization header using the Bearer scheme:
-```cs
-    Authorization: Bearer <token>
-```
-
+    ```cs
+        Authorization: Bearer <token>
+    ```
     6. The server validates the token on each request and uses the information inside it to authenticate the user.
   
 - Token Lifetime
