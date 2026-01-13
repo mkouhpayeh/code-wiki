@@ -47,7 +47,10 @@
 ---
 
 ### Json Web Token
-- The [JWT](https://jwt.io) is an open standard that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. JWT is signed, not encrypted.
+- The [JWT](https://jwt.io) is an open standard that defines a compact and self-contained way for securely transmitting information between parties as a JSON object.
+
+> JWT is signed, not encrypted, unless JWE (JSON Web Encryption) is explicitly used.
+
 - It has three parts:
     1. Header: Type of token, signing algorithm
     2. Payload: Claims(Registered, Public, Private)
