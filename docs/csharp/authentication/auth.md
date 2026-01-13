@@ -52,12 +52,18 @@ Token-based systems usually use two types of tokens:
 ---
 
 ## Setup EF & JWT
-- Install NuGet packages:
+This section describes how to configure ASP.NET Core Identity, Entity Framework Core, and JWT-based authentication using access and refresh tokens.
+
+### Required NuGet Packages
+- Install the following packages:
     - Microsoft.EntityFrameworkCore
     - Microsoft.EntityFrameworkCore.SqlServer
     - Microsoft.AspNetCore.Identity.EntityFrameworkCore
     - Microsoft.EntityFrameworkCore.Tools
     - Microsoft.AspNetCore.Authentication.JwtBearer
+
+### JWT Configuration
+Define JWT-related settings in appsettings.json.
 
 ``` cs title="appsettings.json"
 "JwtSettings":{
@@ -69,7 +75,12 @@ Token-based systems usually use two types of tokens:
 }
 ```
 
-``` cs title="Settings POCO"
+> ⚠️ Store SecretKey securely (User Secrets or environment variables).
+
+### Settings POCO
+Strongly-typed configuration model for JWT settings.
+
+``` cs
 public sealed class JwtSettings
 {
     public string SecretKey { get; set; } = null!;
@@ -80,8 +91,10 @@ public sealed class JwtSettings
 }
 ```
 
+### App Configuration
 ``` cs title="Program.cs"
 var builder = WebApplication.CreateBuilder(args);
+
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Environment.CurrentDirectory)
     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true) // lowest priority
@@ -94,25 +107,34 @@ var jwt = configuration.GetSection("JwtSettings").Get<JwtSettings>()!;
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlServer(configuration.GetConnectionString("DBConnection")));
+```
 
+### Configure Identity
+``` cs title="Program.cs"
 builder.Services
     .AddIdentity<User, Role>(options =>
     {
         options.User.RequireUniqueEmail = true;
+
         options.Password.RequireDigit = true;
         options.Password.RequiredLength = 8;
         options.Password.RequiredUniqueChars = 2;
         options.Password.RequireLowercase = true;
         options.Password.RequireNonAlphanumeric = true;
         options.Password.RequireUppercase = true;
+
         options.Lockout.AllowedForNewUsers = true;
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
         options.Lockout.MaxFailedAccessAttempts = 5;
+
         options.SignIn.RequireConfirmedEmail = true;
     })
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+```
 
+### JWT Token Validation
+``` cs title="Program.cs"
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey));
 var tokenValidationParameters = new TokenValidationParameters
 {
@@ -129,7 +151,10 @@ var tokenValidationParameters = new TokenValidationParameters
     ClockSkew = TimeSpan.Zero
 };
 builder.Services.AddSingleton(tokenValidationParameters);
+```
 
+### Authentication Middleware
+``` cs title="Program.cs"
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -139,10 +164,12 @@ builder.Services.AddAuthentication(options =>
 .AddJwtBearer(options =>
 {
     options.SaveToken = true;
-    options.RequireHttpsMetadata = false; // set true in production
+    options.RequireHttpsMetadata = true; // disable only in local dev
     options.TokenValidationParameters = tokenValidationParameters;
 });
 
+### Pipeline
+``` cs title="Program.cs"
 var app = builder.Build();
 
 app.UseRouting();
@@ -155,7 +182,8 @@ app.MapControllers();
 app.Run();
 ```
 
-``` cs title="DBContext & Models"
+## Setup Database Context
+``` cs title="AppDbContext.cs"
 public class AppDbContext : IdentityDbContext<
     User, Role, long,
     IdentityUserClaim<long>, IdentityUserRole<long>, IdentityUserLogin<long>,
@@ -188,10 +216,12 @@ public class AppDbContext : IdentityDbContext<
         // Ensure FK columns are bigint where needed—Identity generics <long> already do that.
     }
 }
+```
 
+### Identity Models
+``` cs
 public class User : IdentityUser<long>
 {
-    public override long Id { get; set; }
     public bool IsApproved { get; set; }
 }
 
@@ -199,9 +229,11 @@ public class Role : IdentityRole<long>
 {
     public long? ParentRoleId { get; set; }
     public string? Description { get; set; }
-    public bool IsDeleted { get; set; } = false;
-    public virtual ICollection<IdentityRoleClaim<long>> RoleClaims { get; set; } = new List<IdentityRoleClaim<long>>();
-    [ForeignKey(nameof(ParentRoleId))] public virtual Role? ParentRole { get; set; }
+    public bool IsDeleted { get; set; } 
+
+    public Role? ParentRole { get; set; }
+    public ICollection<IdentityRoleClaim<long>> RoleClaims { get; set; }
+        = new List<IdentityRoleClaim<long>>();
 }
 
 public class UserProfile
@@ -218,18 +250,45 @@ public class UserProfile
     public string? Description { get; set; }
     public virtual User User { get; set; } = null!;
 }
+```
 
+### Refresh Token
+``` cs
 public class RefreshToken
 {
     [Key] public long Id { get; set; }
     public string Token { get; set; } = null!;
     public string JwtId { get; set; } = null!;
     public bool IsRevoked { get; set; }
+
     public DateTime DateAdded { get; set; }
     public DateTime DateExpire { get; set; }
 
     public long UserId { get; set; }
-    [ForeignKey(nameof(UserId))] public User User { get; set; } = null!;
+    public User User { get; set; } = null!;
+}
+```
+
+## Role Seeding
+``` cs
+public static class AppDbInitializer
+{
+    public static async Task SeedRoles(IApplicationBuilder app)
+    {
+        using var scope = app.ApplicationServices.CreateScope();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+
+        async Task EnsureRole(string roleName)
+        {
+            if (!await roleManager.RoleExistsAsync(roleName))
+            {
+                await roleManager.CreateAsync(new Role { Name = roleName });
+            }
+        }
+
+        await EnsureRole("Admin");
+        await EnsureRole("User");
+    }
 }
 ```
 
@@ -491,23 +550,4 @@ public class AccountController : ControllerBase
 
 ```
 
-``` cs title="Role seeding"
-public static class AppDbInitializer
-{
-    public static async Task SeedRoles(IApplicationBuilder appBuilder)
-    {
-        using var scope = appBuilder.ApplicationServices.CreateScope();
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
-
-        async Task EnsureRole(string name)
-        {
-            if (!await roleManager.RoleExistsAsync(name))
-                await roleManager.CreateAsync(new Role { Name = name });
-        }
-
-        await EnsureRole("Admin");
-        await EnsureRole("User");
-    }
-}
-```
 
