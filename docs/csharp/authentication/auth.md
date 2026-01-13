@@ -30,17 +30,17 @@
     6. The server validates the token on each request and uses the information inside it to authenticate the user.
   
 - Token Lifetime
-    - Tokens have a limited expiration time.
-    - Access tokens are typically short-lived (often 5–15 minutes).
-    - If an access token is compromised, its impact is limited by its short lifetime.
+    1. Tokens have a limited expiration time.
+    2. Access tokens are typically short-lived (often 5–15 minutes).
+    3. If an access token is compromised, its impact is limited by its short lifetime.
 
 - Access Tokens vs Refresh Token
 - If an access token is stolen, it expires quickly. The refresh token allows the user to stay logged in without re-entering credentials.
-    - Access Token: 
+    1. Access Token: 
         - Short-lived (5–15 minutes)
         - Sent with every request
         - Used to access protected APIs
-    - Refresh Token:
+    2. Refresh Token:
         - Long-lived (days or weeks)
         - Stored securely (database)
         - Used only to get a new access token
@@ -61,11 +61,11 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
 
 - **Step 1: Required NuGet Packages**
     - Install the following packages:
-        - Microsoft.EntityFrameworkCore
-        - Microsoft.EntityFrameworkCore.SqlServer
-        - Microsoft.AspNetCore.Identity.EntityFrameworkCore
-        - Microsoft.EntityFrameworkCore.Tools
-        - Microsoft.AspNetCore.Authentication.JwtBearer
+        1. Microsoft.EntityFrameworkCore
+        2. Microsoft.EntityFrameworkCore.SqlServer
+        3. Microsoft.AspNetCore.Identity.EntityFrameworkCore
+        4. Microsoft.EntityFrameworkCore.Tools
+        5. Microsoft.AspNetCore.Authentication.JwtBearer
 
 - **Step 2: JWT Configuration**
     ``` cs title="appsettings.json"
