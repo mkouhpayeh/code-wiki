@@ -35,7 +35,6 @@
     3. If an access token is compromised, its impact is limited by its short lifetime.
 
 - Access Tokens vs Refresh Token
-- If an access token is stolen, it expires quickly. The refresh token allows the user to stay logged in without re-entering credentials.
     1. Access Token: 
         - Short-lived (5–15 minutes)
         - Sent with every request
