@@ -24,26 +24,32 @@
     3. The token is a cryptographically signed (and sometimes encrypted) string that contains enough information for the server to identify the user and validate the request.
     4. The token is returned to the client and stored in the browser (for example, in memory or secure storage).
     5. For subsequent requests, the client sends the token in the Authorization header using the Bearer scheme:
-        ``` cs
-        Authorization: Bearer <token>
-        ```
-        
-    6. The server validates the token on each request and uses the information inside it to authenticate the user.
+```cs
+    Authorization: Bearer <token>
+```
 
+    6. The server validates the token on each request and uses the information inside it to authenticate the user.
+  
 - Token Lifetime
     - Tokens have a limited expiration time.
     - Access tokens are typically short-lived (often 5–15 minutes).
     - If an access token is compromised, its impact is limited by its short lifetime.
 
-- Access Tokens and Refresh Tokens
-Token-based systems usually use two types of tokens:
-    - Access Token: A short-lived token used to authenticate API requests.
-    - Refresh Token: A long-lived token used to obtain a new access token once the current one expires.
-      
+- Access Tokens vs Refresh Token
+- If an access token is stolen, it expires quickly. The refresh token allows the user to stay logged in without re-entering credentials.
+    - Access Token: 
+        - Short-lived (5–15 minutes)
+        - Sent with every request
+        - Used to access protected APIs
+    - Refresh Token:
+        - Long-lived (days or weeks)
+        - Stored securely (database)
+        - Used only to get a new access token
+     
 ---
 
 ### Json Web Token
-- The [JWT](https://jwt.io) is an open standard that defines a compact and self-contained way for securely transmitting information between parties as a JSON object.
+- The [JWT](https://jwt.io) is an open standard that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. JWT is signed, not encrypted.
 - It has three parts:
     1. Header: Type of token, signing algorithm
     2. Payload: Claims(Registered, Public, Private)
@@ -51,7 +57,7 @@ Token-based systems usually use two types of tokens:
 
 ---
 
-#### Setup EF & JWT
+#### Setup JWT & EF
 This section describes how to configure ASP.NET Core Identity, Entity Framework Core, and JWT-based authentication using access and refresh tokens.
 
 - Step 1: Required NuGet Packages
@@ -63,22 +69,20 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
         - Microsoft.AspNetCore.Authentication.JwtBearer
 
 - Step 2: JWT Configuration
-Define JWT-related settings in appsettings.json.
-
     ``` cs title="appsettings.json"
-    "JwtSettings":{
-      "SecretKey": "xxxxxxxxxx",
-      "Issuer": "https://localhost:5002/",
-      "Audience": "user",
-      "AccessTokenMinutes" : "10",
-      "RefreshTokenDays" : "180"
-    }
+        "JwtSettings":{
+          "SecretKey": "xxxxxxxxxx",
+          "Issuer": "https://localhost:5002/",
+          "Audience": "user",
+          "AccessTokenMinutes" : "10",
+          "RefreshTokenDays" : "180"
+        }
     ```
 
     > ⚠️ Store SecretKey securely (User Secrets or environment variables).
 
 - Step 3: Settings POCO
-Strongly-typed configuration model for JWT settings.
+    - Strongly-typed configuration model for JWT settings:
 
     ``` cs
     public sealed class JwtSettings
@@ -86,8 +90,8 @@ Strongly-typed configuration model for JWT settings.
         public string SecretKey { get; set; } = null!;
         public string Issuer { get; set; } = null!;
         public string Audience { get; set; } = null!;
-        public int AccessTokenMinutes { get; set; }; 
-        public int RefreshTokenDays { get; set; };
+        public int AccessTokenMinutes { get; set; }
+        public int RefreshTokenDays { get; set; }
     }
     ```
 
@@ -136,6 +140,7 @@ Strongly-typed configuration model for JWT settings.
 - Step 6: JWT Token Validation
     ``` cs title="Program.cs"
     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey));
+
     var tokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
@@ -150,404 +155,521 @@ Strongly-typed configuration model for JWT settings.
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
     };
+
     builder.Services.AddSingleton(tokenValidationParameters);
     ```
 
-### Authentication Middleware
-``` cs title="Program.cs"
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.SaveToken = true;
-    options.RequireHttpsMetadata = true; // disable only in local dev
-    options.TokenValidationParameters = tokenValidationParameters;
-});
-
-### Pipeline
-``` cs title="Program.cs"
-var app = builder.Build();
-
-app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
-
-await AppDbInitializer.SeedRoles(app);
-
-app.MapControllers();
-app.Run();
-```
-
-## Setup DB Context
-``` cs title="AppDbContext.cs"
-public class AppDbContext : IdentityDbContext<
-    User, Role, long,
-    IdentityUserClaim<long>, IdentityUserRole<long>, IdentityUserLogin<long>,
-    IdentityRoleClaim<long>, IdentityUserToken<long>>
-{
-    public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
-    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
-
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        base.OnModelCreating(builder);
-
-        modelBuilder.HasDefaultSchema("Identity");
-
-        // Rename Identity tables (remove AspNet*)
-        builder.Entity<User>().ToTable("User");
-        builder.Entity<Role>().ToTable("Role");
-        builder.Entity<IdentityUserRole<long>>().ToTable("UserRole");
-        builder.Entity<IdentityUserClaim<long>>().ToTable("UserClaim");
-        builder.Entity<IdentityUserLogin<long>>().ToTable("UserLogin");
-        builder.Entity<IdentityRoleClaim<long>>().ToTable("RoleClaim");
-        builder.Entity<IdentityUserToken<long>>().ToTable("UserToken");
-
-        // (Optional) tweak PK/indices names if you want consistent naming, EF will generate defaults otherwise
-        // Example:
-        // builder.Entity<User>().HasKey(u => u.Id).HasName("PK_Users");
-
-        // Ensure FK columns are bigint where needed—Identity generics <long> already do that.
-    }
-}
-```
-
-### Identity Models
-``` cs
-public class User : IdentityUser<long>
-{
-    public bool IsApproved { get; set; }
-}
-
-public class Role : IdentityRole<long>
-{
-    public long? ParentRoleId { get; set; }
-    public string? Description { get; set; }
-    public bool IsDeleted { get; set; } 
-
-    public Role? ParentRole { get; set; }
-    public ICollection<IdentityRoleClaim<long>> RoleClaims { get; set; }
-        = new List<IdentityRoleClaim<long>>();
-}
-
-public class UserProfile
-{
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public long Id { get; set; }
-    public long UserId { get; set; }
-    public string? CompanyName { get; set; }
-    public required string Firstname { get; set; }
-    public required string Lastname { get; set; }
-    public string? PostalCode { get; set; }
-    public string? City { get; set; }
-    public string? Street { get; set; }
-    public string? Description { get; set; }
-    public virtual User User { get; set; } = null!;
-}
-```
-
-### Refresh Token
-``` cs
-public class RefreshToken
-{
-    [Key] public long Id { get; set; }
-    public string Token { get; set; } = null!;
-    public string JwtId { get; set; } = null!;
-    public bool IsRevoked { get; set; }
-
-    public DateTime DateAdded { get; set; }
-    public DateTime DateExpire { get; set; }
-
-    public long UserId { get; set; }
-    public User User { get; set; } = null!;
-}
-```
-
-## Role Seeding
-``` cs
-public static class AppDbInitializer
-{
-    public static async Task SeedRoles(IApplicationBuilder app)
-    {
-        using var scope = app.ApplicationServices.CreateScope();
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
-
-        async Task EnsureRole(string roleName)
+- Step 7: Authentication Middleware
+    ``` cs title="Program.cs"
+    builder.Services
+        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
         {
-            if (!await roleManager.RoleExistsAsync(roleName))
-            {
-                await roleManager.CreateAsync(new Role { Name = roleName });
-            }
-        }
-
-        await EnsureRole("Admin");
-        await EnsureRole("User");
-    }
-}
-```
-
-``` cs title="Controller"
-[ApiController]
-[Route("[controller]")]
-public class AccountController : ControllerBase
-{
-    private readonly UserManager<User> _userManager;
-    private readonly RoleManager<Role> _roleManager;
-    private readonly AppDbContext _context;
-    private readonly JwtSettings _jwt;
-    private readonly TokenValidationParameters _tokenValidationParameters;
-
-    public AccountController(
-        AppDbContext context,
-        UserManager<User> userManager,
-        RoleManager<Role> roleManager,
-        IOptions<JwtSettings> jwt,
-        TokenValidationParameters tokenValidationParameters)
-    {
-        _context = context;
-        _userManager = userManager;
-        _roleManager = roleManager;
-        _jwt = jwt.Value;
-        _tokenValidationParameters = tokenValidationParameters;
-    }
-
-    [HttpPost("RegisterWithPassword")]
-    public async Task<IActionResult> RegisterWithPassword([FromBody] RegisterWithPasswordModel model)
-    {
-        if (!ModelState.IsValid) return BadRequest("Provide all fields");
-
-        var existing = await _userManager.FindByEmailAsync(model.Email);
-        if (existing != null) return BadRequest("User exists");
-
-        using var tx = await _context.Database.BeginTransactionAsync();
-
-        var user = new User { Email = model.Email, UserName = model.Email };
-        var result = await _userManager.CreateAsync(user, model.Password);
-
-        if (!result.Succeeded)
-        {
-            await tx.RollbackAsync();
-            return Unauthorized("User creation failed");
-        }
-
-        await _userManager.AddToRoleAsync(user, "User");
-
-        await _context.UserProfiles.AddAsync(new UserProfile
-        {
-            UserId = user.Id,
-            Firstname = model.Firstname,
-            Lastname = model.Lastname
+            options.SaveToken = true;
+            options.RequireHttpsMetadata = true; // disable only in local dev
+            options.TokenValidationParameters = tokenValidationParameters;
         });
-        await _context.SaveChangesAsync();
 
-        // send email confirmation
-        await SendConfirmationEmail(user);
+    builder.Services.AddAuthorization();
+    ```
 
-        await tx.CommitAsync();
-        return Ok("User created. Please confirm your email.");
-    }
+- Step 8: HTTP Pipeline
+    ``` cs title="Program.cs"
+    var app = builder.Build();
 
-    [HttpPost("LoginWithPassword")]
-    public async Task<IActionResult> LoginWithPassword([FromBody] LoginWithPasswordModel model)
+    app.UseRouting();
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    await AppDbInitializer.SeedRoles(app);
+
+    app.MapControllers();
+    app.Run();
+    ```
+
+- Step 9: Role Seeding
+    ``` cs
+    public static class AppDbInitializer
     {
-        if (!ModelState.IsValid) return BadRequest("Not valid");
-
-        var user = await _userManager.FindByEmailAsync(model.Email);
-        if (user == null) return Unauthorized("User does not exist");
-        if (!await _userManager.IsEmailConfirmedAsync(user)) return Unauthorized("Email is not confirmed");
-
-        if (!await _userManager.CheckPasswordAsync(user, model.Password))
-            return Unauthorized("Invalid credentials");
-
-        var auth = await GenerateJwtTokenAsync(user, null);
-        return Ok(auth);
-    }
-
-    [HttpPost("RefreshToken")]
-    public async Task<IActionResult> RefreshToken([FromBody] TokenRequestModel model)
-    {
-        if (!ModelState.IsValid) return BadRequest("Not valid");
-        var result = await VerifyAndGenerateTokenAsync(model);
-        if (result is null) return Unauthorized("Invalid refresh request");
-        return Ok(result);
-    }
-
-    private async Task<AuthResultModel?> VerifyAndGenerateTokenAsync(TokenRequestModel model)
-    {
-        var stored = await _context.RefreshTokens
-            .Include(r => r.User)
-            .FirstOrDefaultAsync(x => x.Token == model.RefreshToken);
-
-        if (stored is null || stored.IsRevoked || stored.DateExpire <= DateTime.UtcNow)
-            return null;
-
-        var handler = new JwtSecurityTokenHandler();
-        SecurityToken validated;
-        try
+        public static async Task SeedRoles(IApplicationBuilder app)
         {
-            handler.ValidateToken(model.Token, _tokenValidationParameters, out validated);
-            // If token is still valid, no need to refresh (optional behavior)
-            return null;
-        }
-        catch (SecurityTokenExpiredException)
-        {
-            // Check JTI match
-            var expiredToken = handler.ReadJwtToken(model.Token);
-            var jti = expiredToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti)?.Value;
-            if (jti != stored.JwtId) return null;
+            using var scope = app.ApplicationServices.CreateScope();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
 
-            return await GenerateJwtTokenAsync(stored.User, stored /* for reuse or rotation */);
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
-    private async Task<AuthResultModel> GenerateJwtTokenAsync(User user, RefreshToken? existingRefresh)
-    {
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.UserName ?? user.Email ?? user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Sub, user.Email ?? user.UserName ?? user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-
-        var roles = await _userManager.GetRolesAsync(user);
-        foreach (var role in roles)
-            claims.Add(new Claim(ClaimTypes.Role, role));
-
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.SecretKey));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var token = new JwtSecurityToken(
-            issuer: _jwt.Issuer,
-            audience: _jwt.Audience,
-            claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(_jwt.AccessTokenMinutes),
-            signingCredentials: creds);
-
-        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-
-        RefreshToken refresh;
-        if (existingRefresh != null && existingRefresh.DateExpire > DateTime.UtcNow && !existingRefresh.IsRevoked)
-        {
-            refresh = existingRefresh; // or rotate if you prefer
-        }
-        else
-        {
-            refresh = new RefreshToken
+            async Task EnsureRole(string roleName)
             {
-                JwtId = token.Id, // this is the JTI (matches token.Id)
-                IsRevoked = false,
-                UserId = user.Id,
-                DateAdded = DateTime.UtcNow,
-                DateExpire = DateTime.UtcNow.AddDays(_jwt.RefreshTokenDays),
-                Token = $"{Guid.NewGuid()}-{Guid.NewGuid()}"
-            };
-            _context.RefreshTokens.Add(refresh);
+                if (!await roleManager.RoleExistsAsync(roleName))
+                {
+                    await roleManager.CreateAsync(new Role { Name = roleName });
+                }
+            }
+
+            await EnsureRole("Admin");
+            await EnsureRole("User");
+        }
+    }
+    ```
+
+- Step 10: Setup DB Context
+
+    ``` cs title="AppDbContext.cs"
+    public class AppDbContext : IdentityDbContext<
+        User, Role, long,
+        IdentityUserClaim<long>, IdentityUserRole<long>, IdentityUserLogin<long>,
+        IdentityRoleClaim<long>, IdentityUserToken<long>>
+    {
+        public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
+        public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.HasDefaultSchema("Identity");
+
+            // Rename Identity tables (remove AspNet*)
+            builder.Entity<User>().ToTable("User");
+            builder.Entity<Role>().ToTable("Role");
+            builder.Entity<IdentityUserRole<long>>().ToTable("UserRole");
+            builder.Entity<IdentityUserClaim<long>>().ToTable("UserClaim");
+            builder.Entity<IdentityUserLogin<long>>().ToTable("UserLogin");
+            builder.Entity<IdentityRoleClaim<long>>().ToTable("RoleClaim");
+            builder.Entity<IdentityUserToken<long>>().ToTable("UserToken");
+
+            // (Optional) tweak PK/indices names if you want consistent naming, EF will generate defaults otherwise
+            // Example:
+            // builder.Entity<User>().HasKey(u => u.Id).HasName("PK_Users");
+
+            // Ensure FK columns are bigint where needed—Identity generics <long> already do that.
+        }
+    }
+    ```
+
+- Step 11: Setup Identity Models
+    ``` cs
+    public class User : IdentityUser<long>
+    {
+        public bool IsApproved { get; set; }
+    }
+
+    public class Role : IdentityRole<long>
+    {
+        public long? ParentRoleId { get; set; }
+        public string? Description { get; set; }
+        public bool IsDeleted { get; set; } 
+
+        public Role? ParentRole { get; set; }
+        public ICollection<IdentityRoleClaim<long>> RoleClaims { get; set; }
+            = new List<IdentityRoleClaim<long>>();
+    }
+
+    public class UserProfile
+    {
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+        public long UserId { get; set; }
+        public string? CompanyName { get; set; }
+        public required string Firstname { get; set; }
+        public required string Lastname { get; set; }
+        public string? PostalCode { get; set; }
+        public string? City { get; set; }
+        public string? Street { get; set; }
+        public string? Description { get; set; }
+        public virtual User User { get; set; } = null!;
+    }
+    ```
+
+
+- Step 12: Refresh Token
+    ``` cs
+    public class RefreshToken
+    {
+        [Key] public long Id { get; set; }
+        public string Token { get; set; } = null!;
+        public string JwtId { get; set; } = null!;
+        public bool IsRevoked { get; set; }
+
+        public DateTime DateAdded { get; set; }
+        public DateTime DateExpire { get; set; }
+
+        public long UserId { get; set; }
+        public User User { get; set; } = null!;
+    }
+    ```
+
+
+#### AuthService
+
+- Step 1: Auth Result Model
+    ``` cs
+    public sealed record AuthResult(
+        string AccessToken,
+        DateTimeOffset ExpiresAt
+    );
+    ```
+
+- Step 2: AuthService Interface
+    ``` cs
+    public interface IAuthService
+    {
+        Task<AuthResult> LoginAsync(string email, string password);
+        Task<AuthResult> RefreshAsync(string accessToken, string refreshToken);
+        Task LogoutAsync(long userId);
+    }
+    ```
+
+- Step 3: AuthService Implementation
+    ``` cs
+    public sealed class AuthService : IAuthService
+    {
+        private readonly AppDbContext _context;
+        private readonly UserManager<User> _userManager;
+        private readonly JwtSettings _jwt;
+        private readonly TokenValidationParameters _tokenValidationParameters;
+
+        public AuthService(
+            AppDbContext context,
+            UserManager<User> userManager,
+            IOptions<JwtSettings> jwt,
+            TokenValidationParameters tokenValidationParameters)
+        {
+            _context = context;
+            _userManager = userManager;
+            _jwt = jwt.Value;
+            _tokenValidationParameters = tokenValidationParameters;
+        }
+
+        public async Task<AuthResult> LoginAsync(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email)
+                       ?? throw new UnauthorizedAccessException();
+
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+                throw new UnauthorizedAccessException();
+
+            if (!await _userManager.CheckPasswordAsync(user, password))
+                throw new UnauthorizedAccessException();
+
+            return await IssueTokensAsync(user);
+        }
+
+        public async Task<AuthResult> RefreshAsync(string accessToken, string refreshToken)
+        {
+            var stored = await _context.RefreshTokens
+                .Include(x => x.User)
+                .FirstOrDefaultAsync(x => x.Token == refreshToken);
+
+            if (stored is null || stored.IsRevoked || stored.DateExpire <= DateTime.UtcNow)
+                throw new UnauthorizedAccessException();
+
+            var handler = new JwtSecurityTokenHandler();
+            SecurityToken validated;
+
+            var parameters = _tokenValidationParameters.Clone();
+            parameters.ValidateLifetime = false;
+
+            try
+            {
+                handler.ValidateToken(accessToken, parameters, out validated);
+            }
+            catch
+            {
+                throw new UnauthorizedAccessException();
+            }
+
+            var jwt = (JwtSecurityToken)validated;
+            var jti = jwt.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value;
+
+            if (stored.JwtId != jti)
+                throw new UnauthorizedAccessException();
+
+            stored.IsRevoked = true;
+            await _context.SaveChangesAsync();
+
+            return await IssueTokensAsync(stored.User);
+        }
+
+        public async Task LogoutAsync(long userId)
+        {
+            var tokens = await _context.RefreshTokens
+                .Where(x => x.UserId == userId && !x.IsRevoked)
+                .ToListAsync();
+
+            foreach (var token in tokens)
+                token.IsRevoked = true;
+
             await _context.SaveChangesAsync();
         }
 
-        return new AuthResultModel
+        private async Task<AuthResult> IssueTokensAsync(User user)
         {
-            Token = tokenString,
-            RefreshToken = refresh,
-            ExpiresAt = token.ValidTo
-        };
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(JwtRegisteredClaimNames.Email, user.Email!),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var roles = await _userManager.GetRolesAsync(user);
+            claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.SecretKey));
+            var token = new JwtSecurityToken(
+                issuer: _jwt.Issuer,
+                audience: _jwt.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(_jwt.AccessTokenMinutes),
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
+
+            var refresh = new RefreshToken
+            {
+                UserId = user.Id,
+                JwtId = token.Id,
+                Token = $"{Guid.NewGuid()}-{Guid.NewGuid()}",
+                DateAdded = DateTime.UtcNow,
+                DateExpire = DateTime.UtcNow.AddDays(_jwt.RefreshTokenDays)
+            };
+
+            _context.RefreshTokens.Add(refresh);
+            await _context.SaveChangesAsync();
+
+            return new AuthResult(
+                new JwtSecurityTokenHandler().WriteToken(token),
+                token.ValidTo
+            );
+        }
+    }
+    ```
+
+#### RegistrationService
+- Step 1: RegistrationService Interface
+    ``` cs
+    public interface IRegistrationService
+    {
+        Task RegisterAsync(RegisterModel model);
+    }
+    ```
+
+- Step 2: RegistrationService Implementation
+    ```
+    public sealed class RegistrationService : IRegistrationService
+    {
+        private readonly AppDbContext _context;
+        private readonly UserManager<User> _userManager;
+        private readonly IEmailService _emailService;
+
+        public RegistrationService(
+            AppDbContext context,
+            UserManager<User> userManager,
+            IEmailService emailService)
+        {
+            _context = context;
+            _userManager = userManager;
+            _emailService = emailService;
+        }
+
+        public async Task RegisterAsync(RegisterModel model)
+        {
+            try
+            {
+                if (await _userManager.FindByEmailAsync(model.Email) != null)
+                    throw new InvalidOperationException("User already exists");
+
+                using var tx = await _context.Database.BeginTransactionAsync();
+
+                var user = new User { Email = model.Email, UserName = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (!result.Succeeded)
+                    throw new InvalidOperationException("User creation failed");
+
+                await _userManager.AddToRoleAsync(user, "User");
+
+                _context.UserProfiles.Add(new UserProfile
+                {
+                    UserId = user.Id,
+                    Firstname = model.Firstname,
+                    Lastname = model.Lastname
+                });
+
+                await _context.SaveChangesAsync();
+                await tx.CommitAsync();
+
+                await _emailService.SendConfirmationAsync(user);
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+        }
+    }
+    ```
+
+#### EmailService
+- Step 1: EmailService Interface
+    ``` cs
+    public interface IEmailService
+    {
+        Task SendConfirmationAsync(User user);
+    }
+    ```
+
+- Step 2: EmailService Implementation
+    ```
+    public sealed class EmailService : IEmailService
+    {
+        private readonly UserManager<User> _userManager;
+        private readonly IConfiguration _config;
+        private readonly IEmailSender _emailSender;
+
+        public EmailService(
+            UserManager<User> userManager,
+            IConfiguration config,
+            IEmailSender emailSender)
+        {
+            _userManager = userManager;
+            _config = config;
+            _emailSender = emailSender;
+        }
+
+        public async Task SendConfirmationAsync(User user)
+        {
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var callbackUrl =
+                $"{_config["Production:ProductionUrl"]}/account/confirm-email" +
+                $"?userId={user.Id}&code={Uri.EscapeDataString(code)}";
+
+            await _emailSender.SendEmailAsync(
+                user.Email!,
+                "Activate your account",
+                BuildHtml("EmailConfirmationTemplate", callbackUrl));
+        }
+
+        private static string BuildHtml(string template, string url)
+        {
+            var html = File.ReadAllText($"Templates/{template}.html");
+            return html.Replace("{CallbackUrl}", url);
+        }
+    }
+    ```
+
+#### Controller
+``` cs
+[ApiController]
+[Route("account")]
+public sealed class AccountController : ControllerBase
+{
+    private readonly IAuthService _auth;
+    private readonly IRegistrationService _registration;
+    private readonly UserManager<User> _userManager;
+
+    public AccountController(
+        IAuthService auth,
+        IRegistrationService registration,
+        UserManager<User> userManager)
+    {
+        _auth = auth;
+        _registration = registration;
+        _userManager = userManager;
     }
 
-     private async Task SendConfirmationEmail(User user)
-     {
-        // Generate an email confirmation token for the user
-        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-      
-        string expireToken = TokenManager.GenerateToken(Convert.ToInt32(_config.GetSection("TimeSettings:AccountActivationTime").Value));
-      
-        // Build the callback URL with the confirmation code
-        //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id.ToString(), code = code, token = expireToken }, protocol: HttpContext.Request.Scheme);
-      
-        var callbackUrl = $"{_config.GetValue<string>("Production:ProductionUrl")}/Account/ConfirmEmail?userId={user.Id}&code={Uri.EscapeDataString(code)}&token={Uri.EscapeDataString(expireToken)}";
-      
-        // Compose the email content with the confirmation link
-        await _emailSender.SendEmailAsync(
-            user.Email,
-            "Aktivieren Sie Ihr Konto",
-            GenerateEmailContent("EmailConfirmationTemplate", "EmailAddress", user.Email, "CallbackUrl", callbackUrl));
-     }
-
-      [HttpGet]
-      [AllowAnonymous]
-      [Route("ConfirmEmail")]
-      public async Task<IActionResult> ConfirmEmail(string userId, string code, string token)
-      {
-        // Check for valid input parameters
-        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(code) || string.IsNullOrEmpty(token))
-        {
-            return BadRequest("Invalid request! Make a contact with the administrator.");
-        }
-        
-        // Find the user based on the provided user ID
-        var user = await _userManager.FindByIdAsync(userId);
-        
-        // Check if the user exists
-        if (user == null)
-        {
-            //return Unauthorized("Invalid request!");
-        }
-        
-        if (TokenManager.IsTokenValid(token))
-        {
-            // Confirm the user's email with the provided confirmation code
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-        
-            // Check if the email confirmation was successful
-            if (result.Succeeded)
-            {
-                return Ok("Your email has been successfully confirmed. Once your account be activated by Helmsauer's team, you'll be able to log in.");
-            }
-            return Unauthorized("Email confirmation failed!!! Make a contact with the administrator.");
-        }
-      }
-
-    private string GenerateEmailContent(string template, params object[] data)
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterModel model)
     {
-        try
-        {
-            // Read the HTML content from the external template file
-            string htmlContent = System.IO.File.ReadAllText($"Models/DataModels/{template}.html");
-    
-            //in html file use {EmailAddress} as placeholder
-    
-            if (data != null)
-            {
-                for (int i = 0; i < data.Length; i += 2)
-                {
-                    if (i + 1 < data.Length && data[i] != null)
-                    {
-                        string placeholder = $"{{{data[i]}}}";
-                        htmlContent = htmlContent.Replace(placeholder, data[i + 1].ToString());
-                    }
-                }
-            }
-    
-            return htmlContent;
-        }
-        catch
-        {
-            // Propagate any exceptions that occur during template file reading
-            throw;
-        }
-      }
-}
+        await _registration.RegisterAsync(model);
+        return Ok("User created. Please confirm your email.");
+    }
 
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginModel model)
+    {
+        var result = await _auth.LoginAsync(model.Email, model.Password);
+        return Ok(result);
+    }
+
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh([FromBody] TokenRequestModel model)
+    {
+        var result = await _auth.RefreshAsync(model.Token, model.RefreshToken);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        await _auth.LogoutAsync(userId);
+        return Ok();
+    }
+
+    [HttpGet("confirm-email")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ConfirmEmail(
+        [FromQuery] string userId,
+        [FromQuery] string code)
+    {
+        if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
+            return BadRequest("Invalid request");
+
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null) return BadRequest("Invalid user");
+
+        var result = await _userManager.ConfirmEmailAsync(user, code);
+        if (!result.Succeeded)
+            return BadRequest("Confirmation failed");
+
+        return Ok("Email confirmed successfully");
+    }
+}
+```
+
+#### Dependency Injection
+``` cs
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IRegistrationService, RegistrationService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 ```
 
 
+#### Global exception handling
+``` cs
+app.UseExceptionHandler(appError =>
+{
+    appError.Run(async context =>
+    {
+        var feature = context.Features.Get<IExceptionHandlerFeature>();
+        var exception = feature?.Error;
+
+        context.Response.ContentType = "application/json";
+
+        var response = new
+        {
+            message = "An error occurred"
+        };
+
+        switch (exception)
+        {
+            case UnauthorizedAccessException:
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                response = new { message = "Unauthorized" };
+                break;
+
+            case InvalidOperationException:
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                response = new { message = exception.Message };
+                break;
+
+            default:
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                break;
+        }
+
+        await context.Response.WriteAsJsonAsync(response);
+    });
+});
+```
