@@ -210,6 +210,7 @@ public IActionResult LoginV1()
 ```
 
 > Recommended deprecation timeline
+> 
 | Phase   | Action |
 |:--------|:------:|
 | Phase 1 | Mark deprecated (`Deprecated = true`) |
