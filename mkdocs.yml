@@ -61,6 +61,7 @@ nav:
         - API Client: csharp/api/api-client.md
         - API Architecture: csharp/api/api-arch.md
         - Anonymous Endpoint: csharp/api/anonymous-endpoint.md
+        - API Versioning: csharp/api/api-version.md
     - Authentication:
         - Authentication: csharp/authentication/auth.md
         - EX Authentication: csharp/authentication/authEx.md
