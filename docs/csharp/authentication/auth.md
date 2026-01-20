@@ -476,31 +476,31 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
 
         public async Task RegisterAsync(RegisterModel model)
         {
+            using var tx = await _context.Database.BeginTransactionAsync();
+
             try
             {
                 if (await _userManager.FindByEmailAsync(model.Email) != null)
                     throw new InvalidOperationException("User already exists");
-
-                using var tx = await _context.Database.BeginTransactionAsync();
-
+            
                 var user = new User { Email = model.Email, UserName = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
-
+            
                 if (!result.Succeeded)
                     throw new InvalidOperationException("User creation failed");
-
+            
                 await _userManager.AddToRoleAsync(user, "User");
-
+            
                 _context.UserProfiles.Add(new UserProfile
                 {
                     UserId = user.Id,
                     Firstname = model.Firstname,
                     Lastname = model.Lastname
                 });
-
+            
                 await _context.SaveChangesAsync();
                 await tx.CommitAsync();
-
+            
                 await _emailService.SendConfirmationAsync(user);
             }
             catch
@@ -562,7 +562,48 @@ This section describes how to configure ASP.NET Core Identity, Entity Framework 
         }
     }
     ```
-
+- **Step 3: SMTPEmail Sender**
+    ``` cs
+    public interface IEmailSender
+    {
+        Task SendEmailAsync(string email, string subject, string htmlMessage);
+    }
+    ```
+- **Step 4: SMTPEmailSender Implementation**
+    ``` cs
+    public sealed class SmtpEmailSender : IEmailSender
+    {
+        private readonly SmtpSettings _settings;
+    
+        public SmtpEmailSender(IOptions<SmtpSettings> settings)
+        {
+            _settings = settings.Value;
+        }
+    
+        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
+        {
+            using var client = new SmtpClient(_settings.Host, _settings.Port)
+            {
+                Credentials = new NetworkCredential(
+                    _settings.Username,
+                    _settings.Password),
+                _settings.EnableSsl
+            };
+    
+            var message = new MailMessage
+            {
+                From = new MailAddress(_settings.From),
+                Subject = subject,
+                Body = htmlMessage,
+                IsBodyHtml = true
+            };
+    
+            message.To.Add(email);
+    
+            await client.SendMailAsync(message);
+        }
+    }
+    ```
 ---
 
 #### Controller
@@ -643,6 +684,7 @@ public sealed class AccountController : ControllerBase
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 ```
 
 ---
