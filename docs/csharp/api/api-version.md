@@ -212,7 +212,7 @@ public IActionResult LoginV1()
 > Recommended deprecation timeline
 > 
 | Phase   | Action |
-|:--------|:------:|
+|:-------:|:-------|
 | Phase 1 | Mark deprecated (`Deprecated = true`) |
 | Phase 2 | Add warning headers |
 | Phase 3 | Notify consumers |
