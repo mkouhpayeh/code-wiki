@@ -5,8 +5,8 @@
 ## Installation
 1. Install required NuGet packages
 ```
-dotnet add package Microsoft.AspNetCore.Mvc.Versioning
-dotnet add package Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer
+dotnet add package Asp.Versioning.Mvc
+dotnet add package Asp.Versioning.Mvc.ApiExplorer
 ```
 
 ---
@@ -30,7 +30,8 @@ dotnet add package Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer
 
     - Optional (recommended): API Explorer for Swagger
     ``` cs
-    builder.Services.AddVersionedApiExplorer(options =>
+    builder.Services.AddApiVersioning()
+    .AddApiExplorer(options =>
     {
         options.GroupNameFormat = "'v'VVV";
         options.SubstituteApiVersionInUrl = true;
@@ -51,7 +52,9 @@ public sealed class AccountController : ControllerBase
 }
 ```
 
-- Multiple versioning
+---
+
+## Multiple versioning
 ```
 [ApiVersion("1.0")]
 [ApiVersion("2.0")]
@@ -68,7 +71,9 @@ public sealed class AccountController : ControllerBase
 }
 ```
 
-- Alternative versioning strategies (choose ONE)
+---
+
+## Versioning strategies (choose ONE)
 1. URL Segment (recommended)
 ```bash
 /api/v1/account/login
