@@ -10,9 +10,13 @@ https://nodejs.org/en/download/
 
 3. install typescript
 npm install -g typescript
-vscode project terminal (PowerShell security error)=> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
-4. Configure TypeScript Compiler
+vscode project terminal (PowerShell security error)=> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+or 
+npx tsc index.ts
+node index.js
+
+5. Configure TypeScript Compiler
 tsc --init
 
 tsconfig.json:
@@ -30,6 +34,8 @@ tsconfig.json:
 
 "sourceMap" : true => Step by Step Debug
 
+ "noImplicitAny": false,
+
 run => tsc 
 
 Debug: Set breakpoint
@@ -37,3 +43,9 @@ open debug window > Create a launch.js file > node.js
 
 "program": "${workspaceFolder}/src/index.ts",
 "preLaunchTask": "tsc: build - tsconfig.json" : use ts compiler to build config file
+
+Primitive Types 
+JavaScript: number, string, boolean, null, undefined, object
+TypeScript: any, unknown, never, enum, tuple
+
+
