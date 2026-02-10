@@ -34,7 +34,10 @@ tsconfig.json:
 
 "sourceMap" : true => Step by Step Debug
 
- "noImplicitAny": false,
+"noImplicitAny": false,
+"noUnusedParameters": true,
+"noImplicitReturns": true,
+"noUnusedLocals": true,
 
 run => tsc 
 
@@ -46,6 +49,8 @@ open debug window > Create a launch.js file > node.js
 
 Primitive Types 
 JavaScript: number, string, boolean, null, undefined, object
-TypeScript: any, unknown, never, enum, tuple
+TypeScript: any, unknown, never, enum (PascalCase **const** enum Size {Small, Medium, Large}), tuple, array(numner[], any[])
+functions return by default undefined 
+
 
 
