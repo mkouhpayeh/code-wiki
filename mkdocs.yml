@@ -115,30 +115,30 @@ nav:
     - Loading Page: frontend/loading-overlay.md
     - Markdown: frontend/markdown.md
 
-  - Python:
-    - Extract Firebird: python/extract-firebird.md
-    
-  - AI: 
-    - AI Foundation: ai/chat.md
-    
-  - Automation: 
-    - CI/CD GitLab: automation/ci-cd-gitlab.md
-    - CI/CD GitHub: automation/ci-cd-github.md
-    - Ansible Introduction: automation/ansible-intro.md
-    - Ansible Playbook: automation/ansible-playbook.md
-
   - Cloud:
     - AWS: cloud/aws.md
-    
+    - Automation: 
+      - CI/CD GitLab: automation/ci-cd-gitlab.md
+      - CI/CD GitHub: automation/ci-cd-github.md
+      
   - Docker: 
     - Docker Introduction: docker/docker-intro.md
     - Docker Installation: docker/docker-install.md
     - Docker Usage: docker/docker-useage.md
     
+  - Ansible:
+    - Ansible Introduction: automation/ansible-intro.md
+    - Ansible Playbook: automation/ansible-playbook.md
+  
   - Tools: 
     - Analyze Tools: tools/analyze-tools.md
     - Performance Tools: tools/performance-tools.md
 
+  - Python:
+    - Extract Firebird: python/extract-firebird.md
+    
+  - AI: 
+    - AI Foundation: ai/chat.md
    
 markdown_extensions:
   - admonition
