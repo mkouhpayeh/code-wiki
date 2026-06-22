@@ -126,6 +126,9 @@ nav:
     - CI/CD GitHub: automation/ci-cd-github.md
     - Ansible Introduction: automation/ansible-intro.md
     - Ansible Playbook: automation/ansible-playbook.md
+
+  - Cloud:
+    - AWS: cloud/aws.md
     
   - Docker: 
     - Docker Introduction: docker/docker-intro.md
