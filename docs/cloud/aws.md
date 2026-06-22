@@ -2,9 +2,7 @@
 
 A quick-reference wiki covering the core AWS services you'll encounter when building and operating cloud applications.
 
----
 
-## AWS Services Overviwe
 ![AWS Services Overview](../assets/aws-services-overview.png)
 
 ---
