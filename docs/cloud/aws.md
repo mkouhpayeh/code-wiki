@@ -5,7 +5,7 @@ A quick-reference wiki covering the core AWS services you'll encounter when buil
 ---
 
 ## AWS Services Overviwe
-![AWS Services Overview](assets/aws-services-overview.png)
+![AWS Services Overview](../assets/aws-services-overview.png)
 
 ---
 
