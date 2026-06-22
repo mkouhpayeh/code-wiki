@@ -1,4 +1,4 @@
-# AWS Services Overview
+# AWS Services
 
 A quick-reference wiki covering the core AWS services you'll encounter when building and operating cloud applications.
 
