@@ -13,13 +13,14 @@
   - Create access key ID > Security Credentials
   ```bash
   Install AWS CLI
-  run aws configure
+  aws configure
   
-  run terraform init
-  run terraform plan
-  run terraform apply
-  
-  run terraform destroy
+  terraform init
+  terraform plan
+  terraform apply
+
+  terraform workspace list
+  terraform destroy
   ```
 - Variable: Variables are values you pass into Terraform. Input parameter
 ```
@@ -48,4 +49,9 @@ Perform action on local or remote machine
 - Ansible
 - Terraform + Chef
 - Puppet
-  
+
+## AWS Consul
+A terraform module for how to run Consul on AWS using Terraform and Packer
+
+## Terragrunt
+Provides utility to make certain terraform use cases easier
