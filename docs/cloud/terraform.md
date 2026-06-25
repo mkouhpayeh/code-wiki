@@ -16,10 +16,12 @@
   aws configure
   
   terraform init
-  terraform plan
-  terraform apply
+  terraform plan -- Looking at the resulting, can catch the bugs.
+  terraform apply [-auto-approve]
 
   terraform workspace list
+  terraform workspace new production
+  terraform workspace select production
   terraform destroy
   ```
 - Variable: Variables are values you pass into Terraform. Input parameter
@@ -50,8 +52,27 @@ Perform action on local or remote machine
 - Terraform + Chef
 - Puppet
 
-## AWS Consul
-A terraform module for how to run Consul on AWS using Terraform and Packer
+## Additional Tools
+- AWS Consul: A terraform module for how to run Consul on AWS using Terraform and Packer
+- Terragrunt: Provides utility to make certain terraform use cases easier. Minimize code repetition. Enables multi-account separation
+- Cloud Nuke: Easy cleanup of cloud resources
+- Makefiles: Prevent human error
 
-## Terragrunt
-Provides utility to make certain terraform use cases easier
+## CI/CD
+- [Github Actions](https://github.com/hashicorp/setup-terraform)
+- [CircleCI](https://circleci.com/developer/orbs/orb/circleci/terraform)
+- [GitLab](https://docs.gitlab.com/ee/user/infrastructure/)
+- [Atlantis](https://runatlantis.io)
+
+## Terraform Testing
+- Built-in
+```
+terraform fmt [-check]
+terraform validate
+terraform plan
+custom validation rules
+```
+- External
+  - tflint
+  - checkov, tfsec, terrascan, terraform-compliance, snyk
+  - Terraform Sential (enterprise only)
