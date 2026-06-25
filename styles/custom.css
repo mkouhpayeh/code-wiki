@@ -1,0 +1,81 @@
+/* =====================================================
+   Sidebar scrolling under header
+   ===================================================== */
+
+.md-sidebar__scrollwrap {
+  padding-top: var(--md-header-height);
+}
+
+.md-sidebar {
+  top: var(--md-header-height);
+}
+
+/* ============================
+   Sidebar Navigation – Base
+   ============================ */
+
+.md-nav__item {
+  margin: 0.15rem 0;
+}
+
+.md-nav__link {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  padding: 0.25rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* ============================
+   Section Headings (Categories)
+   ============================ */
+
+.md-nav__item--section > .md-nav__link {
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  opacity: 0.65;
+  margin-top: 1rem;
+  pointer-events: none;
+}
+
+/* ============================
+   Nested Items (Children)
+   ============================ */
+
+.md-nav__item .md-nav__item .md-nav__link {
+  font-weight: 400;
+  padding-left: 1.1rem;
+}
+
+/* ============================
+   Active Page Highlight
+   ============================ */
+
+.md-nav__link--active {
+  font-weight: 600;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+/* ============================
+   Hover State
+   ============================ */
+
+.md-nav__link:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* ============================
+   Dark Mode Adjustments
+   ============================ */
+
+[data-md-color-scheme="slate"] .md-nav__link--active {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-md-color-scheme="slate"] .md-nav__item--section > .md-nav__link {
+  opacity: 0.9;
+}
+
+[data-md-color-scheme="slate"] .md-nav__link:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
