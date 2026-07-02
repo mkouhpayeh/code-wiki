@@ -7,6 +7,7 @@ copyright: Copyright © 2026 Mahboubeh Kouhpayeh
 
 theme:
   name: material
+  custom_dir: overrides
   language: en
   logo: assets/logo.png
   favicon: assets/favicon.ico
