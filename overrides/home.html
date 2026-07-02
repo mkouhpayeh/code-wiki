@@ -1,0 +1,333 @@
+{% extends "main.html" %}
+
+{% block styles %}
+  {{ super() }}
+  <style>
+    .portfolio-hero{
+      --accent:#7dd3fc;
+      --accent2:#a78bfa;
+      --card: rgba(255,255,255,0.04);
+      --card-border: rgba(255,255,255,0.08);
+      --muted:#9aa1b1;
+      --radius:18px;
+      font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    .portfolio-hero a{ text-decoration:none; }
+    .portfolio-hero .hero{
+      max-width:1100px; margin:0 auto;
+      padding:70px 6% 50px;
+      display:flex; align-items:center; gap:56px;
+      flex-wrap:wrap;
+    }
+    .portfolio-hero .hero-text{flex:1; min-width:300px;}
+    .portfolio-hero .eyebrow{
+      color:var(--accent); font-size:0.85rem; font-weight:600;
+      letter-spacing:2px; text-transform:uppercase; margin-bottom:14px;
+    }
+    .portfolio-hero h1{
+      font-size:clamp(2rem, 4vw, 3rem);
+      font-weight:800; line-height:1.15; margin-bottom:14px;
+      color: var(--md-default-fg-color);
+    }
+    .portfolio-hero h1 .grad{
+      background:linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .portfolio-hero p.tagline{color:var(--muted); font-size:1.05rem; max-width:520px; margin-bottom:26px;}
+    .portfolio-hero .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+    .portfolio-hero .btn{
+      padding:12px 22px; border-radius:12px; font-size:0.9rem; font-weight:600;
+      border:1px solid var(--card-border); cursor:pointer; transition:.25s; display:inline-block;
+    }
+    .portfolio-hero .btn-primary{
+      background:linear-gradient(90deg, var(--accent), var(--accent2));
+      color:#0b0d12 !important; border:none;
+    }
+    .portfolio-hero .btn-primary:hover{filter:brightness(1.1); transform:translateY(-2px);}
+    .portfolio-hero .btn-ghost{background:var(--card); color:var(--md-default-fg-color) !important;}
+    .portfolio-hero .btn-ghost:hover{border-color:var(--accent); color:var(--accent) !important;}
+
+    .portfolio-hero .avatar-wrap{position:relative; width:180px; height:180px; flex-shrink:0;}
+    .portfolio-hero .avatar-ring{
+      width:100%; height:100%; border-radius:50%; padding:4px;
+      background:linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+    .portfolio-hero .avatar-inner{
+      width:100%; height:100%; border-radius:50%;
+      background: var(--md-default-bg-color);
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden; position:relative; cursor:pointer;
+    }
+    .portfolio-hero .avatar-inner img{width:100%; height:100%; object-fit:cover; display:none;}
+    .portfolio-hero .avatar-placeholder{
+      display:flex; flex-direction:column; align-items:center; gap:6px;
+      color:var(--muted); font-size:0.72rem; text-align:center; padding:10px;
+    }
+    .portfolio-hero .avatar-placeholder svg{width:32px; height:32px; opacity:0.6;}
+    .portfolio-hero .avatar-inner input[type=file]{position:absolute; inset:0; opacity:0; cursor:pointer;}
+    .portfolio-hero .avatar-hint{
+      position:absolute; bottom:-24px; left:50%; transform:translateX(-50%);
+      font-size:0.7rem; color:var(--muted); white-space:nowrap;
+    }
+
+    .portfolio-hero section{max-width:1100px; margin:0 auto; padding:50px 6%;}
+    .portfolio-hero .section-head{margin-bottom:30px;}
+    .portfolio-hero .section-head h2{font-size:1.6rem; font-weight:800; color:var(--md-default-fg-color);}
+
+    .portfolio-hero .skills-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:16px;}
+    .portfolio-hero .skill-card{
+      background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius); padding:20px;
+    }
+    .portfolio-hero .skill-card h3{font-size:0.92rem; color:var(--accent); margin-bottom:10px;}
+    .portfolio-hero .tag-row{display:flex; flex-wrap:wrap; gap:8px;}
+    .portfolio-hero .tag{
+      font-size:0.75rem; padding:5px 11px; border-radius:999px;
+      background:rgba(125,211,252,0.08); border:1px solid rgba(125,211,252,0.25);
+      color:var(--md-default-fg-color);
+    }
+
+    .portfolio-hero .timeline{position:relative; padding-left:26px; border-left:2px solid var(--card-border);}
+    .portfolio-hero .tl-item{position:relative; margin-bottom:34px;}
+    .portfolio-hero .tl-item::before{
+      content:''; position:absolute; left:-33px; top:6px;
+      width:12px; height:12px; border-radius:50%;
+      background:linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow:0 0 0 4px rgba(125,211,252,0.12);
+    }
+    .portfolio-hero .tl-date{font-size:0.78rem; color:var(--accent); font-weight:600; margin-bottom:4px;}
+    .portfolio-hero .tl-role{font-size:1.05rem; font-weight:700; color:var(--md-default-fg-color);}
+    .portfolio-hero .tl-company{color:var(--muted); font-size:0.9rem; margin-bottom:8px;}
+    .portfolio-hero .tl-item ul{padding-left:18px; color:var(--muted); font-size:0.9rem; display:flex; flex-direction:column; gap:6px;}
+
+    .portfolio-hero .cards-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:14px;}
+    .portfolio-hero .info-card{
+      background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius); padding:18px;
+    }
+    .portfolio-hero .info-card h4{font-size:0.94rem; color:var(--md-default-fg-color); margin-bottom:4px;}
+    .portfolio-hero .info-card .muted{color:var(--muted); font-size:0.82rem;}
+
+    .portfolio-hero .notes-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:18px;}
+    .portfolio-hero .note-card{
+      background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius);
+      padding:22px; transition:.25s; display:flex; flex-direction:column; gap:8px;
+    }
+    .portfolio-hero .note-card:hover{transform:translateY(-4px); border-color:var(--accent);}
+    .portfolio-hero .note-icon{
+      width:40px; height:40px; border-radius:10px;
+      background:linear-gradient(135deg, rgba(125,211,252,0.18), rgba(167,139,250,0.18));
+      display:flex; align-items:center; justify-content:center; font-size:1.15rem;
+    }
+    .portfolio-hero .note-card h3{font-size:1rem; color:var(--md-default-fg-color);}
+    .portfolio-hero .note-card p{color:var(--muted); font-size:0.86rem; flex:1;}
+    .portfolio-hero .note-link{font-size:0.84rem; color:var(--accent); font-weight:600;}
+    .portfolio-hero .note-link:hover{text-decoration:underline;}
+
+    @media (max-width:720px){
+      .portfolio-hero .hero{flex-direction:column-reverse; text-align:center; align-items:center;}
+      .portfolio-hero .hero-text{text-align:center;}
+      .portfolio-hero .cta-row{justify-content:center;}
+      .portfolio-hero p.tagline{margin-left:auto; margin-right:auto;}
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<div class="portfolio-hero">
+
+  <section class="hero" id="about">
+    <div class="hero-text">
+      <div class="eyebrow">.NET Developer · Senior Software Engineer</div>
+      <h1>Hi, I'm Mahboubeh — <br>I build <span class="grad">clean, scalable</span> software.</h1>
+      <p class="tagline">
+        13+ years turning complex business logic — especially in Germany's insurance &amp; payroll world (bAV, benefits) —
+        into robust, maintainable systems with ASP.NET Core, Blazor, PostgreSQL and SQL Server.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://www.linkedin.com/in/mahboubeh-kouhpayeh" target="_blank" rel="noopener">View LinkedIn</a>
+        <a class="btn btn-ghost" href="mailto:mhb.kouhpayeh@gmail.com">Email me</a>
+        <a class="btn btn-ghost" href="#notes">See my dev notes ↓</a>
+      </div>
+    </div>
+
+    <div class="avatar-wrap">
+      <div class="avatar-ring">
+        <div class="avatar-inner" id="avatarInner">
+          <div class="avatar-placeholder" id="avatarPlaceholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zM4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Upload photo</span>
+          </div>
+          <img id="avatarImg" src="" alt="Profile photo">
+          <input type="file" id="avatarInput" accept="image/*">
+        </div>
+      </div>
+      <div class="avatar-hint">click the circle to add a photo</div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head">
+      <div class="eyebrow">Toolbox</div>
+      <h2>Technologies &amp; Skills</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>Languages &amp; Frameworks</h3>
+        <div class="tag-row">
+          <span class="tag">C#</span><span class="tag">ASP.NET Core</span><span class="tag">Blazor</span>
+          <span class="tag">MVC</span><span class="tag">WPF</span><span class="tag">WinForms</span>
+          <span class="tag">.NET 6/10</span><span class="tag">EF Core</span><span class="tag">SignalR</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Databases</h3>
+        <div class="tag-row">
+          <span class="tag">SQL Server</span><span class="tag">PostgreSQL</span><span class="tag">T-SQL</span>
+          <span class="tag">Performance Tuning</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>APIs &amp; Security</h3>
+        <div class="tag-row">
+          <span class="tag">REST API</span><span class="tag">JWT</span><span class="tag">OAuth 2.0</span>
+          <span class="tag">Google APIs</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Tools &amp; DevOps</h3>
+        <div class="tag-row">
+          <span class="tag">Git</span><span class="tag">Visual Studio</span><span class="tag">Azure DevOps</span>
+          <span class="tag">TCP/IP</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Methods</h3>
+        <div class="tag-row">
+          <span class="tag">Clean Architecture</span><span class="tag">Agile/Scrum</span>
+          <span class="tag">Refactoring</span><span class="tag">ETL &amp; Integration</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-head">
+      <div class="eyebrow">Career</div>
+      <h2>Experience</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">10.2023 – Present</div>
+        <div class="tl-role">Software Developer .NET (Web / Backend / UI)</div>
+        <div class="tl-company">Helmsauer Gruppe · Wemding, Germany</div>
+        <ul>
+          <li>Built and evolved online calculators for insurance &amp; salary modeling (.NET, Blazor, EF Core, PostgreSQL), including a benefit-simulation admin backend.</li>
+          <li>Designed a document management portal (ASP.NET Core, Blazor, REST API) for bAV/Payroll digitalization — cut manual processing time by ~40%.</li>
+          <li>Built a centralized Identity &amp; Access Management system (JWT, OAuth 2.0, SQL Server) unifying security across multiple internal apps.</li>
+          <li>Applied deep German insurance domain knowledge (bAV, Payroll, regulatory compliance) directly into business logic.</li>
+          <li>Automated address validation with the Google Maps API, eliminating hours of manual data-cleanup work per month.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">04.2013 – 09.2023</div>
+        <div class="tl-role">Software Developer .NET (Full Stack / Windows / Backend)</div>
+        <div class="tl-company">Tolue Aryan Hooshmand Co. · Tehran, Iran</div>
+        <ul>
+          <li>Built a Windows service for real-time GPS data capture via TCP listener, persisting data to SQL Server.</li>
+          <li>Developed a real-time vehicle tracking portal (ASP.NET MVC, SignalR, SQL Server) for logistics operations.</li>
+          <li>Implemented TCP packet duplication/forwarding for parallel real-time processing across multiple ports.</li>
+          <li>Built WinForms/WPF field applications for emergency vehicles running on industrial hardware (Advantech IPCs).</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">10.2007 – 04.2012</div>
+        <div class="tl-role">Application Developer / IT Support</div>
+        <div class="tl-company">Kerman University of Medical Sciences · Kerman, Iran</div>
+        <ul>
+          <li>Built a Windows app to automate shift-based compensation calculations for doctors and nursing staff.</li>
+          <li>Contributed to an online examination platform (registration, sign-up, results) with ASP.NET MVC + SQL Server.</li>
+          <li>Supported ERP-adjacent systems: payroll, pension management, training and asset management.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="section-head">
+      <div class="eyebrow">Background</div>
+      <h2>Education &amp; Certificates</h2>
+    </div>
+    <div class="cards-grid">
+      <div class="info-card"><h4>M.Sc. Computer Engineering (Software)</h4><div class="muted">Payame-Nour University, Tehran · 2015–2017</div></div>
+      <div class="info-card"><h4>B.Sc. Computer Engineering</h4><div class="muted">Shahid Bahonar University, Kerman · 2004–2008</div></div>
+      <div class="info-card"><h4>MCP / MCPD — ASP.NET</h4><div class="muted">Microsoft · 2012–2013</div></div>
+      <div class="info-card"><h4>MCTS — SQL Server 2008</h4><div class="muted">Microsoft · 2012–2013</div></div>
+      <div class="info-card"><h4>German B2 (300 hrs)</h4><div class="muted">Language course · 2024–2025</div></div>
+      <div class="info-card"><h4>ETL &amp; System Integration</h4><div class="muted">2023</div></div>
+      <div class="info-card"><h4>PMP Bootcamp</h4><div class="muted">PMI · 2016</div></div>
+      <div class="info-card"><h4>CCNA</h4><div class="muted">Cisco · 2014–2016</div></div>
+    </div>
+  </section>
+
+  <section id="notes">
+    <div class="section-head">
+      <div class="eyebrow">Beyond the resume</div>
+      <h2>Dev Notes &amp; Design Ideas</h2>
+      <p style="color:var(--muted); max-width:600px; margin-top:8px;">
+        A quick look at how I think, not just what I've shipped. Browse the full wiki for the complete write-ups.
+      </p>
+    </div>
+    <div class="notes-grid">
+      <div class="note-card">
+        <div class="note-icon">🧩</div>
+        <h3>Designing a Clean Identity Provider</h3>
+        <p>How I structured a shared JWT/OAuth 2.0 auth service so five internal apps could stop reinventing login.</p>
+        <a class="note-link" href="{{ 'csharp/authentication/auth/' | url }}">Read the write-up →</a>
+      </div>
+      <div class="note-card">
+        <div class="note-icon">⚡</div>
+        <h3>API Architecture Patterns</h3>
+        <p>Notes on structuring API servers and clients for maintainability and versioning.</p>
+        <a class="note-link" href="{{ 'csharp/api/api-arch/' | url }}">Read the write-up →</a>
+      </div>
+      <div class="note-card">
+        <div class="note-icon">🔌</div>
+        <h3>SQL Index Fragmentation</h3>
+        <p>Lessons from keeping SQL Server indexes healthy under real production load.</p>
+        <a class="note-link" href="{{ 'sql/index-frag/' | url }}">Read the write-up →</a>
+      </div>
+      <div class="note-card">
+        <div class="note-icon">🎨</div>
+        <h3>Browse the Full Wiki</h3>
+        <p>Everything I've documented — C#/.NET, SQL, Docker, Cloud, Automation and more.</p>
+        <a class="note-link" href="{{ 'fundamentals/foundation/' | url }}">Explore all topics →</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    (function(){
+      const input = document.getElementById('avatarInput');
+      const img = document.getElementById('avatarImg');
+      const placeholder = document.getElementById('avatarPlaceholder');
+      if(!input) return;
+      input.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          img.src = ev.target.result;
+          img.style.display = 'block';
+          placeholder.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      });
+    })();
+  </script>
+{% endblock %}
