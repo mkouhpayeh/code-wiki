@@ -1,6 +1,7 @@
 ---
 template: home.html
-title: Mahboubeh Kouhpayeh — Full-Stack .NET Developer
+title: Mahboubeh Kouhpayeh — .NET Developer
 hide:
+  - navigation
   - toc
 ---
