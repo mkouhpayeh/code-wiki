@@ -59,12 +59,12 @@
       overflow:hidden; position:relative; cursor:pointer;
     }
     .portfolio-hero .avatar-inner img{width:100%; height:100%; object-fit:cover; display:none;}
-    .portfolio-hero .avatar-placeholder{
+    .portfolio-hero{
       display:flex; flex-direction:column; align-items:center; gap:6px;
       color:var(--muted); font-size:0.72rem; text-align:center; padding:10px;
     }
-    .portfolio-hero .avatar-placeholder svg{width:32px; height:32px; opacity:0.6;}
-    .portfolio-hero .avatar-inner input[type=file]{position:absolute; inset:0; opacity:0; cursor:pointer;}
+    .portfolio-hero svg{width:32px; height:32px; opacity:0.6;}
+    .portfolio-hero{position:absolute; inset:0; opacity:0; cursor:pointer;}
     .portfolio-hero .avatar-hint{
       position:absolute; bottom:-24px; left:50%; transform:translateX(-50%);
       font-size:0.7rem; color:var(--muted); white-space:nowrap;
@@ -155,7 +155,6 @@
           <img src="{{ 'assets/mahi-photo.jpeg' | url }}" alt="Mahboubeh Kouhpayeh" style="width:100%; height:100%; object-fit:cover; display:block;">
         </div>
       </div>
-      <div class="avatar-hint">click the circle to add a photo</div>
     </div>
   </section>
 
@@ -300,27 +299,4 @@
   </section>
 
 </div>
-{% endblock %}
-
-{% block scripts %}
-  {{ super() }}
-  <script>
-    (function(){
-      const input = document.getElementById('avatarInput');
-      const img = document.getElementById('avatarImg');
-      const placeholder = document.getElementById('avatarPlaceholder');
-      if(!input) return;
-      input.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if(!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          img.src = ev.target.result;
-          img.style.display = 'block';
-          placeholder.style.display = 'none';
-        };
-        reader.readAsDataURL(file);
-      });
-    })();
-  </script>
 {% endblock %}
