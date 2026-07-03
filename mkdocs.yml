@@ -118,11 +118,11 @@ nav:
 
   - Automation:
     - CI-CD: 
-      - CI/CD GitLab: cloud/ci-cd/gitlab.md
-      - CI/CD GitHub: cloud/ci-cd/github.md
+      - CI/CD GitLab: automation/ci-cd/gitlab.md
+      - CI/CD GitHub: automation/ci-cd/github.md
     - Ansible:
-      - Ansible Introduction: cloud/ansible/ansible-intro.md
-      - Ansible Playbook: cloud/ansible/ansible-playbook.md
+      - Ansible Introduction: automation/ansible/ansible-intro.md
+      - Ansible Playbook: automation/ansible/ansible-playbook.md
   
   - AWS:
     - AWS Services: aws/aws-services.md  
