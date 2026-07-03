@@ -119,8 +119,8 @@ nav:
   - Cloud:
     - AWS: cloud/aws.md
     - Automation: 
-      - CI/CD GitLab: automation/ci-cd-gitlab.md
-      - CI/CD GitHub: automation/ci-cd-github.md
+      - CI/CD GitLab: cloud/automation/ci-cd-gitlab.md
+      - CI/CD GitHub: cloud/automation/ci-cd-github.md
       
   - Docker: 
     - Docker Introduction: docker/docker-intro.md
