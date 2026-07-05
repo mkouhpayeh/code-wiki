@@ -9,7 +9,7 @@ theme:
   name: material
   custom_dir: overrides
   language: en
-  logo: assets/logo.png
+  logo: assets/code-wiki-logo.png
   favicon: assets/favicon.ico
   font:
     text: Segoe UI #ui-sans-serif
