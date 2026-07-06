@@ -9,8 +9,8 @@ theme:
   name: material
   custom_dir: overrides
   language: en
-  logo: assets/code-wiki-logo.png
-  favicon: assets/code-wiki-favicon.ico
+  logo: assets/code-wiki-logo.webp
+  favicon: assets/code-wiki-favicon.webp
   font:
     text: Segoe UI #ui-sans-serif
     code: SFMono-Regular # Red Hat Mono
