@@ -10,7 +10,7 @@ theme:
   custom_dir: overrides
   language: en
   logo: assets/code-wiki-logo.png
-  favicon: assets/favicon.ico
+  favicon: assets/code-wiki-favicon.ico
   font:
     text: Segoe UI #ui-sans-serif
     code: SFMono-Regular # Red Hat Mono
