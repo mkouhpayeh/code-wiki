@@ -71,29 +71,9 @@
     }
 
     /* =====================================================
-       Quick nav — sticky in-page section jumper
-       ===================================================== */
-    .quick-nav{
-      position:sticky; top:var(--md-header-height); z-index:5;
-      background:var(--md-default-bg-color); border-bottom:1px solid var(--border);
-      backdrop-filter:saturate(180%) blur(6px);
-    }
-    .quick-nav__inner{
-      max-width:var(--container); margin:0 auto; padding:0 6%;
-      display:flex; gap:4px; overflow-x:auto; scrollbar-width:none;
-    }
-    .quick-nav__inner::-webkit-scrollbar{ display:none; }
-    .quick-nav a{
-      font-family:var(--mono); font-size:.74rem; font-weight:600; letter-spacing:.04em;
-      text-transform:uppercase; color:var(--fg-muted); white-space:nowrap;
-      padding:12px 14px; border-bottom:2px solid transparent; transition:color var(--dur-fast), border-color var(--dur-fast);
-    }
-    .quick-nav a:hover, .quick-nav a:focus-visible{ color:var(--fg); }
-    .quick-nav a.is-active{ color:var(--accent); border-bottom-color:var(--accent); }
-
-    /* =====================================================
        Hero
        ===================================================== */
+    .portfolio-hero section[id]{ scroll-margin-top:calc(var(--md-header-height) + 20px); }
     .portfolio-hero .hero{
       position:relative; padding-top:clamp(3rem,6vw,4.5rem); padding-bottom:2.5rem;
       display:flex; align-items:center; gap:clamp(2rem,5vw,4.5rem); flex-wrap:wrap;
@@ -140,24 +120,12 @@
     .portfolio-hero .avatar-ring{
       position:absolute; inset:0; border-radius:50%;
       background:conic-gradient(from 0deg, var(--primary), var(--accent), var(--primary));
-      animation:spin 16s linear infinite;
     }
-    @keyframes spin{ to{ transform:rotate(360deg); } }
     .portfolio-hero .avatar-inner{
       position:absolute; inset:4px; border-radius:50%; background:var(--bg); z-index:1;
       display:flex; align-items:center; justify-content:center; overflow:hidden;
     }
     .portfolio-hero .avatar-inner img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .portfolio-hero .float-chip{
-      position:absolute; font-family:var(--mono); font-size:.72rem; font-weight:600;
-      background:var(--surface); border:1px solid var(--border); color:var(--fg-muted);
-      padding:5px 10px; border-radius:999px; box-shadow:var(--shadow-1);
-      animation:float 7s ease-in-out infinite;
-    }
-    .portfolio-hero .float-chip:nth-child(1){ top:-8px; right:-18px; animation-delay:0s; }
-    .portfolio-hero .float-chip:nth-child(2){ bottom:10px; left:-32px; animation-delay:1.4s; }
-    .portfolio-hero .float-chip:nth-child(3){ bottom:-14px; right:10px; animation-delay:2.8s; }
-    @keyframes float{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-8px); } }
 
     .portfolio-hero .scroll-cue{
       display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:.72rem;
@@ -289,7 +257,7 @@
        Responsive
        ===================================================== */
     @media (max-width:720px){
-      .portfolio-hero .hero{ flex-direction:column; text-align:center; align-items:center; }
+      .portfolio-hero .hero{ flex-direction:column-reverse; text-align:center; align-items:center; }
       .portfolio-hero .hero-text{ text-align:center; }
       .portfolio-hero .cta-row{ justify-content:center; }
       .portfolio-hero p.tagline{ margin-left:auto; margin-right:auto; }
@@ -306,31 +274,9 @@
 
 <div class="portfolio-hero">
 
-  <nav class="quick-nav" aria-label="Page sections" data-quick-nav>
-    <div class="quick-nav__inner">
-      <a href="#value">Value</a>
-      <a href="#expertise">Expertise</a>
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#philosophy">Philosophy</a>
-      <a href="#wiki">Wiki</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
-
-  <section class="hero" id="hero" style="scroll-margin-top:calc(var(--md-header-height) + 44px);">
-    <div class="avatar-wrap">
-      <div class="avatar-ring" aria-hidden="true"></div>
-      <div class="avatar-inner">
-        <img src="{{ 'assets/mahi-photo.webp' | url }}" alt="Portrait of Mahboubeh Kouhpayeh" loading="eager" width="198" height="198">
-      </div>
-      <span class="float-chip" aria-hidden="true">C#/.NET</span>
-      <span class="float-chip" aria-hidden="true">PostgreSQL</span>
-      <span class="float-chip" aria-hidden="true">AWS</span>
-    </div>
-
+  <section class="hero" id="hero">
     <div class="hero-text">
-      <div class="eyebrow">Senior .NET / C# Engineer · 13+ Years</div>
+      <div class="eyebrow">Senior .NET / C# Engineer</div>
       <h1>Hi, I'm Mahi — I engineer <span class="grad">reliable, scalable</span> backend systems.</h1>
       <p class="tagline">
         13+ years turning complex business logic — especially in Germany's insurance industry (bAV, Payroll, Benefits) —
@@ -352,6 +298,13 @@
         <div class="stat"><b data-count="2">0</b><span>Countries: Germany &amp; Iran</span></div>
       </div>
     </div>
+
+    <div class="avatar-wrap">
+      <div class="avatar-ring" aria-hidden="true"></div>
+      <div class="avatar-inner">
+        <img src="{{ 'assets/mahi-photo.webp' | url }}" alt="Portrait of Mahboubeh Kouhpayeh" loading="eager" width="198" height="198">
+      </div>
+    </div>
   </section>
 
   <div style="max-width:var(--container); margin:0 auto; padding:0 6% 2.5rem;">
@@ -361,7 +314,7 @@
     </span>
   </div>
 
-  <section id="value" style="scroll-margin-top:calc(var(--md-header-height) + 52px);">
+  <section id="value">
     <div class="section-head" data-reveal>
       <div class="eyebrow">Value</div>
       <h2>What I actually deliver</h2>
@@ -401,7 +354,7 @@
     </div>
   </section>
 
-  <section id="expertise" style="scroll-margin-top:calc(var(--md-header-height) + 52px);">
+  <section id="expertise">
     <div class="section-head" data-reveal>
       <div class="eyebrow">Toolbox</div>
       <h2>Expertise, proven in production</h2>
@@ -454,7 +407,7 @@
     </div>
   </section>
 
-  <section id="experience" style="scroll-margin-top:calc(var(--md-header-height) + 52px);">
+  <section id="experience">
     <div class="section-head" data-reveal>
       <div class="eyebrow">Career</div>
       <h2>Experience</h2>
@@ -495,7 +448,7 @@
     </div>
   </section>
 
-  <section id="education" style="scroll-margin-top:calc(var(--md-header-height) + 52px);">
+  <section id="education">
     <div class="section-head" data-reveal>
       <div class="eyebrow">Background</div>
       <h2>Education &amp; Certificates</h2>
@@ -512,7 +465,7 @@
     </div>
   </section>
 
-  <section id="projects" style="scroll-margin-top:calc(var(--md-header-height) + 52px);">
+  <section id="projects">
     <div class="section-head" data-reveal>
       <div class="eyebrow">Selected Work</div>
       <h2>Projects, as engineering case studies</h2>
@@ -574,7 +527,7 @@
     </div>
   </section>
 
-  <section id="philosophy" style="scroll-margin-top:calc(var(--md-header-height) + 52px);">
+  <section id="philosophy">
     <div class="section-head" data-reveal>
       <div class="eyebrow">Mindset</div>
       <h2>Engineering philosophy</h2>
@@ -751,35 +704,6 @@
         counters.forEach(function (el) { observer.observe(el); });
       }
 
-      function initQuickNav() {
-        var nav = document.querySelector('[data-quick-nav]');
-        if (!nav) return;
-        var links = Array.prototype.slice.call(nav.querySelectorAll('a'));
-        // Material's navigation.instant feature rewrites href attributes to
-        // absolute URLs at runtime, so `.hash` (not the raw attribute) is the
-        // reliable way to recover the target section id.
-        var linkBySectionId = {};
-        links.forEach(function (a) {
-          var id = a.hash.slice(1);
-          if (id) linkBySectionId[id] = a;
-        });
-        var sections = Object.keys(linkBySectionId)
-          .map(function (id) { return document.getElementById(id); })
-          .filter(Boolean);
-        if (!sections.length || !('IntersectionObserver' in window)) return;
-        var observer = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            var link = linkBySectionId[entry.target.id];
-            if (!link) return;
-            if (entry.isIntersecting) {
-              links.forEach(function (a) { a.classList.remove('is-active'); });
-              link.classList.add('is-active');
-            }
-          });
-        }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
-        sections.forEach(function (s) { observer.observe(s); });
-      }
-
       function initCopyEmail() {
         var btn = root.querySelector('[data-copy-email]');
         if (!btn) return;
@@ -810,7 +734,6 @@
       initScrollProgress();
       initReveal();
       initCounters();
-      initQuickNav();
       initCopyEmail();
     })();
   </script>
