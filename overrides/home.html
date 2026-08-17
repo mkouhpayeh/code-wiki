@@ -138,14 +138,14 @@
 
     .portfolio-hero .avatar-wrap{ position:relative; width:198px; height:198px; flex-shrink:0; margin-inline:auto; }
     .portfolio-hero .avatar-ring{
-      width:100%; height:100%; border-radius:50%; padding:4px;
+      position:absolute; inset:0; border-radius:50%;
       background:conic-gradient(from 0deg, var(--primary), var(--accent), var(--primary));
       animation:spin 16s linear infinite;
     }
     @keyframes spin{ to{ transform:rotate(360deg); } }
     .portfolio-hero .avatar-inner{
-      width:100%; height:100%; border-radius:50%; background:var(--bg);
-      display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative;
+      position:absolute; inset:4px; border-radius:50%; background:var(--bg); z-index:1;
+      display:flex; align-items:center; justify-content:center; overflow:hidden;
     }
     .portfolio-hero .avatar-inner img{ width:100%; height:100%; object-fit:cover; display:block; }
     .portfolio-hero .float-chip{
@@ -289,7 +289,7 @@
        Responsive
        ===================================================== */
     @media (max-width:720px){
-      .portfolio-hero .hero{ flex-direction:column-reverse; text-align:center; align-items:center; }
+      .portfolio-hero .hero{ flex-direction:column; text-align:center; align-items:center; }
       .portfolio-hero .hero-text{ text-align:center; }
       .portfolio-hero .cta-row{ justify-content:center; }
       .portfolio-hero p.tagline{ margin-left:auto; margin-right:auto; }
@@ -319,6 +319,16 @@
   </nav>
 
   <section class="hero" id="hero" style="scroll-margin-top:calc(var(--md-header-height) + 44px);">
+    <div class="avatar-wrap">
+      <div class="avatar-ring" aria-hidden="true"></div>
+      <div class="avatar-inner">
+        <img src="{{ 'assets/mahi-photo.webp' | url }}" alt="Portrait of Mahboubeh Kouhpayeh" loading="eager" width="198" height="198">
+      </div>
+      <span class="float-chip" aria-hidden="true">C#/.NET</span>
+      <span class="float-chip" aria-hidden="true">PostgreSQL</span>
+      <span class="float-chip" aria-hidden="true">AWS</span>
+    </div>
+
     <div class="hero-text">
       <div class="eyebrow">Senior .NET / C# Engineer · 13+ Years</div>
       <h1>Hi, I'm Mahi — I engineer <span class="grad">reliable, scalable</span> backend systems.</h1>
@@ -341,17 +351,6 @@
         <div class="stat"><b data-count="58" data-suffix="+">0</b><span>Wiki Topics Documented</span></div>
         <div class="stat"><b data-count="2">0</b><span>Countries: Germany &amp; Iran</span></div>
       </div>
-    </div>
-
-    <div class="avatar-wrap">
-      <div class="avatar-ring">
-        <div class="avatar-inner">
-          <img src="{{ 'assets/mahi-photo.webp' | url }}" alt="Portrait of Mahboubeh Kouhpayeh" loading="eager" width="198" height="198">
-        </div>
-      </div>
-      <span class="float-chip" aria-hidden="true">C#/.NET</span>
-      <span class="float-chip" aria-hidden="true">PostgreSQL</span>
-      <span class="float-chip" aria-hidden="true">AWS</span>
     </div>
   </section>
 
